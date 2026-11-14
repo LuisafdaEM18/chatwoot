@@ -58,5 +58,18 @@ Desde la raíz del repositorio:
 
 ```bash
 npx pnpm@10.2.0 install
-TZ=UTC npx vitest --no-watch app/javascript/dashboard/helper/specs/automationHelper.spec.js
+TZ=UTC npx vitest --no-watch app/javascript/qa
 ```
+
+Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca` (un archivo por integrante). Para medir la cobertura se agrega `--coverage`.
+
+## Dónde está cada prueba
+
+| Prueba | Ubicación |
+|---|---|
+| Caja blanca backend (RSpec) | `spec/qa/caja_blanca` |
+| Caja negra backend (RSpec, API) | `spec/qa/caja_negra` |
+| Caja blanca frontend (Vitest) | `app/javascript/qa/caja_blanca` |
+| E2E (Cypress) | `qa/cypress` |
+
+Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).
