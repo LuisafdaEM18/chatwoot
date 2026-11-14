@@ -24,7 +24,7 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
 
   def destroy
     ActiveRecord::Base.transaction do
-      @team.remove_members(params[:user_ids])
+      @team.remove_members(user_ids)
     end
     head :ok
   end
@@ -32,11 +32,15 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
   private
 
   def members_to_be_added_ids
-    params[:user_ids] - current_members_ids
+    user_ids - current_members_ids
   end
 
   def members_to_be_removed_ids
-    current_members_ids - params[:user_ids]
+    current_members_ids - user_ids
+  end
+
+  def user_ids
+    @user_ids ||= params.fetch(:user_ids)
   end
 
   def current_members_ids
@@ -48,7 +52,7 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
   end
 
   def validate_member_id_params
-    invalid_ids = params[:user_ids].map(&:to_i) - @team.account.user_ids
+    invalid_ids = user_ids.map(&:to_i) - @team.account.user_ids
 
     render json: { error: 'Invalid User IDs' }, status: :unauthorized and return if invalid_ids.present?
   end

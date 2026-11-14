@@ -17,7 +17,7 @@ export const actions = {
       commit(SET_TEAM_ITEM, team);
       return team;
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error?.response?.data?.message);
     } finally {
       commit(SET_TEAM_UI_FLAG, { isCreating: false });
     }

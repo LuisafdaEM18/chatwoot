@@ -763,9 +763,10 @@ function toggleConversationStatus(
     payload.customAttributes = customAttributes;
   }
 
-  store.dispatch('toggleStatus', payload).then(() => {
-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
-  });
+  store
+    .dispatch('toggleStatus', payload)
+    .then(() => useAlert(t('CONVERSATION.CHANGE_STATUS')))
+    .catch(() => useAlert(t('CONVERSATION.CHANGE_STATUS_FAILED')));
 }
 
 function handleResolveConversation(conversationId, status, snoozedUntil) {

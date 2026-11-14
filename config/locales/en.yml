@@ -148,6 +148,7 @@ en:
     conversations:
       anonymous_caller_reply: 'Messages cannot be sent because this caller’s phone number is unavailable.'
       resolved: Conversation is resolved and does not accept new messages
+      invalid_assignee: The assignee must be an agent of this account
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:

@@ -29,7 +29,9 @@ export default {
           },
         });
       } catch (error) {
-        useAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
+        useAlert(
+          error.message || this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE')
+        );
       }
     },
   },

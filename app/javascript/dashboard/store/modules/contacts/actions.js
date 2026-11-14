@@ -186,6 +186,7 @@ export const actions = {
       if (error.response?.data?.message) {
         throw new ExceptionWithMessage(error.response.data.message);
       }
+      throw error;
     }
   },
 

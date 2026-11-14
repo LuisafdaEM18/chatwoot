@@ -13,6 +13,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   private
 
   def set_agent
+    return render_could_not_create_error(I18n.t('errors.conversations.invalid_assignee')) if invalid_assignee?
+
     resource = Conversations::AssignmentService.new(
       conversation: @conversation,
       assignee_id: params[:assignee_id],
@@ -40,6 +42,12 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       @conversation.update!(team: @team)
     end
     render json: @team
+  end
+
+  def invalid_assignee?
+    return false if agent_bot_assignment? || params[:assignee_id].blank?
+
+    Current.account.users.find_by(id: params[:assignee_id]).nil?
   end
 
   def agent_bot_assignment?
