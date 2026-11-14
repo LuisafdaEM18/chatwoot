@@ -1,0 +1,16 @@
+{
+  "name": "chatwoot-qa",
+  "private": true,
+  "description": "Pruebas del equipo (Cypress, BDD, IA) para el proyecto final de Validación y verificación de software",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:smoke": "cypress run --spec cypress/e2e/smoke/**/*.cy.js"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2",
+    "cypress": "13.17.0",
+    "cypress-axe": "1.5.0",
+    "cypress-mochawesome-reporter": "3.8.2"
+  }
+}
