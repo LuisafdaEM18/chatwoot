@@ -1,0 +1,70 @@
+time="2026-11-14T17:24:36-05:00" level=warning msg="C:\\Users\\DANIEL-PC\\chatwoot\\docker-compose.production.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :notification_type, {conversation_creation: 1, conversation_assignment: 2, assigned_conversation_new_message: 3, conversation_mention: 4, participating_conversation_new_message: 5, sla_missed_first_response: 6, sla_missed_next_response: 7, sla_missed_resolution: 8, voice_call_missed: 9}
+ (called from <class:Notification> at /app/app/models/notification.rb:50)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :filter_type, {conversation: 0, contact: 1, report: 2}
+ (called from <class:CustomFilter> at /app/app/models/custom_filter.rb:23)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :attribute_model, {conversation_attribute: 0, contact_attribute: 1, company_attribute: 2}
+ (called from <class:CustomAttributeDefinition> at /app/app/models/custom_attribute_definition.rb:48)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :priority, {low: 0, medium: 1, high: 2, urgent: 3}
+ (called from <class:Conversation> at /app/app/models/conversation.rb:87)
+
+CustomFilter#validate_number_of_filters [RF-10 unitarias]
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sender_name_type, {friendly: 0, professional: 1}
+ (called from <class:Inbox> at /app/app/models/inbox.rb:81)
+  VL 999: deja crear el filtro número 1000 sin errores
+  VL 1000: rechaza el filtro número 1001 con el mensaje del límite
+  cuándo se valida el límite (D-06)
+    no lo revisa al actualizar un filtro existente (spy)
+    sí lo revisa al crear (spy)
+
+CustomAttributeDefinition tipo de atributo [RF-09 unitarias]
+  acepta los ocho tipos del enum
+  un tipo desconocido queda como error de validación y no como excepción (D-03)
+
+Team miembros [RF-14 unitarias]
+  #add_members
+    crea un miembro por cada id, devuelve los usuarios e invalida la caché
+    descarta los miembros que no se pudieron crear (sin usuario)
+  #remove_members
+    borra solo los miembros indicados e invalida la caché
+
+Team normalización del nombre [RF-14 unitarias]
+  quita caracteres de control y espacios y lo pasa a minúsculas antes de validar
+
+Conversation#toggle_status [RF-01 unitarias]
+  cuando está abierta
+    pasa a resuelta y guarda una sola vez (mock de save)
+  cuando está resolved
+    pasa a abierta (spy sobre save)
+  cuando está pending
+    pasa a abierta (spy sobre save)
+  cuando está snoozed
+    pasa a abierta (spy sobre save)
+  cuando no se puede guardar
+    devuelve false para que el controlador informe el error (stub de save)
+  validación del estado (D-01)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :contact_type, {visitor: 0, lead: 1, customer: 2}
+ (called from <class:Contact> at /app/app/models/contact.rb:72)
+    acepta los cuatro estados del enum y rechaza cualquier otro
+
+Finished in 1.83 seconds (files took 51 seconds to load)
+16 examples, 0 failures
+

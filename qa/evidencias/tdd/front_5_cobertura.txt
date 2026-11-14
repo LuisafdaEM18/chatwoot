@@ -1,0 +1,37 @@
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+ RUN  v3.0.5 C:/Users/DANIEL-PC/chatwoot
+      Coverage enabled with v8
+
+ ✓ app/javascript/qa/caja_blanca/daniel_contactos_front.spec.js (21 tests) 37ms
+ ✓ app/javascript/qa/caja_blanca/juanpablo_productividad_front.spec.js (21 tests) 22ms
+ ✓ app/javascript/qa/tdd/daniel_tdd_front.spec.js (3 tests) 18ms
+ ✓ app/javascript/qa/tdd/juanpablo_tdd_front.spec.js (4 tests) 73ms
+ ✓ app/javascript/qa/tdd/luisa_tdd_front.spec.js (2 tests) 11ms
+ ✓ app/javascript/qa/caja_blanca/luisa_conversaciones_front.spec.js (15 tests) 16ms
+
+ Test Files  6 passed (6)
+      Tests  66 passed (66)
+   Start at  22:26:45
+   Duration  7.81s (transform 2.07s, setup 4.39s, collect 6.93s, tests 177ms, environment 14.61s, prepare 1.88s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   38.68 |       88 |   14.94 |   38.68 |                   
+ ...s/teams/Create |   97.95 |    85.71 |     100 |   97.95 |                   
+  CreateTeam.vue   |   97.95 |    85.71 |     100 |   97.95 | 1                 
+ ...dules/contacts |   39.77 |    85.71 |      16 |   39.77 |                   
+  actions.js       |   39.77 |    85.71 |      16 |   39.77 | ...26,330,334-352 
+ .../conversations |    33.6 |      100 |    7.69 |    33.6 |                   
+  actions.js       |    33.6 |      100 |    7.69 |    33.6 | ...92,696,700-705 
+ .../modules/teams |   37.34 |    66.66 |   28.57 |   37.34 |                   
+  actions.js       |   37.34 |    66.66 |   28.57 |   37.34 | ...63,67-75,79-87 
+-------------------|---------|----------|---------|---------|-------------------
+CreateTeam.vue [async createTeam] 18-36: lineas 18/18, ramas 4/4, sin cubrir []
+contacts/actions.js [import: async] 179-191: lineas 13/13, ramas 5/5, sin cubrir []
+conversations/actions.js [toggleStatus: async] 357-390: lineas 33/33, ramas 3/3, sin cubrir []
+teams/actions.js [create: async] 12-24: lineas 13/13, ramas 3/4, sin cubrir []

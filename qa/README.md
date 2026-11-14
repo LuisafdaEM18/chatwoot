@@ -70,6 +70,11 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | Caja blanca backend (RSpec) | `spec/qa/caja_blanca` |
 | Caja negra backend (RSpec, API) | `spec/qa/caja_negra` |
 | Caja blanca frontend (Vitest) | `app/javascript/qa/caja_blanca` |
+| TDD backend (RSpec) | `spec/qa/tdd` |
+| Unitarias backend con dobles (RSpec) | `spec/qa/unitarias` |
+| TDD frontend (Vitest) | `app/javascript/qa/tdd` |
+| Evidencias del ciclo TDD | `qa/evidencias/tdd` |
+| Documento del criterio 6 | `qa/docs/criterio6_tdd_pruebas_unitarias.md` |
 | E2E (Cypress) | `qa/cypress` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).

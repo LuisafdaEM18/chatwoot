@@ -1,0 +1,126 @@
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+ RUN  v3.0.5 C:/Users/DANIEL-PC/chatwoot
+
+ ❯ app/javascript/qa/tdd/daniel_tdd_front.spec.js (3 tests | 1 failed) 22ms
+   × contacts import [RF-07 TDD front, D-05] > rechaza la promesa cuando falla la red, para que no se anuncie éxito 15ms
+     → promise resolved "undefined" instead of rejecting
+   ✓ contacts import [RF-07 TDD front, D-05] > con mensaje del servidor lanza ExceptionWithMessage con ese mensaje
+   ✓ contacts import [RF-07 TDD front, D-05] > con una importación correcta resuelve y apaga el indicador
+ ❯ app/javascript/qa/tdd/juanpablo_tdd_front.spec.js (3 tests | 2 failed) 54ms
+   × teams create [RF-14 TDD front, M-01] > lanza un error con el mensaje que envió el servidor 14ms
+     → expected [Function] to throw error including 'Name has already been taken' but got '[object Object]'
+   × CreateTeam.vue [RF-14 TDD front, M-01] > muestra al usuario el mensaje del servidor 32ms
+     → expected "spy" to be called with arguments: [ 'Name has already been taken' ]
+
+Received: 
+
+  1st spy call:
+
+  [
+-   "Name has already been taken",
++   "TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE",
+  ]
+
+
+Number of calls: 1
+
+   ✓ CreateTeam.vue [RF-14 TDD front, M-01] > sin mensaje del servidor muestra el texto genérico
+ ❯ app/javascript/qa/tdd/luisa_tdd_front.spec.js (2 tests | 1 failed) 14ms
+   × toggleStatus [RF-01 TDD front, D-07] > propaga el error de la API para que la interfaz no anuncie un cambio que no ocurrió 11ms
+     → promise resolved "undefined" instead of rejecting
+   ✓ toggleStatus [RF-01 TDD front, D-07] > con respuesta exitosa sigue actualizando el estado en el store
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  app/javascript/qa/tdd/daniel_tdd_front.spec.js > contacts import [RF-07 TDD front, D-05] > rechaza la promesa cuando falla la red, para que no se anuncie éxito
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected: 
+Error {
+  "message": "rejected promise",
+}
+
++ Received: 
+undefined
+
+ ❯ app/javascript/qa/tdd/daniel_tdd_front.spec.js:36:25
+     34| 
+     35|     // Assert
+     36|     await expect(result).rejects.toThrow('Network Error');
+       |                         ^
+     37|     expect(commit).toHaveBeenLastCalledWith(types.SET_CONTACT_UI_FLAG,…
+     38|       isImporting: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  app/javascript/qa/tdd/juanpablo_tdd_front.spec.js > teams create [RF-14 TDD front, M-01] > lanza un error con el mensaje que envió el servidor
+AssertionError: expected [Function] to throw error including 'Name has already been taken' but got '[object Object]'
+
+Expected: "Name has already been taken"
+Received: "[object Object]"
+
+ ❯ app/javascript/qa/tdd/juanpablo_tdd_front.spec.js:40:5
+     38| 
+     39|     // Assert
+     40|     await expect(result).rejects.toThrow('Name has already been taken'…
+       |     ^
+     41|   });
+     42| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  app/javascript/qa/tdd/juanpablo_tdd_front.spec.js > CreateTeam.vue [RF-14 TDD front, M-01] > muestra al usuario el mensaje del servidor
+AssertionError: expected "spy" to be called with arguments: [ 'Name has already been taken' ]
+
+Received: 
+
+  1st spy call:
+
+  [
+-   "Name has already been taken",
++   "TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE",
+  ]
+
+
+Number of calls: 1
+
+ ❯ app/javascript/qa/tdd/juanpablo_tdd_front.spec.js:64:22
+     62| 
+     63|     // Assert
+     64|     expect(useAlert).toHaveBeenCalledWith('Name has already been taken…
+       |                      ^
+     65|   });
+     66| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  app/javascript/qa/tdd/luisa_tdd_front.spec.js > toggleStatus [RF-01 TDD front, D-07] > propaga el error de la API para que la interfaz no anuncie un cambio que no ocurrió
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected: 
+Error {
+  "message": "rejected promise",
+}
+
++ Received: 
+undefined
+
+ ❯ app/javascript/qa/tdd/luisa_tdd_front.spec.js:38:25
+     36| 
+     37|     // Assert
+     38|     await expect(result).rejects.toBe(apiError);
+       |                         ^
+     39|     expect(commit).not.toHaveBeenCalledWith(
+     40|       types.CHANGE_CONVERSATION_STATUS,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  4 failed | 4 passed (8)
+   Start at  22:09:26
+   Duration  5.49s (transform 1.17s, setup 1.56s, collect 4.06s, tests 90ms, environment 6.01s, prepare 776ms)
+

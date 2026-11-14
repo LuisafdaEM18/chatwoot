@@ -1,0 +1,403 @@
+time="2026-11-14T17:45:29-05:00" level=warning msg="C:\\Users\\DANIEL-PC\\chatwoot\\docker-compose.production.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+Inspecting 30 files
+CCCCCCCCCCCCCCCCCCCCCCCCC..CCC
+
+Offenses:
+
+app/models/conversation.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+# == Schema Information ...
+^^^^^^^^^^^^^^^^^^^^^^^
+app/models/custom_attribute_definition.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+# == Schema Information ...
+^^^^^^^^^^^^^^^^^^^^^^^
+app/models/custom_filter.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+# == Schema Information ...
+^^^^^^^^^^^^^^^^^^^^^^^
+app/controllers/api/v1/accounts/conversations/assignments_controller.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/controllers/api/v1/accounts/custom_filters_controller.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseController ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/controllers/api/v1/accounts/team_members_controller.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseController ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf01_toggle_status_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf01_toggle_status_spec.rb:11:1: C: RSpec/SpecFilePathFormat: Spec path should end with conversation*toggle_status_RF01_caja_blanca*_spec.rb.
+RSpec.describe Conversation, '#toggle_status [RF-01 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf01_toggle_status_spec.rb:14:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando la conversación está abierta (camino 1: D1=V, D2=F, D3=F)' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf01_toggle_status_spec.rb:24:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando la conversación está resuelta (camino 2: D1=F, D2=F, D3=F)' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf01_toggle_status_spec.rb:36:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando la conversación está pendiente (intento del camino 3, recorre el camino 2)' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf01_toggle_status_spec.rb:46:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando la conversación está pospuesta (intento del camino 4, recorre el camino 2)' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf02_assignment_service_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf02_assignment_service_spec.rb:8:1: C: RSpec/SpecFilePathFormat: Spec path should end with conversations/assignment_service*RF02_caja_blanca*_spec.rb.
+RSpec.describe Conversations::AssignmentService, '[RF-02 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf02_assignment_service_spec.rb:8:50: C: RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.
+RSpec.describe Conversations::AssignmentService, '[RF-02 caja blanca]' do
+                                                 ^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf02_assignment_service_spec.rb:67:18: C: Rails/SkipsModelValidations: Avoid using update_columns because it skips validations.
+    conversation.update_columns(waiting_since: waiting_since)
+                 ^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf02_assignment_service_spec.rb:78:18: C: Rails/SkipsModelValidations: Avoid using update_columns because it skips validations.
+    conversation.update_columns(waiting_since: nil)
+                 ^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf03_message_builder_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf03_message_builder_spec.rb:8:1: C: RSpec/SpecFilePathFormat: Spec path should end with messages/message_builder*content_attributes_RF03_caja_blanca*_spec.rb.
+RSpec.describe Messages::MessageBuilder, '#content_attributes [RF-03 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf04_add_labels_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf04_add_labels_spec.rb:6:1: C: RSpec/SpecFilePathFormat: Spec path should end with labelable*add_labels_RF04_caja_blanca*_spec.rb.
+RSpec.describe Labelable, '#add_labels [RF-04 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf05_search_service_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf05_search_service_spec.rb:6:1: C: RSpec/SpecFilePathFormat: Spec path should end with search_service*perform_RF05_caja_blanca*_spec.rb.
+RSpec.describe SearchService, '#perform [RF-05 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf06_contact_attributes_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf06_contact_attributes_spec.rb:7:1: C: RSpec/SpecFilePathFormat: Spec path should end with contact*prepare_contact_attributes_RF06_caja_blanca*_spec.rb.
+RSpec.describe Contact, '#prepare_contact_attributes [RF-06 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf07_contact_manager_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf07_contact_manager_spec.rb:7:1: C: RSpec/SpecFilePathFormat: Spec path should end with data_import/contact_manager*find_existing_contact_RF07_caja_blanca*_spec.rb.
+RSpec.describe DataImport::ContactManager, '#find_existing_contact [RF-07 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf07_contact_manager_spec.rb:45:14: C: Rails/SkipsModelValidations: Avoid using update_column because it skips validations.
+    existing.update_column(:email, 'correo-invalido')
+             ^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf08_note_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf08_note_spec.rb:6:1: C: RSpec/SpecFilePathFormat: Spec path should end with note*ensure_account_id_RF08_caja_blanca*_spec.rb.
+RSpec.describe Note, '#ensure_account_id [RF-08 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf09_custom_attribute_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf09_custom_attribute_spec.rb:6:1: C: RSpec/SpecFilePathFormat: Spec path should end with custom_attribute_definition*attribute_must_not_conflict_RF09_caja_blanca*_spec.rb.
+RSpec.describe CustomAttributeDefinition, '#attribute_must_not_conflict [RF-09 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf10_filter_operation_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf10_filter_operation_spec.rb:7:1: C: RSpec/SpecFilePathFormat: Spec path should end with filter_service*filter_operation_RF10_caja_blanca*_spec.rb.
+RSpec.describe FilterService, '#filter_operation [RF-10 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf11_canned_response_search_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf11_canned_response_search_spec.rb:7:1: C: RSpec/SpecFilePathFormat: Spec path should end with canned_response*order_by_search_RF11_caja_blanca*_spec.rb.
+RSpec.describe CannedResponse, '.order_by_search [RF-11 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf12_macro_execution_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf12_macro_execution_spec.rb:6:1: C: RSpec/SpecFilePathFormat: Spec path should end with macros/execution_service*perform_RF12_caja_blanca*_spec.rb.
+RSpec.describe Macros::ExecutionService, '#perform [RF-12 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf12_macro_execution_spec.rb:29:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando una acción falla (camino 3: D1=V, D2=V)' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:7:1: C: RSpec/SpecFilePathFormat: Spec path should end with automation_rule*execution_delay_supported_event_RF13_caja_blanca*_spec.rb.
+RSpec.describe AutomationRule, '#execution_delay_supported_event [RF-13 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:20:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'camino 1 (D1=V): sin retraso' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:26:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'camino 2 (D1=F, D2=V): con retraso y sin condiciones' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:32:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'camino 3 (D3=V): con retraso en el evento message_created' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:38:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'camino 4 (D4=V): con retraso y solo condiciones de estado' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf13_automation_delay_spec.rb:44:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'camino 5 (D4=F): con retraso y una condición de prioridad' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf14_team_members_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf15_drilldown_validator_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_blanca/rf15_drilldown_validator_spec.rb:8:1: C: RSpec/SpecFilePathFormat: Spec path should end with reports/drilldown_timestamp_validator*valid_RF15_caja_blanca*_spec.rb.
+RSpec.describe Reports::DrilldownTimestampValidator, '.valid? [RF-15 caja blanca]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_negra/daniel_contactos_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_negra/daniel_contactos_spec.rb:161:13: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+    context 'con el límite de 1000 filtros por usuario' do
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_negra/daniel_contactos_spec.rb:167:22: C: Rails/SkipsModelValidations: Avoid using insert_all because it skips validations.
+        CustomFilter.insert_all(rows) if rows.any?
+                     ^^^^^^^^^^
+spec/qa/caja_negra/daniel_contactos_spec.rb:170:15: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+      context 'cuando ya tiene 999 (VL: crea el número 1000)' do
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_negra/daniel_contactos_spec.rb:181:15: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+      context 'cuando ya tiene 1000 (VL: intenta el 1001)' do
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_negra/juanpablo_productividad_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/caja_negra/luisa_conversaciones_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/tdd/daniel_tdd_spec.rb:54:20: C: Rails/SkipsModelValidations: Avoid using insert_all because it skips validations.
+      CustomFilter.insert_all(rows)
+                   ^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:1:1: C: Layout/EndOfLine: Carriage return character detected.
+require 'rails_helper' ...
+^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:11:1: C: RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.
+RSpec.describe CustomFilter, '#validate_number_of_filters [RF-10 unitarias]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:17:5: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+    allow(filter).to receive(:account).and_return(instance_double(Account, custom_filters: all_filters))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:45:14: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+    before { allow(filter).to receive(:validate_number_of_filters) }
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:52:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      expect(filter).not_to have_received(:validate_number_of_filters)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:60:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      expect(filter).to have_received(:validate_number_of_filters).once
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/daniel_unitarias_spec.rb:65:43: C: RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.
+RSpec.describe CustomAttributeDefinition, 'tipo de atributo [RF-09 unitarias]' do
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:11:1: C: RSpec/MultipleDescribes: Do not use multiple top-level example groups - try to nest them.
+RSpec.describe Team, 'miembros [RF-14 unitarias]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:11:22: C: RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.
+RSpec.describe Team, 'miembros [RF-14 unitarias]' do
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:14:19: C: RSpec/VerifiedDoubles: Prefer using verifying doubles over normal doubles.
+  let(:members) { double('team_members') }
+                  ^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:19:5: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+    allow(team).to receive(:team_members).and_return(members)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:27:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      expect(team).to receive(:update_account_cache).once
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:40:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      allow(team).to receive(:update_account_cache)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:53:15: C: RSpec/VerifiedDoubles: Prefer using verifying doubles over normal doubles.
+      scope = double('scope')
+              ^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:56:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      expect(team).to receive(:update_account_cache)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/juanpablo_unitarias_spec.rb:64:22: C: RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.
+RSpec.describe Team, 'normalización del nombre [RF-14 unitarias]' do
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:12:1: C: RSpec/SpecFilePathFormat: Spec path should end with conversation*toggle_status_RF01_unitarias*_spec.rb.
+RSpec.describe Conversation, '#toggle_status [RF-01 unitarias]' do
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:15:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando está abierta' do
+          ^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:20:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      expect(conversation).to receive(:save).once.and_return(true)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:32:13: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+    context "cuando está #{initial}" do
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:37:9: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+        allow(conversation).to receive(:save).and_return(true)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:44:9: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+        expect(conversation).to have_received(:save)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:49:11: C: RSpec/ContextWording: Context description should match /^when\b/, /^with\b/, or /^without\b/.
+  context 'cuando no se puede guardar' do
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+spec/qa/unitarias/luisa_unitarias_spec.rb:54:7: C: RSpec/SubjectStub: Do not stub methods of the object under test.
+      allow(conversation).to receive(:save).and_return(false)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+30 files inspected, 81 offenses detected
+
+Tip: Based on detected gems, the following RuboCop extension libraries might be helpful:
+  * rubocop-rspec_rails (https://rubygems.org/gems/rubocop-rspec_rails)
+
+You can opt out of this message by adding the following to your config (see https://docs.rubocop.org/rubocop/extensions.html#extension-suggestions for more options):
+  AllCops:
+    SuggestExtensions: false
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :notification_type, {conversation_creation: 1, conversation_assignment: 2, assigned_conversation_new_message: 3, conversation_mention: 4, participating_conversation_new_message: 5, sla_missed_first_response: 6, sla_missed_next_response: 7, sla_missed_resolution: 8, voice_call_missed: 9}
+ (called from <class:Notification> at /app/app/models/notification.rb:50)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :filter_type, {conversation: 0, contact: 1, report: 2}
+ (called from <class:CustomFilter> at /app/app/models/custom_filter.rb:23)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :attribute_model, {conversation_attribute: 0, contact_attribute: 1, company_attribute: 2}
+ (called from <class:CustomAttributeDefinition> at /app/app/models/custom_attribute_definition.rb:48)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :priority, {low: 0, medium: 1, high: 2, urgent: 3}
+ (called from <class:Conversation> at /app/app/models/conversation.rb:87)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :contact_type, {visitor: 0, lead: 1, customer: 2}
+ (called from <class:Contact> at /app/app/models/contact.rb:72)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7}
+ (called from <class:DataImport> at /app/app/models/data_import.rb:57)
+Run options: include {locations: {"./spec/qa/caja_negra/luisa_conversaciones_spec.rb" => [38, 64], "./spec/qa/caja_negra/daniel_contactos_spec.rb" => [142, 161], "./spec/qa/caja_negra/juanpablo_productividad_spec.rb" => [91], "./spec/controllers/api/v1/accounts/conversations_controller_spec.rb" => [604]}}
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sender_name_type, {friendly: 0, professional: 1}
+ (called from <class:Inbox> at /app/app/models/inbox.rb:81)
+.DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :role, {agent: 0, administrator: 1}
+ (called from <class:AccountUser> at /app/app/models/account_user.rb:36)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :availability, {online: 0, offline: 1, busy: 2}
+ (called from <class:AccountUser> at /app/app/models/account_user.rb:37)
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+.../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+./usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+./usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+.DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :reply_time, {in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2}
+ (called from <class:WebWidget> at /app/app/models/channel/web_widget.rb:58)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :campaign_type, {ongoing: 0, one_off: 1}
+ (called from <class:Campaign> at /app/app/models/campaign.rb:50)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :campaign_status, {active: 0, completed: 1, processing: 2}
+ (called from <class:Campaign> at /app/app/models/campaign.rb:52)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {active: 0, inactive: 1}
+ (called from <class:AgentBotInbox> at /app/app/models/agent_bot_inbox.rb:23)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :bot_type, {webhook: 0}
+ (called from <class:AgentBot> at /app/app/models/agent_bot.rb:42)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {disabled: 0, enabled: 1}
+ (called from <class:Hook> at /app/app/models/integrations/hook.rb:46)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :hook_type, {account: 0, inbox: 1}
+ (called from <class:Hook> at /app/app/models/integrations/hook.rb:52)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :message_type, {incoming: 0, outgoing: 1, activity: 2, template: 3}
+ (called from <class:Message> at /app/app/models/message.rb:88)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :content_type, {text: 0, input_text: 1, input_textarea: 2, input_email: 3, input_select: 4, cards: 5, form: 6, article: 7, incoming_email: 8, input_csat: 9, integrations: 10, sticker: 11, voice_call: 12}
+ (called from <class:Message> at /app/app/models/message.rb:89)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {sent: 0, delivered: 1, read: 2, failed: 3}
+ (called from <class:Message> at /app/app/models/message.rb:104)
+./usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+.DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :conversation_priority, {earliest_created: 0, longest_waiting: 1}
+ (called from <class:AssignmentPolicy> at /app/app/models/assignment_policy.rb:36)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :assignment_order, {round_robin: 0, balanced: 1}
+ (called from block in <module:AssignmentPolicy> at /app/enterprise/app/models/enterprise/concerns/assignment_policy.rb:5)
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+..DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sla_status, {active: 0, hit: 1, missed: 2, active_with_misses: 3}
+ (called from <class:AppliedSla> at /app/enterprise/app/models/applied_sla.rb:31)
+.........................................DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {draft: 0, published: 1, archived: 2}
+ (called from <class:Article> at /app/app/models/article.rb:77)
+...........................DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :visibility, {personal: 0, global: 1}
+ (called from <class:Macro> at /app/app/models/macro.rb:29)
+................/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+./usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+........................../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+./usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+.../usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+...................................
+
+Finished in 9 minutes 49 seconds (files took 27.77 seconds to load)
+169 examples, 0 failures
+
+Coverage report generated for RSpec to /app/qa/reports/coverage.
+Line Coverage: 11.02% (5363 / 48671)
+Branch Coverage: 16.45% (528 / 3209)
+JSON Coverage report generated for RSpec to /app/qa/reports/coverage.         5363 / 48671 LOC (11.02%) covered.

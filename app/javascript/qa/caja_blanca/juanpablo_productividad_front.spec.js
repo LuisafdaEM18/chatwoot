@@ -114,11 +114,14 @@ describe('teams create [RF-14 caja blanca front]', () => {
     ]);
   });
 
+  // Con la mejora M-01 el error relanzado lleva el mensaje del servidor.
   it('camino 2 (D1=V): relanza el error y apaga el indicador', async () => {
-    TeamsAPI.create.mockRejectedValue(new Error('422'));
+    TeamsAPI.create.mockRejectedValue({
+      response: { data: { message: "Name can't be blank" } },
+    });
 
     await expect(teamActions.create({ commit }, { name: '' })).rejects.toThrow(
-      '422'
+      "Name can't be blank"
     );
     expect(commit).toHaveBeenLastCalledWith(SET_TEAM_UI_FLAG, {
       isCreating: false,

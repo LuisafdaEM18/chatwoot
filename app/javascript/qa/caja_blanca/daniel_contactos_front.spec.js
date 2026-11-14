@@ -133,12 +133,13 @@ describe('contacts import [RF-07 caja blanca front]', () => {
     ).rejects.toBeInstanceOf(ExceptionWithMessage);
   });
 
-  it('camino 3 (D1=V, D2=F): un error sin mensaje se descarta y la acción termina sin error (defecto D-05)', async () => {
+  // Antes de corregir D-05 este camino descartaba el error y la acción terminaba sin error.
+  it('camino 3 (D1=V, D2=F): un error sin mensaje se relanza (D-05 corregido)', async () => {
     ContactAPI.importContacts.mockRejectedValue(new Error('Network Error'));
 
-    await expect(
-      contactActions.import({ commit }, file)
-    ).resolves.toBeUndefined();
+    await expect(contactActions.import({ commit }, file)).rejects.toThrow(
+      'Network Error'
+    );
     expect(commit).toHaveBeenLastCalledWith(types.SET_CONTACT_UI_FLAG, {
       isImporting: false,
     });

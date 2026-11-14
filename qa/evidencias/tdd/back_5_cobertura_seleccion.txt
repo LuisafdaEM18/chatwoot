@@ -1,0 +1,17 @@
+app/controllers/api/v1/accounts/conversations/assignments_controller.rb: lineas 28/29, ramas 12/13
+   set_agent (15-25): lineas 4/4, ramas 2/2
+   invalid_assignee? (47-51): lineas 3/3, ramas 2/2
+app/controllers/api/v1/accounts/custom_filters_controller.rb: lineas 32/33, ramas 5/6
+   create (12-16): lineas 2/2, ramas 0/0
+   update (18-20): lineas 2/2, ramas 0/0
+app/controllers/api/v1/accounts/team_members_controller.rb: lineas 33/33, ramas 2/2
+   create (10-14): lineas 3/3, ramas 0/0
+   update (16-23): lineas 6/6, ramas 0/0
+   destroy (25-30): lineas 4/4, ramas 0/0
+   validate_member_id_params (54-58): lineas 3/3, ramas 2/2
+   user_ids (42-44): lineas 2/2, ramas 0/0
+app/models/conversation.rb: lineas 181/206, ramas 44/74
+   toggle_status (172-176): lineas 3/3, ramas 2/2
+app/models/custom_attribute_definition.rb: lineas 41/41, ramas 5/8
+app/models/custom_filter.rb: lineas 20/20, ramas 2/2
+   validate_number_of_filters (29-33): lineas 3/3, ramas 2/2

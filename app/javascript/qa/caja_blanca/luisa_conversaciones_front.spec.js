@@ -67,7 +67,8 @@ describe('toggleStatus [RF-01 caja blanca front]', () => {
     ]);
   });
 
-  it('camino 3 (D2=V): si la API falla no modifica el estado ni lanza error', async () => {
+  // Antes de corregir D-07 este camino descartaba el error (la acción resolvía sin error).
+  it('camino 3 (D2=V): si la API falla no modifica el estado y relanza el error (D-07 corregido)', async () => {
     ConversationApi.toggleStatus.mockRejectedValue(new Error('500'));
 
     await expect(
@@ -75,7 +76,7 @@ describe('toggleStatus [RF-01 caja blanca front]', () => {
         { commit },
         { conversationId: 1, status: 'resolved' }
       )
-    ).resolves.toBeUndefined();
+    ).rejects.toThrow('500');
     expect(commit).not.toHaveBeenCalled();
   });
 });

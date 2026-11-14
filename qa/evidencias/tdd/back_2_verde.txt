@@ -1,0 +1,146 @@
+time="2026-11-14T17:18:06-05:00" level=warning msg="C:\\Users\\DANIEL-PC\\chatwoot\\docker-compose.production.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :notification_type, {conversation_creation: 1, conversation_assignment: 2, assigned_conversation_new_message: 3, conversation_mention: 4, participating_conversation_new_message: 5, sla_missed_first_response: 6, sla_missed_next_response: 7, sla_missed_resolution: 8, voice_call_missed: 9}
+ (called from <class:Notification> at /app/app/models/notification.rb:50)
+
+TDD Daniel: contactos
+  D-03 tipo de atributo inexistente
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sender_name_type, {friendly: 0, professional: 1}
+ (called from <class:Inbox> at /app/app/models/inbox.rb:81)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :attribute_model, {conversation_attribute: 0, contact_attribute: 1, company_attribute: 2}
+ (called from <class:CustomAttributeDefinition> at /app/app/models/custom_attribute_definition.rb:48)
+    el modelo marca el tipo como inválido en lugar de lanzar ArgumentError
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :role, {agent: 0, administrator: 1}
+ (called from <class:AccountUser> at /app/app/models/account_user.rb:36)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :availability, {online: 0, offline: 1, busy: 2}
+ (called from <class:AccountUser> at /app/app/models/account_user.rb:37)
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    la API responde 422 y no crea el atributo
+  límite de filtros por usuario
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :filter_type, {conversation: 0, contact: 1, report: 2}
+ (called from <class:CustomFilter> at /app/app/models/custom_filter.rb:23)
+    D-04: con 999 filtros, crear el número 1000 responde con éxito
+    D-06: con 1000 filtros puede renombrar uno que ya tiene
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    con 1000 filtros sigue rechazando el número 1001
+
+TDD Juan Pablo: equipos
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :contact_type, {visitor: 0, lead: 1, customer: 2}
+ (called from <class:Contact> at /app/app/models/contact.rb:72)
+  con user_ids válidos sigue agregando miembros
+  D-08 petición sin user_ids
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    POST responde 422 y no cambia los miembros
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    PATCH responde 422 y no cambia los miembros
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    DELETE responde 422 y no cambia los miembros
+
+TDD Luisa: conversaciones
+  D-01 estado inexistente
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :reply_time, {in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2}
+ (called from <class:WebWidget> at /app/app/models/channel/web_widget.rb:58)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :priority, {low: 0, medium: 1, high: 2, urgent: 3}
+ (called from <class:Conversation> at /app/app/models/conversation.rb:87)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :campaign_type, {ongoing: 0, one_off: 1}
+ (called from <class:Campaign> at /app/app/models/campaign.rb:50)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :campaign_status, {active: 0, completed: 1, processing: 2}
+ (called from <class:Campaign> at /app/app/models/campaign.rb:52)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {active: 0, inactive: 1}
+ (called from <class:AgentBotInbox> at /app/app/models/agent_bot_inbox.rb:23)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :bot_type, {webhook: 0}
+ (called from <class:AgentBot> at /app/app/models/agent_bot.rb:42)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {disabled: 0, enabled: 1}
+ (called from <class:Hook> at /app/app/models/integrations/hook.rb:46)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :hook_type, {account: 0, inbox: 1}
+ (called from <class:Hook> at /app/app/models/integrations/hook.rb:52)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :message_type, {incoming: 0, outgoing: 1, activity: 2, template: 3}
+ (called from <class:Message> at /app/app/models/message.rb:88)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :content_type, {text: 0, input_text: 1, input_textarea: 2, input_email: 3, input_select: 4, cards: 5, form: 6, article: 7, incoming_email: 8, input_csat: 9, integrations: 10, sticker: 11, voice_call: 12}
+ (called from <class:Message> at /app/app/models/message.rb:89)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {sent: 0, delivered: 1, read: 2, failed: 3}
+ (called from <class:Message> at /app/app/models/message.rb:104)
+    el modelo marca el estado como inválido en lugar de lanzar ArgumentError
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    la API responde 422 y la conversación conserva su estado
+  D-02 agente de otra cuenta
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :conversation_priority, {earliest_created: 0, longest_waiting: 1}
+ (called from <class:AssignmentPolicy> at /app/app/models/assignment_policy.rb:36)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :assignment_order, {round_robin: 0, balanced: 1}
+ (called from block in <module:AssignmentPolicy> at /app/enterprise/app/models/enterprise/concerns/assignment_policy.rb:5)
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    responde 422 con un mensaje y conserva el asignado actual
+    sigue permitiendo quitar el asignado con assignee_id vacío
+  H-01 transiciones de toggle_status (red de seguridad del refactor)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sla_status, {active: 0, hit: 1, missed: 2, active_with_misses: 3}
+ (called from <class:AppliedSla> at /app/enterprise/app/models/applied_sla.rb:31)
+    de open pasa a resolved
+    de resolved pasa a open
+    de pending pasa a open
+    de snoozed pasa a open
+
+Finished in 1 minute 33.79 seconds (files took 40.05 seconds to load)
+17 examples, 0 failures
+
