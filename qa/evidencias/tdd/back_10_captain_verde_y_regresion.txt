@@ -1,0 +1,55 @@
+
+
+TDD Luisa: conversaciones
+  D-01 estado inexistente
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    el modelo marca el estado como inválido en lugar de lanzar ArgumentError
+    la API responde 422 y la conversación conserva su estado
+  D-02 agente de otra cuenta
+
+
+    responde 422 con un mensaje y conserva el asignado actual
+    no rechaza asignaciones con assignee_type (bots y asistentes Captain), que resuelve el servicio
+    sigue permitiendo quitar el asignado con assignee_id vacío
+  H-01 transiciones de toggle_status (red de seguridad del refactor)
+
+    de open pasa a resolved
+    de resolved pasa a open
+    de pending pasa a open
+    de snoozed pasa a open
+
+Conversation Assignment API
+  POST /api/v1/accounts/{account.id}/conversations/<id>/assignments
+    when it is an unauthenticated user
+      returns unauthorized
+    when it is an authenticated bot with out access to the inbox
+      returns unauthorized
+    when it is an authenticated user with access to the inbox
+      assigns a user to the conversation
+      assigns an agent bot to the conversation
+      assigns a team to the conversation
+    when it is an authenticated bot with access to the inbox
+      assignment of an agent in the conversation by bot agent
+      assignment of an team in the conversation by bot agent
+    when conversation already has an assignee
+      unassigns the assignee from the conversation
+    when conversation already has a team
+      unassigns the team from the conversation
+
+Finished in 3 minutes 34.6 seconds (files took 1 minute 10.55 seconds to load)
+18 examples, 0 failures
+

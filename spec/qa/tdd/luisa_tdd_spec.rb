@@ -62,6 +62,19 @@ RSpec.describe 'TDD Luisa: conversaciones', type: :request do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
+    it 'no rechaza asignaciones con assignee_type (bots y asistentes Captain), que resuelve el servicio' do
+      # Arrange
+      allow(Conversations::AssignmentService).to receive(:new).and_call_original
+
+      # Act
+      post "#{base}/assignments", params: { assignee_id: 999_999, assignee_type: 'Captain::Assistant' }, headers: headers, as: :json
+
+      # Assert
+      expect(response).not_to have_http_status(:unprocessable_entity)
+      expect(Conversations::AssignmentService).to have_received(:new)
+        .with(hash_including(assignee_id: 999_999, assignee_type: 'Captain::Assistant'))
+    end
+
     it 'sigue permitiendo quitar el asignado con assignee_id vacío' do
       # Arrange
       conversation.update!(assignee: agent)

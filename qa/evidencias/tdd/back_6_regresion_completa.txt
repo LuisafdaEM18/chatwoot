@@ -1,0 +1,82 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+F.F.FF...........................................................
+
+Failures:
+
+  1) Conversation reply time calculation flows correctly tracks waiting_since and creates first response time events
+     Failure/Error: expect(first_response_events.first.value).to be_within(1.second).of(1.hour)
+       expected 3805.0 to be within 1 of 1 hour
+     # ./spec/models/conversation_spec.rb:1174:in 'block (3 levels) in <top (required)>'
+
+  2) Conversation reply time calculation flows records the correct reply_time for subsequent messages
+     Failure/Error: expect(reply_events.first.value).to be_within(1.second).of(1.hour)
+       expected 3739.0 to be within 1 of 1 hour
+     # ./spec/models/conversation_spec.rb:1199:in 'block (3 levels) in <top (required)>'
+
+  3) Conversation reply time calculation flows when AgentBot responds between customer messages calculates reply time from the most recent customer message after bot response
+     Failure/Error: expect(reply_events.first.value).to be_within(60).of(3600)
+       expected 3794.0 to be within 60 of 3600
+     # ./spec/models/conversation_spec.rb:1263:in 'block (4 levels) in <top (required)>'
+
+  4) Conversation reply time calculation flows when AgentBot responds between customer messages handles multiple bot responses before customer messages again
+     Failure/Error: expect(reply_events.first.value).to be_within(60).of(3600)
+       expected 3804.0 to be within 60 of 3600
+     # ./spec/models/conversation_spec.rb:1287:in 'block (4 levels) in <top (required)>'
+
+Deprecation Warnings:
+
+
+2 deprecation warnings total
+The implicit block expectation syntax is deprecated, you should pass a block rather than an argument to `expect` to use the provided block expectation matcher or the matcher must implement `supports_value_expectations?`. e.g  `expect { value }.to raise Exception` not `expect(value).to raise Exception`
+The implicit block expectation syntax is deprecated, you should pass a block rather than an argument to `expect` to use the provided block expectation matcher or the matcher must implement `supports_value_expectations?`. e.g  `expect { value }.to raise Exception` not `expect(value).to raise Exception`
+
+
+If you need more of the backtrace for any of these deprecations to
+identify where to make the necessary changes, you can configure
+`config.raise_errors_for_deprecations!`, and it will turn the
+deprecation warnings into errors, giving you the full backtrace.
+
+Finished in 71 minutes 36 seconds (files took 44.77 seconds to load)
+255 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/models/conversation_spec.rb:1163 # Conversation reply time calculation flows correctly tracks waiting_since and creates first response time events
+rspec ./spec/models/conversation_spec.rb:1191 # Conversation reply time calculation flows records the correct reply_time for subsequent messages
+rspec ./spec/models/conversation_spec.rb:1243 # Conversation reply time calculation flows when AgentBot responds between customer messages calculates reply time from the most recent customer message after bot response
+rspec ./spec/models/conversation_spec.rb:1266 # Conversation reply time calculation flows when AgentBot responds between customer messages handles multiple bot responses before customer messages again
+
+Coverage report generated for RSpec to /app/qa/reports/coverage.
+Line Coverage: 13.42% (6509 / 48486)
+Branch Coverage: 21.14% (788 / 3727)
+JSON Coverage report generated for RSpec to /app/qa/reports/coverage.         6509 / 48486 LOC (13.42%) covered.
+

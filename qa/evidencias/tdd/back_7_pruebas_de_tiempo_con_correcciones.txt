@@ -1,0 +1,56 @@
+
+
+Run options: include {locations: {"./spec/models/conversation_spec.rb" => [1163, 1191, 1243, 1266]}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FFFF
+
+Failures:
+
+  1) Conversation reply time calculation flows correctly tracks waiting_since and creates first response time events
+     Failure/Error: expect(first_response_events.first.value).to be_within(1.second).of(1.hour)
+       expected 3771.0 to be within 1 of 1 hour
+     # ./spec/models/conversation_spec.rb:1174:in 'block (3 levels) in <top (required)>'
+
+  2) Conversation reply time calculation flows records the correct reply_time for subsequent messages
+     Failure/Error: expect(reply_events.first.value).to be_within(1.second).of(1.hour)
+       expected 3723.0 to be within 1 of 1 hour
+     # ./spec/models/conversation_spec.rb:1199:in 'block (3 levels) in <top (required)>'
+
+  3) Conversation reply time calculation flows when AgentBot responds between customer messages calculates reply time from the most recent customer message after bot response
+     Failure/Error: expect(reply_events.first.value).to be_within(60).of(3600)
+       expected 3725.0 to be within 60 of 3600
+     # ./spec/models/conversation_spec.rb:1263:in 'block (4 levels) in <top (required)>'
+
+  4) Conversation reply time calculation flows when AgentBot responds between customer messages handles multiple bot responses before customer messages again
+     Failure/Error: expect(reply_events.first.value).to be_within(60).of(3600)
+       expected 3724.0 to be within 60 of 3600
+     # ./spec/models/conversation_spec.rb:1287:in 'block (4 levels) in <top (required)>'
+
+Finished in 34 minutes 2 seconds (files took 1 minute 6.07 seconds to load)
+4 examples, 4 failures
+
+Failed examples:
+
+rspec ./spec/models/conversation_spec.rb:1163 # Conversation reply time calculation flows correctly tracks waiting_since and creates first response time events
+rspec ./spec/models/conversation_spec.rb:1191 # Conversation reply time calculation flows records the correct reply_time for subsequent messages
+rspec ./spec/models/conversation_spec.rb:1243 # Conversation reply time calculation flows when AgentBot responds between customer messages calculates reply time from the most recent customer message after bot response
+rspec ./spec/models/conversation_spec.rb:1266 # Conversation reply time calculation flows when AgentBot responds between customer messages handles multiple bot responses before customer messages again
+
+

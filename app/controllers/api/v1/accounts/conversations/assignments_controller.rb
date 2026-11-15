@@ -44,8 +44,9 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     render json: @team
   end
 
+  # Only user assignments are checked here; bots and Captain assistants (assignee_type) are resolved by the service.
   def invalid_assignee?
-    return false if agent_bot_assignment? || params[:assignee_id].blank?
+    return false if params[:assignee_type].present? || params[:assignee_id].blank?
 
     Current.account.users.find_by(id: params[:assignee_id]).nil?
   end

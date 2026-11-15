@@ -39,6 +39,11 @@ Las pruebas TDD del frontend también usan dobles (stubs y mocks de la API, del 
 | `front_3_regresion.txt` | Frontend verde + regresión (suites del equipo y originales de Chatwoot) |
 | `front_4_refactor_regresion.txt` | Frontend tras refactor: 405 pruebas, 0 fallan |
 | `front_5_cobertura.txt` | Cobertura del frontend |
+| `back_6_regresion_completa.txt` | Regresión completa del backend, incluido todo `conversation_spec.rb`: 255 ejemplos, 4 fallan (pruebas de tiempo, ver 5.4) |
+| `back_7_pruebas_de_tiempo_con_correcciones.txt` | Las 4 pruebas de tiempo, solas y con las correcciones: 4 fallan |
+| `back_8_pruebas_de_tiempo_codigo_original.txt` | Las 4 pruebas de tiempo sobre el código original sin cambios: 4 fallan igual |
+| `back_9_captain_rojo.txt` | Ajuste de D-02 para asistentes Captain, rojo: 1 falla |
+| `back_10_captain_verde_y_regresion.txt` | Ajuste de D-02, verde, con `assignments_controller_spec.rb` original: 18 ejemplos, 0 fallan |
 
 ## 3. Ciclo TDD por integrante
 
@@ -55,6 +60,7 @@ En todos los casos se escribió primero la prueba, se ejecutó y falló por la r
 
 - Rojo: se espera 422 con el mensaje `errors.conversations.invalid_assignee` y que el asignado anterior se conserve. Respondía 200. Otra prueba protege que `assignee_id: nil` siga sirviendo para quitar el asignado.
 - Verde: `assignments_controller.rb` rechaza el `assignee_id` si no es un usuario de la cuenta (`invalid_assignee?`), con el mensaje nuevo en `config/locales/en.yml`.
+- Segundo ciclo (ajuste): la primera versión solo exceptuaba `assignee_type: 'AgentBot'`, así que asignar la conversación a un asistente de IA Captain (`assignee_type: 'Captain::Assistant'`, edición enterprise) respondía 422, porque el ID del asistente no es un usuario. Rojo: una prueba nueva con un spy sobre `Conversations::AssignmentService` espera que esas asignaciones lleguen al servicio y falló con 422 (`back_9_captain_rojo.txt`). Verde: `invalid_assignee?` solo valida cuando no hay `assignee_type` (`back_10_captain_verde_y_regresion.txt`, 18 ejemplos con el spec original de asignaciones).
 
 **H-01. Código muerto en `Conversation#toggle_status` (refactor)**
 
@@ -176,6 +182,12 @@ La regresión completa (todos los archivos de Chatwoot de conversaciones, más l
 - Originales de Chatwoot: el bloque `toggle_status` de `conversations_controller_spec.rb`, y completos `assignments_controller_spec.rb`, `custom_filters_controller_spec.rb`, `team_members_controller_spec.rb`, `custom_filter_spec.rb` y `custom_attribute_definition_spec.rb`.
 
 Resultado: 169 ejemplos, 0 fallos. RuboCop sobre los 6 archivos de la aplicación modificados no reporta ofensas, salvo `Layout/EndOfLine`, que aparece porque Git en Windows deja los archivos con CRLF y se normaliza a LF al hacer commit. En los specs del equipo hay advertencias de estilo (`RSpec/ContextWording` por los contextos en español, `RSpec/SpecFilePathFormat` por la carpeta `spec/qa` y `RSpec/SubjectStub`, que es intencional en las unitarias con dobles parciales).
+
+### 5.4 Regresión completa del backend
+
+Para complementar la regresión acotada se corrió también la regresión amplia: `spec/qa/tdd`, `spec/qa/caja_blanca` y, completos, los specs originales `conversation_spec.rb`, `custom_attribute_definition_spec.rb`, `custom_filter_spec.rb`, `assignments_controller_spec.rb`, `custom_filters_controller_spec.rb` y `custom_attribute_definitions_controller_spec.rb` (`back_6_regresion_completa.txt`). Resultado: 255 ejemplos, 251 aprobados y 4 fallidos.
+
+Los 4 fallidos son pruebas originales de tiempos de respuesta (`conversation_spec.rb` líneas 1163, 1191, 1243 y 1266). Calculan los tiempos con `X.hours.ago` sin congelar el reloj; en Docker sobre Windows cada una tarda unos 8 minutos, así que la medición se desfasa unos 2 minutos (esperan 3600 segundos y obtienen entre 3723 y 3805). Para descartar que los causen las correcciones, se ejecutaron sobre el código original sin cambios en una copia aparte del repositorio (git worktree del commit `aeff105f5`): fallan igual y con valores casi idénticos (3777, 3731, 3727 y 3726 frente a 3771, 3723, 3725 y 3724 con las correcciones). Es una limitación del entorno local, no una regresión; en el pipeline de Jenkins sobre Linux deberían pasar.
 
 ## 6. Cómo reproducirlo
 
