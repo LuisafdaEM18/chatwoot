@@ -5,7 +5,10 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:smoke": "cypress run --spec cypress/e2e/smoke/**/*.cy.js"
+    "cy:smoke": "cypress run --spec cypress/e2e/smoke/**/*.cy.js",
+    "cy:luisa": "cypress run --spec cypress/e2e/luisa/**/*.cy.js",
+    "cy:daniel": "cypress run --spec cypress/e2e/daniel/**/*.cy.js",
+    "cy:juanpablo": "cypress run --spec cypress/e2e/juanpablo/**/*.cy.js"
   },
   "devDependencies": {
     "axe-core": "4.10.2",

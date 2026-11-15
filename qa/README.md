@@ -11,13 +11,14 @@ Esta carpeta guarda todo lo que aporta el equipo de pruebas, separado de las pru
 
 ## 1. Levantar Chatwoot
 
-Desde la raíz del repositorio:
+Desde la raíz del repositorio (hace falta un `.env` copiado de `.env.example` con `SECRET_KEY_BASE`, `POSTGRES_PASSWORD`, `POSTGRES_HOST=postgres` y `REDIS_URL=redis://redis:6379`):
 
 ```bash
-docker compose -f docker-compose.production.yaml up -d
+docker compose -f docker-compose.production.yaml -f qa/docker-compose.e2e.yaml up -d
+docker compose -f docker-compose.production.yaml -f qa/docker-compose.e2e.yaml run --rm rails bundle exec rails db:chatwoot_prepare
 ```
 
-Chatwoot queda en http://localhost:3000.
+`qa/docker-compose.e2e.yaml` fija la imagen `chatwoot/chatwoot:v4.19.1` (la versión evaluada), monta encima los archivos del backend corregidos por el equipo y desactiva Rack::Attack, que solo deja iniciar sesión 5 veces por IP cada 5 minutos. Chatwoot queda en http://localhost:3000.
 
 ## 2. Crear los datos de prueba
 
@@ -28,7 +29,7 @@ docker compose -f docker-compose.production.yaml cp qa/scripts/create_qa_data.rb
 MSYS_NO_PATHCONV=1 docker compose -f docker-compose.production.yaml exec -e QA_PASSWORD='<contraseña>' rails bundle exec rails runner /tmp/create_qa_data.rb
 ```
 
-El script imprime `account_id` e `inbox_id`. Copiar `cypress.env.example.json` como `cypress.env.json` y poner esos valores y la contraseña. `cypress.env.json` no se sube al repositorio.
+El script imprime un JSON con los IDs (cuenta, bandeja, agentes, cuenta ajena) y los tokens de API de los usuarios de prueba. Copiar `cypress.env.example.json` como `cypress.env.json`, pegar esos valores y agregar los correos y la contraseña. `cypress.env.json` no se sube al repositorio.
 
 En Git Bash de Windows hace falta `MSYS_NO_PATHCONV=1` para que no convierta `/tmp/...` en una ruta de Windows.
 
@@ -38,9 +39,14 @@ En Git Bash de Windows hace falta `MSYS_NO_PATHCONV=1` para que no convierta `/t
 cd qa
 npm install
 npm run cy:smoke      # prueba de humo
+npm run cy:luisa      # RF-01 a RF-05
+npm run cy:daniel     # RF-06 a RF-10
+npm run cy:juanpablo  # RF-11 a RF-15
 npm run cy:run        # todas las pruebas
 npm run cy:open       # modo interactivo
 ```
+
+Cada archivo `cypress/e2e/<integrante>/rfXX_*.cy.js` tiene los casos CP-XX-01 (exitoso), CP-XX-02 (alternativo) y CP-XX-03 (error) de la matriz de trazabilidad. Los comandos comunes están en `cypress/support/commands.js` (`cy.api` para la API con el token del rol, `cy.createConversation`, `cy.apiShould`, etc.).
 
 El reporte HTML queda en `qa/reports/cypress/index.html`.
 
@@ -75,6 +81,7 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | TDD frontend (Vitest) | `app/javascript/qa/tdd` |
 | Evidencias del ciclo TDD | `qa/evidencias/tdd` |
 | Documento del criterio 6 | `qa/docs/criterio6_tdd_pruebas_unitarias.md` |
-| E2E (Cypress) | `qa/cypress` |
+| E2E y API (Cypress) | `qa/cypress/e2e/{luisa,daniel,juanpablo}` |
+| Documento del criterio 7 | `qa/docs/criterio7_cypress.md` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).

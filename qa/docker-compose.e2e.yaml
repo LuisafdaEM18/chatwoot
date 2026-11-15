@@ -1,0 +1,45 @@
+# Chatwoot 4.19.1 para las pruebas E2E (Cypress, Screenplay, Stagehand).
+# Fija la imagen publicada de la versión evaluada y monta encima los archivos del backend
+# corregidos por el equipo (D-01 a D-04, D-06 y D-08). Los seis archivos de modelos y controladores
+# son idénticos en la etiqueta v4.19.1 y en la base de la rama proyecto-final, así que el resto del
+# código es el de 4.19.1. Las correcciones del frontend (D-05, D-07, M-01) necesitan recompilar los
+# assets y se prueban con Vitest.
+#
+# Uso (desde la raíz del repositorio):
+#   docker compose -f docker-compose.production.yaml -f qa/docker-compose.e2e.yaml up -d
+# Para la versión original sin correcciones, comentar las líneas de volúmenes ./app y ./config.
+#
+# Rack::Attack limita el inicio de sesión a 5 intentos por IP cada 5 minutos, y la suite de Cypress
+# inicia sesión en cada archivo. Por eso se desactiva aquí; las pruebas de seguridad lo vuelven a
+# activar con QA_ENABLE_RACK_ATTACK=true. MAX_USER_SESSIONS sube el límite de sesiones activas por
+# usuario (25 por defecto) para que varias corridas seguidas no choquen con el selector de sesiones.
+
+services:
+  rails:
+    image: chatwoot/chatwoot:v4.19.1
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - ENABLE_RACK_ATTACK=${QA_ENABLE_RACK_ATTACK:-false}
+      - MAX_USER_SESSIONS=500
+    volumes:
+      - storage_data:/app/storage
+      - ./app/models/conversation.rb:/app/app/models/conversation.rb:ro
+      - ./app/models/custom_attribute_definition.rb:/app/app/models/custom_attribute_definition.rb:ro
+      - ./app/models/custom_filter.rb:/app/app/models/custom_filter.rb:ro
+      - ./app/controllers/api/v1/accounts/conversations/assignments_controller.rb:/app/app/controllers/api/v1/accounts/conversations/assignments_controller.rb:ro
+      - ./app/controllers/api/v1/accounts/custom_filters_controller.rb:/app/app/controllers/api/v1/accounts/custom_filters_controller.rb:ro
+      - ./app/controllers/api/v1/accounts/team_members_controller.rb:/app/app/controllers/api/v1/accounts/team_members_controller.rb:ro
+      - ./config/locales/en.yml:/app/config/locales/en.yml:ro
+  sidekiq:
+    image: chatwoot/chatwoot:v4.19.1
+    volumes:
+      - storage_data:/app/storage
+      - ./app/models/conversation.rb:/app/app/models/conversation.rb:ro
+      - ./app/models/custom_attribute_definition.rb:/app/app/models/custom_attribute_definition.rb:ro
+      - ./app/models/custom_filter.rb:/app/app/models/custom_filter.rb:ro
+      - ./app/controllers/api/v1/accounts/conversations/assignments_controller.rb:/app/app/controllers/api/v1/accounts/conversations/assignments_controller.rb:ro
+      - ./app/controllers/api/v1/accounts/custom_filters_controller.rb:/app/app/controllers/api/v1/accounts/custom_filters_controller.rb:ro
+      - ./app/controllers/api/v1/accounts/team_members_controller.rb:/app/app/controllers/api/v1/accounts/team_members_controller.rb:ro
+      - ./config/locales/en.yml:/app/config/locales/en.yml:ro

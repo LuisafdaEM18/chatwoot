@@ -9,26 +9,53 @@
 
 password = ENV.fetch('QA_PASSWORD')
 
-account = Account.find_or_create_by!(name: 'QA Chatwoot')
-
-users = {
-  administrator: { name: 'QA Admin', email: 'qa.admin@chatwoot.test' },
-  agent: { name: 'QA Agente', email: 'qa.agent@chatwoot.test' }
-}
-
-created = users.map do |role, attrs|
-  user = User.find_or_initialize_by(email: attrs[:email])
-  user.name = attrs[:name]
+def qa_user(account, role, name, email, password)
+  user = User.find_or_initialize_by(email: email)
+  user.name = name
   user.password = password
   user.password_confirmation = password
   user.skip_confirmation! unless user.confirmed?
+  # Cierra las sesiones de corridas anteriores: Chatwoot pide elegir una sesión (409) al llegar a
+  # MAX_USER_SESSIONS (25) y cada corrida de Cypress abre una nueva.
+  user.tokens = {}
   user.save!
+  user.user_sessions.destroy_all if user.respond_to?(:user_sessions)
   AccountUser.find_or_create_by!(account: account, user: user) { |au| au.role = role }
   user
 end
 
-inbox = account.inboxes.find_by(name: 'QA API') ||
-        Inbox.create!(account: account, name: 'QA API', channel: Channel::Api.create!(account: account))
-created.each { |user| InboxMember.find_or_create_by!(inbox: inbox, user: user) }
+def qa_inbox(account, name)
+  account.inboxes.find_by(name: name) ||
+    Inbox.create!(account: account, name: name, channel: Channel::Api.create!(account: account))
+end
 
-puts({ account_id: account.id, inbox_id: inbox.id, users: created.map(&:email) }.to_json)
+account = Account.find_or_create_by!(name: 'QA Chatwoot')
+# Los casos de RF-13 prueban el retraso de ejecución de las automatizaciones.
+account.enable_features!('delayed_automations')
+admin = qa_user(account, :administrator, 'QA Admin', 'qa.admin@chatwoot.test', password)
+agent = qa_user(account, :agent, 'QA Agente', 'qa.agent@chatwoot.test', password)
+# Segundo agente de la cuenta, sin acceso a la bandeja: sirve para equipos (RF-14) y permisos.
+agent2 = qa_user(account, :agent, 'QA Agente Dos', 'qa.agent2@chatwoot.test', password)
+
+inbox = qa_inbox(account, 'QA API')
+[admin, agent].each { |user| InboxMember.find_or_create_by!(inbox: inbox, user: user) }
+
+# Cuenta ajena: los casos de error de RF-01 y RF-02 intentan modificar sus datos.
+other_account = Account.find_or_create_by!(name: 'QA Otra Cuenta')
+outsider = qa_user(other_account, :administrator, 'QA Externo', 'qa.otro@chatwoot.test', password)
+other_inbox = qa_inbox(other_account, 'QA API Externa')
+InboxMember.find_or_create_by!(inbox: other_inbox, user: outsider)
+other_contact = other_account.contacts.find_or_create_by!(email: 'cliente.externo@chatwoot.test') { |c| c.name = 'Cliente Externo' }
+other_contact_inbox = ContactInbox.find_or_create_by!(contact: other_contact, inbox: other_inbox) { |ci| ci.source_id = SecureRandom.uuid }
+other_conversation = other_account.conversations.find_by(contact_inbox: other_contact_inbox) ||
+                     Conversation.create!(account: other_account, inbox: other_inbox, contact: other_contact,
+                                          contact_inbox: other_contact_inbox, status: :open)
+
+# Los tokens de acceso se copian en qa/cypress.env.json (no se sube al repositorio) para las
+# pruebas de API con cy.request; así no se inicia sesión por API en cada prueba.
+puts JSON.pretty_generate(
+  accountId: account.id, inboxId: inbox.id, agentId: agent.id, agent2Id: agent2.id,
+  otherAccountId: other_account.id, otherUserId: outsider.id, otherConversationId: other_conversation.display_id,
+  adminToken: admin.access_token.token, agentToken: agent.access_token.token,
+  agent2Token: agent2.access_token.token, otherToken: outsider.access_token.token
+)

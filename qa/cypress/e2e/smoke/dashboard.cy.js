@@ -8,7 +8,10 @@ describe('Humo: acceso al panel de Chatwoot', () => {
   it('el administrador de pruebas entra al panel de conversaciones', () => {
     cy.loginAs('admin');
     cy.visitAccount('/dashboard');
-    cy.location('pathname').should('include', `/app/accounts/${Cypress.env('accountId')}`);
+    cy.location('pathname').should(
+      'include',
+      `/app/accounts/${Cypress.env('accountId')}`
+    );
     cy.contains('Conversations').should('be.visible');
   });
 });
