@@ -71,6 +71,7 @@ pipeline {
     CI_REDIS = "chatwoot-ci-redis-${BUILD_NUMBER}"
     CI_RAILS = "chatwoot-ci-rails-${BUILD_NUMBER}"
     CI_SIDEKIQ = "chatwoot-ci-sidekiq-${BUILD_NUMBER}"
+    CI_STORAGE = "chatwoot-ci-storage-${BUILD_NUMBER}"
     CI_PG_PASSWORD = 'ci-postgres-password'
 
     // Suite de regresión: specs originales de Chatwoot de los modelos, servicios y controladores
@@ -225,10 +226,15 @@ EOF
             --entrypoint docker/entrypoints/rails.sh \
             "$IMG_CHATWOOT" bundle exec rails db:chatwoot_prepare
 
+          # rails y sidekiq comparten /app/storage (como storage_data en docker-compose): los archivos
+          # que sube la app, por ejemplo el CSV de RF-07, los procesa sidekiq en segundo plano.
+          docker volume create "$CI_STORAGE" > /dev/null
           docker create --name "$CI_RAILS" --network "$CI_NET" --env-file ci-chatwoot.env \
+            -v "$CI_STORAGE":/app/storage \
             --entrypoint docker/entrypoints/rails.sh \
             "$IMG_CHATWOOT" bundle exec rails s -p 3000 -b 0.0.0.0
           docker create --name "$CI_SIDEKIQ" --network "$CI_NET" --env-file ci-chatwoot.env \
+            -v "$CI_STORAGE":/app/storage \
             "$IMG_CHATWOOT" bundle exec sidekiq -C config/sidekiq.yml
 
           # Correcciones del backend hechas por el equipo (D-01 a D-04, D-06 y D-08): se copian
@@ -318,6 +324,8 @@ EOF
           env.CYPRESS_SPECS = specs[params.INTEGRANTE]
         }
         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+          // TZ=America/Bogota: el navegador queda en la zona horaria del equipo, y Chatwoot propone
+          // el indicativo telefónico (+57) según esa zona, como esperan los casos de RF-06.
           sh '''
             set -e
             docker run --rm --network "$CI_NET" \
@@ -325,6 +333,7 @@ EOF
               -w "$WORKSPACE/qa" \
               -e CYPRESS_BASE_URL="http://$CI_RAILS:3000" \
               -e CYPRESS_INSTALL_BINARY=0 \
+              -e TZ=America/Bogota \
               -e CYPRESS_SPECS="$CYPRESS_SPECS" \
               -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)" \
               --entrypoint bash \
@@ -381,6 +390,7 @@ EOF
         docker logs --tail 200 "$CI_RAILS" > qa-rails.log 2>&1 || true
         docker rm -f "$CI_RAILS" "$CI_SIDEKIQ" "$CI_PG" "$CI_REDIS" > /dev/null 2>&1 || true
         docker network rm "$CI_NET" > /dev/null 2>&1 || true
+        docker volume rm "$CI_STORAGE" > /dev/null 2>&1 || true
         rm -f ci-chatwoot.env ci-qa-data.txt qa/cypress.env.json
       '''
       archiveArtifacts artifacts: 'qa-rails.log', allowEmptyArchive: true
