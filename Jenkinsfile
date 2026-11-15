@@ -73,9 +73,11 @@ pipeline {
     CI_SIDEKIQ = "chatwoot-ci-sidekiq-${BUILD_NUMBER}"
     CI_PG_PASSWORD = 'ci-postgres-password'
 
-    // Specs originales de Chatwoot de los archivos que el equipo corrigió (D-01 a D-08):
-    // se corren junto con spec/qa como suite de regresión.
-    RSPEC_REGRESION = 'spec/models/conversation_spec.rb spec/models/custom_attribute_definition_spec.rb spec/models/custom_filter_spec.rb spec/controllers/api/v1/accounts/conversations/assignments_controller_spec.rb spec/controllers/api/v1/accounts/custom_filters_controller_spec.rb spec/controllers/api/v1/accounts/custom_attribute_definitions_controller_spec.rb spec/controllers/api/v1/accounts/team_members_controller_spec.rb spec/controllers/api/v1/accounts/teams_controller_spec.rb'
+    // Suite de regresión: specs originales de Chatwoot de los modelos, servicios y controladores
+    // de los 15 requisitos (incluidos los archivos corregidos por el equipo, D-01 a D-08).
+    // Se corren junto con las pruebas del equipo (spec/qa y app/javascript/qa).
+    RSPEC_REGRESION = 'spec/models/conversation_spec.rb spec/models/custom_attribute_definition_spec.rb spec/models/custom_filter_spec.rb spec/models/data_import_spec.rb spec/models/label_spec.rb spec/models/macro_spec.rb spec/models/contact_spec.rb spec/models/automation_rule_spec.rb spec/services/automation_rules spec/services/macros/execution_service_spec.rb spec/services/search_service_spec.rb spec/builders/messages/message_builder_spec.rb spec/controllers/api/v1/accounts/conversations/assignments_controller_spec.rb spec/controllers/api/v1/accounts/conversations/messages_controller_spec.rb spec/controllers/api/v1/accounts/conversations_controller_spec.rb spec/controllers/api/v1/accounts/contacts_controller_spec.rb spec/controllers/api/v1/accounts/contacts/notes_controller_spec.rb spec/controllers/api/v1/accounts/custom_filters_controller_spec.rb spec/controllers/api/v1/accounts/custom_attribute_definitions_controller_spec.rb spec/controllers/api/v1/accounts/team_members_controller_spec.rb spec/controllers/api/v1/accounts/teams_controller_spec.rb spec/controllers/api/v1/accounts/canned_responses_controller_spec.rb spec/controllers/api/v1/accounts/labels_controller_spec.rb spec/controllers/api/v1/accounts/automation_rules_controller_spec.rb spec/controllers/api/v1/accounts/macros_controller_spec.rb spec/controllers/api/v1/accounts/search_controller_spec.rb spec/controllers/api/v2/accounts/reports_controller_spec.rb'
+    VITEST_REGRESION = 'app/javascript/dashboard/helper/specs/automationHelper.spec.js app/javascript/dashboard/helper/specs/filterQueryGenerator.spec.js app/javascript/dashboard/store/modules/specs/attributes app/javascript/dashboard/store/modules/specs/cannedResponses app/javascript/dashboard/store/modules/specs/contactNotes app/javascript/dashboard/store/modules/specs/contacts app/javascript/dashboard/store/modules/specs/conversations app/javascript/dashboard/store/modules/specs/conversationSearch app/javascript/dashboard/store/modules/specs/labels app/javascript/dashboard/store/modules/specs/teams app/javascript/shared/helpers/specs/ReportsDataHelper.spec.js'
 
     REPORTES = 'qa/reports'
   }
@@ -180,7 +182,7 @@ pipeline {
               "$IMG_NODE" sh -c "
                 set -e
                 npx --yes $PNPM install --frozen-lockfile --store-dir $WORKSPACE/.pnpm-store
-                npx vitest --no-watch --no-cache app/javascript/qa \
+                npx vitest --no-watch --no-cache app/javascript/qa $VITEST_REGRESION \
                   --reporter=default --reporter=junit --outputFile=$REPORTES/junit/vitest.xml \
                   --coverage --coverage.reportsDirectory=$REPORTES/coverage-front \
                   --coverage.reporter=lcov --coverage.reporter=text-summary
@@ -273,6 +275,12 @@ EOF
           docker cp qa/scripts/create_qa_data.rb "$CI_RAILS:/tmp/create_qa_data.rb"
           docker exec -e QA_PASSWORD="$QA_PASSWORD" -e RAILS_LOG_TO_STDOUT= "$CI_RAILS" \
             bundle exec rails runner /tmp/create_qa_data.rb > ci-qa-data.txt
+
+          # Una instalación nueva en producción redirige /app/login a /installation/onboarding hasta
+          # que alguien crea el super administrador. La cuenta de pruebas ya existe, así que se
+          # quita esa marca de Redis para que Cypress vea la pantalla de inicio de sesión.
+          docker exec "$CI_RAILS" bundle exec rails runner \
+            'Redis::Alfred.delete(Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)'
 
           # cypress.env.json = IDs y tokens que imprime el script + correos y contraseña de prueba.
           QA_PASSWORD="$QA_PASSWORD" node -e '
