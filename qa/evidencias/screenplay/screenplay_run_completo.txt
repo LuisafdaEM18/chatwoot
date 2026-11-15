@@ -1,0 +1,747 @@
+
+> chatwoot-e2e-screenplay@1.0.0 test
+> npm run clean && cucumber-js
+
+
+> chatwoot-e2e-screenplay@1.0.0 clean
+> node scripts/clean.js
+
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf06_contactos.feature:12
+
+[Daniel Ortiz] RF-06 Gestión de contactos: [CP-06-01] Crear un contacto con correo y teléfono válidos
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (2s 286ms)
+      ✓ Andrea enters su correo into el campo de correo (251ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (23ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (157ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 557ms)
+  Cuando ella crea el contacto "Ana" "Prueba" con un correo y un teléfono nuevos
+    ✓ Andrea anota el correo y el teléfono (1ms)
+    Andrea crea el contacto Ana Prueba
+      ✓ Andrea abre el menú de contactos (2s 267ms)
+      ✓ Andrea llena y guarda el formulario del contacto (444ms)
+  Entonces existe un solo contacto con ese correo, llamado "Ana Prueba" y con el teléfono +57
+    ✓ Andrea ensures that los contactos con el correo ana.1794782957399@chatwoot.test does eventually have property length that does equal 1 (595ms)
+    ✓ Andrea ensures that el nombre y el teléfono del contacto ana.1794782957399@chatwoot.test does equal { name: "Ana Prueba", phone: "+573002957399" } (179ms)
+
+✓ Execution successful (8s 222ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf06_contactos.feature:17
+
+[Daniel Ortiz] RF-06 Gestión de contactos: [CP-06-03] Un correo repetido, aunque cambien las mayúsculas, no se acepta
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 375ms)
+      ✓ Andrea enters su correo into el campo de correo (52ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (13ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (106ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 38ms)
+  Dado que Andrea ya registró un contacto con un correo nuevo
+    ✓ Andrea prepara el contacto Contacto Original por la API (155ms)
+  Cuando ella intenta crear otro contacto con el mismo correo en mayúsculas
+    Andrea crea el contacto Copia QA
+      ✓ Andrea abre el menú de contactos (1s 229ms)
+      ✓ Andrea llena y guarda el formulario del contacto (341ms)
+  Entonces el formulario del contacto sigue abierto
+    ✓ Andrea waits for 3s (3s 13ms)
+    ✓ Andrea ensures that si el formulario sigue abierto does equal true (25ms)
+  Y sigue existiendo un solo contacto con ese correo
+    ✓ Andrea ensures that los contactos con el correo contacto-1794782963903@chatwoot.test does have property length that does equal 1 (43ms)
+
+✓ Execution successful (7s 777ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf07_importacion_csv.feature:12
+
+[Daniel Ortiz] RF-07 Importación de contactos desde CSV: [CP-07-01] Importar un CSV con tres contactos válidos
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 572ms)
+      ✓ Andrea enters su correo into el campo de correo (73ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (16ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (87ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (525ms)
+  Cuando ella importa un CSV con 3 contactos nuevos
+    ✓ Andrea anota los correos del CSV (1ms)
+    Andrea importa el archivo contactos.csv
+      ✓ Andrea abre el menú de contactos (1s 313ms)
+      ✓ Andrea sube el CSV e inicia la importación (507ms)
+  Entonces ella ve el aviso "You will be notified via email when the import is complete."
+    ✓ Andrea ensures that si la pantalla muestra "You will be notified via email when the import is complete." does eventually equal true (324ms)
+  Y los contactos del CSV quedan creados
+    ✓ Andrea ensures that los contactos con el correo import1.1794782971408@chatwoot.test does eventually have property length that does equal 1 (1m 43s 90ms)
+    ✓ Andrea ensures that los contactos con el correo import2.1794782971408@chatwoot.test does eventually have property length that does equal 1 (84ms)
+    ✓ Andrea ensures that los contactos con el correo import3.1794782971408@chatwoot.test does eventually have property length that does equal 1 (88ms)
+
+✓ Execution successful (1m 48s 176ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf07_importacion_csv.feature:18
+
+[Daniel Ortiz] RF-07 Importación de contactos desde CSV: [CP-07-03] Una importación sin archivo se rechaza
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (2s 392ms)
+      ✓ Andrea enters su correo into el campo de correo (58ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (17ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (114ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 25ms)
+  Cuando ella envía la importación sin archivo por la API
+    ✓ Andrea llama POST a la API (158ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (4ms)
+
+✓ Execution successful (4s 123ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf08_notas_contacto.feature:13
+
+[Daniel Ortiz] RF-08 Notas de contacto: [CP-08-01] Agregar una nota al contacto
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 916ms)
+      ✓ Andrea enters su correo into el campo de correo (80ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (19ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (119ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 46ms)
+  Y que Andrea tiene un contacto nuevo
+    ✓ Andrea prepara el contacto Contacto con notas por la API (166ms)
+  Cuando ella agrega la nota "Prefiere que lo llamen en la tarde" al contacto
+    Andrea agrega la nota "Prefiere que lo llamen en la tarde" al contacto
+      ✓ Andrea abre las notas del contacto (1s 749ms)
+      ✓ Andrea escribe y guarda la nota (1s 496ms)
+  Entonces ella ve el aviso "Prefiere que lo llamen en la tarde"
+    ✓ Andrea ensures that si la pantalla muestra "Prefiere que lo llamen en la tarde" does eventually equal true (52ms)
+  Y el contacto tiene la nota "Prefiere que lo llamen en la tarde"
+    ✓ Andrea ensures that las notas del contacto does eventually contain "Prefiere que lo llamen en la tarde" (90ms)
+
+✓ Execution successful (7s 67ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf08_notas_contacto.feature:19
+
+[Daniel Ortiz] RF-08 Notas de contacto: [CP-08-02] Eliminar una nota existente
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 777ms)
+      ✓ Andrea enters su correo into el campo de correo (54ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (16ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (103ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 41ms)
+  Y que Andrea tiene un contacto nuevo
+    ✓ Andrea prepara el contacto Contacto con notas por la API (151ms)
+  Dado que el contacto tiene la nota "Nota para borrar"
+    ✓ Andrea agrega por la API la nota "Nota para borrar" (201ms)
+  Cuando ella elimina la nota "Nota para borrar"
+    Andrea elimina la nota "Nota para borrar"
+      ✓ Andrea abre las notas del contacto (1s 274ms)
+      ✓ Andrea hace clic en la papelera de la nota (889ms)
+  Entonces el contacto ya no tiene notas
+    ✓ Andrea ensures that las notas del contacto does eventually have property length that does equal 0 (89ms)
+
+✓ Execution successful (5s 883ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf09_atributos.feature:12
+
+[Daniel Ortiz] RF-09 Atributos personalizados: [CP-09-01] Crear un atributo de contacto de tipo número
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 71ms)
+      ✓ Andrea enters su correo into el campo de correo (44ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (15ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (112ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (526ms)
+  Cuando ella crea el atributo de contacto "Puntos QA" de tipo "Number"
+    ✓ Andrea anota la clave qa_1794783096115 (1ms)
+    Andrea crea el atributo de contacto "Puntos QA" de tipo Number
+      ✓ Andrea abre la página /settings/custom-attributes/list (538ms)
+      ✓ Andrea clicks on el botón Add Custom Attribute (601ms)
+      ✓ Andrea elige el modelo Contact (27ms)
+      ✓ Andrea enters "Puntos QA" into el nombre del atributo (26ms)
+      ✓ Andrea escribe la clave del atributo (29ms)
+      ✓ Andrea enters "Atributo creado por Screenplay" into la descripción del atributo (28ms)
+      ✓ Andrea elige el tipo Number (53ms)
+      ✓ Andrea clicks on el botón Create (148ms)
+  Entonces ella ve el aviso "Custom Attribute added successfully!"
+    ✓ Andrea ensures that si la pantalla muestra "Custom Attribute added successfully!" does eventually equal true (21ms)
+  Y el atributo queda registrado en la cuenta
+    ✓ Andrea ensures that las claves de los atributos personalizados does eventually contain "qa_1794783096115" (42ms)
+
+✓ Execution successful (3s 774ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf09_atributos.feature:18
+
+[Daniel Ortiz] RF-09 Atributos personalizados: [CP-09-03] Un tipo de atributo que no existe se rechaza
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 127ms)
+      ✓ Andrea enters su correo into el campo de correo (47ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (12ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (103ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (528ms)
+  Cuando ella intenta crear por la API un atributo de contacto de tipo "color"
+    ✓ Andrea anota la clave qa_1794783099952 (1ms)
+    ✓ Andrea llama POST a la API (117ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (0ms)
+  Y el atributo no queda registrado en la cuenta
+    ✓ Andrea ensures that las claves de los atributos personalizados does not contain "qa_1794783099952" (38ms)
+
+✓ Execution successful (2s 400ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf10_filtros_segmentos.feature:12
+
+[Daniel Ortiz] RF-10 Filtros avanzados y segmentos: [CP-10-01] Filtrar los contactos por nombre
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 116ms)
+      ✓ Andrea enters su correo into el campo de correo (64ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (20ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (118ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 36ms)
+  Dado que Andrea tiene un contacto con un nombre único
+    ✓ Andrea prepara el contacto Segmento 1794783102903 por la API (321ms)
+  Cuando ella filtra los contactos por ese nombre
+    Andrea filtra los contactos por el nombre Segmento 1794783102903
+      ✓ Andrea abre el panel de filtros y aplica el filtro (1s 349ms)
+  Entonces ella ve el contacto filtrado
+    ✓ Andrea ensures that si la pantalla muestra "Segmento 1794783102903" does eventually equal true (312ms)
+    ✓ Andrea ensures that si la pantalla muestra "Showing 1 - 1 of 1 contact" does eventually equal true (37ms)
+
+✓ Execution successful (4s 688ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/daniel/rf10_filtros_segmentos.feature:18
+
+[Daniel Ortiz] RF-10 Filtros avanzados y segmentos: [CP-10-03] Un filtro con un operador inválido se rechaza
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 195ms)
+      ✓ Andrea enters su correo into el campo de correo (45ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (13ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (103ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 43ms)
+  Cuando ella filtra los contactos por la API con el operador "operador_raro"
+    ✓ Andrea llama POST a la API (92ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (1ms)
+  Y el error de la API menciona "Invalid operator"
+    ✓ Andrea ensures that <<el error de la última respuesta>>.as(<<Function>>) does include "Invalid operator" (1ms)
+
+✓ Execution successful (2s 839ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf11_respuestas_predefinidas.feature:12
+
+[Juan Pablo Berrío] RF-11 Respuestas predefinidas: [CP-11-01] Crear una respuesta predefinida e insertarla en el chat
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 180ms)
+      ✓ Andrea enters su correo into el campo de correo (41ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (14ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (111ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (527ms)
+  Cuando ella crea una respuesta predefinida con el texto "Hola, gracias por escribir a QA Chatwoot"
+    ✓ Andrea anota el código qa-saludo-1794783109942 (1ms)
+    Andrea crea la respuesta predefinida qa-saludo-1794783109942
+      ✓ Andrea abre la página /settings/canned-response/list (457ms)
+      ✓ Andrea clicks on el botón Add canned response (642ms)
+      ✓ Andrea enters "qa-saludo-1794783109942" into el código corto (77ms)
+      ✓ Andrea escribe el contenido de la respuesta (46ms)
+      ✓ Andrea clicks on el botón Submit (96ms)
+  Entonces ella ve el aviso "Canned response added successfully."
+    ✓ Andrea ensures that si la pantalla muestra "Canned response added successfully." does eventually equal true (247ms)
+  Cuando ella la inserta con su código corto en una conversación nueva
+    ✓ Andrea recibe una conversación con el mensaje "Buenos días" (466ms)
+    ✓ Andrea abre la conversación (2s 436ms)
+    Andrea inserta la respuesta /qa-saludo-1794783109942 en el chat
+      ✓ Andrea escribe /qa-saludo-1794783109942 y elige la sugerencia (444ms)
+  Entonces el editor de respuesta contiene "Hola, gracias por escribir a QA Chatwoot"
+    ✓ Andrea ensures that el texto del editor does eventually include "Hola, gracias por escribir a QA Chatwoot" (25ms)
+
+✓ Execution successful (7s 292ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf11_respuestas_predefinidas.feature:19
+
+[Juan Pablo Berrío] RF-11 Respuestas predefinidas: [CP-11-03] Un código corto repetido se rechaza
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 133ms)
+      ✓ Andrea enters su correo into el campo de correo (43ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (13ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (91ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 42ms)
+  Dado que Andrea ya tiene una respuesta predefinida con un código nuevo
+    ✓ Andrea crea por la API la respuesta qa-repetido-1794783117689 (199ms)
+  Cuando ella intenta crear por la API otra respuesta con el mismo código
+    ✓ Andrea llama POST a la API (252ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (0ms)
+
+✓ Execution successful (3s 60ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf12_macros.feature:9
+
+[Juan Pablo Berrío] RF-12 Macros: [CP-12-01] Ejecutar una macro que etiqueta, asigna un equipo y resuelve
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 294ms)
+      ✓ Andrea enters su correo into el campo de correo (44ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (15ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (101ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (527ms)
+  Y que Andrea tiene una macro global que etiqueta, asigna un equipo y resuelve
+    ✓ Andrea crea por la API la etiqueta, el equipo y la macro (272ms)
+  Y que Andrea recibió una conversación con el mensaje "Ya resolvieron mi caso"
+    ✓ Andrea recibe una conversación con el mensaje "Ya resolvieron mi caso" (979ms)
+  Cuando ella abre la conversación
+    ✓ Andrea abre la conversación (3s 25ms)
+  Y ella ejecuta esa macro
+    Andrea ejecuta la macro "Cerrar con etiqueta 1794783120491"
+      ✓ Andrea abre las acciones de la conversación (53ms)
+      ✓ Andrea despliega la sección Macros y ejecuta la macro (434ms)
+  Entonces ella ve el aviso "Macro executed successfully"
+    ✓ Andrea ensures that si la pantalla muestra "Macro executed successfully" does eventually equal true (24ms)
+  Y la conversación queda en estado "resolved"
+    ✓ Andrea ensures that el estado de la conversación does eventually equal "resolved" (3s 641ms)
+  Y la conversación tiene la etiqueta y el equipo de la macro
+    ✓ Andrea ensures that las etiquetas de la conversación does eventually contain "qa-macro-1794783120491" (39ms)
+    ✓ Andrea ensures that el equipo de la conversación does eventually include "qa-macro-equipo-1794783120491" (78ms)
+
+✓ Execution successful (10s 993ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf12_macros.feature:20
+
+[Juan Pablo Berrío] RF-12 Macros: [CP-12-02] Una macro personal no la ve otro agente; la global sí
+
+  Dado que Andrea creó una macro personal y una macro global
+    ✓ Andrea crea por la API una macro personal y una global (109ms)
+  Cuando Carlos consulta las macros por la API
+    ✓ Carlos llama GET a la API (109ms)
+  Entonces Carlos ve la macro global de Andrea pero no la personal
+    ✓ Carlos ensures that los nombres en la última respuesta does contain "Global 1794783129314" (1ms)
+    ✓ Carlos ensures that los nombres en la última respuesta does not contain "Personal 1794783129314" (3ms)
+
+✓ Execution successful (374ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf13_automatizacion.feature:9
+
+[Juan Pablo Berrío] RF-13 Reglas de automatización: [CP-13-01] La regla etiqueta la conversación cuando llega un mensaje con "factura"
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 82ms)
+      ✓ Andrea enters su correo into el campo de correo (42ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (14ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (112ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (534ms)
+  Y que Andrea tiene una regla que etiqueta los mensajes que contienen "factura"
+    ✓ Andrea crea por la API una regla para "factura" (169ms)
+  Cuando ella abre la lista de automatizaciones
+    ✓ Andrea abre la página /settings/automation/list (864ms)
+  Entonces ella ve la regla en la lista
+    ✓ Andrea ensures that si la pantalla muestra "Etiquetar facturas 1794783131592" does eventually equal true (906ms)
+  Dado que Andrea recibió una conversación con el mensaje "Necesito una copia de mi factura"
+    ✓ Andrea recibe una conversación con el mensaje "Necesito una copia de mi factura" (492ms)
+  Entonces la conversación recibe la etiqueta de la regla
+    ✓ Andrea ensures that las etiquetas de la conversación does eventually contain "qa-factura-1794783131592" (740ms)
+
+✓ Execution successful (5s 229ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf13_automatizacion.feature:24
+
+[Juan Pablo Berrío] RF-13 Reglas de automatización: [CP-13-03] El retraso de ejecución solo acepta de 10 a 43 200 minutos
+
+  Cuando Andrea intenta crear por la API una regla con retraso de 9 minutos
+    ✓ Andrea llama POST a la API (57ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (1ms)
+
+✓ Execution successful (146ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf13_automatizacion.feature:25
+
+[Juan Pablo Berrío] RF-13 Reglas de automatización: [CP-13-03] El retraso de ejecución solo acepta de 10 a 43 200 minutos
+
+  Cuando Andrea intenta crear por la API una regla con retraso de 10 minutos
+    ✓ Andrea llama POST a la API (108ms)
+  Entonces la API responde 200
+    ✓ Andrea ensures that el código de la última respuesta does equal 200 (1ms)
+
+✓ Execution successful (198ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf13_automatizacion.feature:26
+
+[Juan Pablo Berrío] RF-13 Reglas de automatización: [CP-13-03] El retraso de ejecución solo acepta de 10 a 43 200 minutos
+
+  Cuando Andrea intenta crear por la API una regla con retraso de 43200 minutos
+    ✓ Andrea llama POST a la API (75ms)
+  Entonces la API responde 200
+    ✓ Andrea ensures that el código de la última respuesta does equal 200 (1ms)
+
+✓ Execution successful (172ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf13_automatizacion.feature:27
+
+[Juan Pablo Berrío] RF-13 Reglas de automatización: [CP-13-03] El retraso de ejecución solo acepta de 10 a 43 200 minutos
+
+  Cuando Andrea intenta crear por la API una regla con retraso de 43201 minutos
+    ✓ Andrea llama POST a la API (28ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (1ms)
+
+✓ Execution successful (87ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf14_equipos.feature:9
+
+[Juan Pablo Berrío] RF-14 Equipos y miembros: [CP-14-01] Crear un equipo y agregarle dos agentes
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 162ms)
+      ✓ Andrea enters su correo into el campo de correo (57ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (17ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (113ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (529ms)
+  Cuando ella crea un equipo nuevo con los agentes "qa.agent@chatwoot.test" y "qa.agent2@chatwoot.test"
+    Andrea crea el equipo qa-pagos-1794783137522 con 2 agentes
+      ✓ Andrea abre la página /settings/teams/new (503ms)
+      ✓ Andrea enters "qa-pagos-1794783137522" into el nombre del equipo (474ms)
+      ✓ Andrea clicks on el botón Create team (188ms)
+      ✓ Andrea marca los agentes y los agrega (430ms)
+  Entonces el equipo tiene como miembros a "qa.agent@chatwoot.test" y "qa.agent2@chatwoot.test"
+    ✓ Andrea ensures that los correos de los miembros del equipo does eventually contain "qa.agent@chatwoot.test" (59ms)
+    ✓ Andrea ensures that los correos de los miembros del equipo does eventually contain "qa.agent2@chatwoot.test" (53ms)
+
+✓ Execution successful (3s 922ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf14_equipos.feature:15
+
+[Juan Pablo Berrío] RF-14 Equipos y miembros: [CP-14-03] Un agente sin rol de administrador no puede crear equipos
+
+  Cuando Carlos intenta crear un equipo por la API
+    ✓ Carlos llama POST a la API (39ms)
+  Entonces la API responde 401
+    ✓ Carlos ensures that el código de la última respuesta does equal 401 (1ms)
+
+✓ Execution successful (120ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf15_reportes.feature:9
+
+[Juan Pablo Berrío] RF-15 Reportes de conversaciones y agentes: [CP-15-01] Ver las métricas de conversaciones de los últimos 7 días
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 48ms)
+      ✓ Andrea enters su correo into el campo de correo (45ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (12ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (108ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (528ms)
+  Y que Andrea recibió una conversación con el mensaje "Conversación para el reporte"
+    ✓ Andrea recibe una conversación con el mensaje "Conversación para el reporte" (380ms)
+  Cuando ella abre el reporte de conversaciones
+    ✓ Andrea abre la página /reports/conversation (835ms)
+  Entonces ella ve el aviso "Last 7 days"
+    ✓ Andrea ensures that si la pantalla muestra "Last 7 days" does eventually equal true (283ms)
+  Y ella ve el aviso "Messages received"
+    ✓ Andrea ensures that si la pantalla muestra "Messages received" does eventually equal true (28ms)
+  Y ella ve el aviso "Resolution Count"
+    ✓ Andrea ensures that si la pantalla muestra "Resolution Count" does eventually equal true (30ms)
+
+✓ Execution successful (3s 571ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/juanpablo/rf15_reportes.feature:18
+
+[Juan Pablo Berrío] RF-15 Reportes de conversaciones y agentes: [CP-15-03] Un agente sin permisos no puede consultar los reportes
+
+  Cuando Carlos consulta el resumen de reportes por la API
+    ✓ Carlos llama GET a la API (121ms)
+  Entonces la API responde 401
+    ✓ Carlos ensures that el código de la última respuesta does equal 401 (1ms)
+
+✓ Execution successful (207ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf01_cambio_estado.feature:13
+
+[Luisa Espinal] RF-01 Cambio de estado de una conversación: [CP-01-01] Resolver una conversación abierta
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 100ms)
+      ✓ Andrea enters su correo into el campo de correo (48ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (14ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (83ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (523ms)
+  Y que Andrea recibió una conversación con el mensaje "Quiero cambiar mi plan"
+    ✓ Andrea recibe una conversación con el mensaje "Quiero cambiar mi plan" (495ms)
+  Cuando ella abre la conversación
+    ✓ Andrea abre la conversación (2s 239ms)
+  Y ella resuelve la conversación
+    ✓ Andrea resuelve la conversación (102ms)
+  Entonces ella ve el aviso "Conversation status changed"
+    ✓ Andrea ensures that si la pantalla muestra "Conversation status changed" does eventually equal true (689ms)
+  Y la conversación queda en estado "resolved"
+    ✓ Andrea ensures that el estado de la conversación does eventually equal "resolved" (56ms)
+
+✓ Execution successful (5s 638ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf01_cambio_estado.feature:20
+
+[Luisa Espinal] RF-01 Cambio de estado de una conversación: [CP-01-03] Un estado que no existe se rechaza y la conversación sigue abierta
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 431ms)
+      ✓ Andrea enters su correo into el campo de correo (51ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (11ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (105ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (522ms)
+  Y que Andrea recibió una conversación con el mensaje "Quiero cambiar mi plan"
+    ✓ Andrea recibe una conversación con el mensaje "Quiero cambiar mi plan" (401ms)
+  Cuando ella intenta cambiar el estado de la conversación a "cerrada" por la API
+    ✓ Andrea llama POST a la API (61ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (1ms)
+  Y la conversación queda en estado "open"
+    ✓ Andrea ensures that el estado de la conversación does eventually equal "open" (214ms)
+
+✓ Execution successful (3s 131ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf02_asignacion.feature:13
+
+[Luisa Espinal] RF-02 Asignación de una conversación: [CP-02-01] Asignar la conversación a un agente de la bandeja
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 73ms)
+      ✓ Andrea enters su correo into el campo de correo (44ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (12ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (103ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (529ms)
+  Y que Andrea recibió una conversación con el mensaje "Necesito hablar con un agente"
+    ✓ Andrea recibe una conversación con el mensaje "Necesito hablar con un agente" (352ms)
+  Cuando ella abre la conversación
+    ✓ Andrea abre la conversación (3s 412ms)
+  Y ella asigna la conversación a "QA Agente"
+    Andrea asigna la conversación a QA Agente
+      ✓ Andrea abre las acciones de la conversación (35ms)
+      ✓ Andrea elige "QA Agente" en Assigned Agent (140ms)
+  Entonces ella ve el aviso "Conversation Assignee changed"
+    ✓ Andrea ensures that si la pantalla muestra "Conversation Assignee changed" does eventually equal true (236ms)
+  Y el agente asignado es "QA Agente"
+    ✓ Andrea ensures that el agente asignado does eventually equal "QA Agente" (213ms)
+
+✓ Execution successful (6s 494ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf02_asignacion.feature:20
+
+[Luisa Espinal] RF-02 Asignación de una conversación: [CP-02-03] Un agente de otra cuenta se rechaza y se conserva el asignado
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 87ms)
+      ✓ Andrea enters su correo into el campo de correo (43ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (14ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (79ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (529ms)
+  Y que Andrea recibió una conversación con el mensaje "Necesito hablar con un agente"
+    ✓ Andrea recibe una conversación con el mensaje "Necesito hablar con un agente" (445ms)
+  Dado que la conversación está asignada a Carlos
+    ✓ Andrea asigna la conversación a Carlos por la API (949ms)
+  Cuando ella intenta asignar la conversación a un agente de otra cuenta
+    ✓ Andrea llama POST a la API (418ms)
+  Entonces la API responde 422
+    ✓ Andrea ensures that el código de la última respuesta does equal 422 (1ms)
+  Y el agente asignado es "QA Agente"
+    ✓ Andrea ensures that el agente asignado does eventually equal "QA Agente" (317ms)
+
+✓ Execution successful (4s 221ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf03_mensajes_notas.feature:14
+
+[Luisa Espinal] RF-03 Envío de mensajes y notas privadas: [CP-03-01] Enviar una respuesta pública al cliente
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 174ms)
+      ✓ Andrea enters su correo into el campo de correo (42ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (14ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (100ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (538ms)
+  Y que Andrea recibió una conversación con el mensaje "¿Tienen envíos a Medellín?"
+    ✓ Andrea recibe una conversación con el mensaje "¿Tienen envíos a Medellín?" (343ms)
+  Cuando ella abre la conversación
+    ✓ Andrea abre la conversación (2s 845ms)
+  Cuando ella responde "Sí, enviamos a todo el país"
+    Andrea responde "Sí, enviamos a todo el país"
+      ✓ Andrea enters "Sí, enviamos a todo el país" into el editor de respuesta (16ms)
+      ✓ Andrea clicks on el botón Send (151ms)
+  Entonces ella ve el aviso "Sí, enviamos a todo el país"
+    ✓ Andrea ensures that si la pantalla muestra "Sí, enviamos a todo el país" does eventually equal true (35ms)
+  Y el último mensaje de la conversación es "Sí, enviamos a todo el país" y es público
+    ✓ Andrea ensures that el último mensaje de la conversación does eventually equal { content: "Sí, enviamos a todo el país", private: false } (434ms)
+
+✓ Execution successful (6s 45ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf03_mensajes_notas.feature:20
+
+[Luisa Espinal] RF-03 Envío de mensajes y notas privadas: [CP-03-02] Agregar una nota privada que solo ven los agentes
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 61ms)
+      ✓ Andrea enters su correo into el campo de correo (42ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (12ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (112ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (522ms)
+  Y que Andrea recibió una conversación con el mensaje "¿Tienen envíos a Medellín?"
+    ✓ Andrea recibe una conversación con el mensaje "¿Tienen envíos a Medellín?" (381ms)
+  Cuando ella abre la conversación
+    ✓ Andrea abre la conversación (2s 920ms)
+  Cuando ella agrega la nota privada "Cliente frecuente, ofrecer descuento"
+    Andrea agrega la nota privada "Cliente frecuente, ofrecer descuento"
+      ✓ Andrea clicks on el botón Private Note (179ms)
+      ✓ Andrea enters "Cliente frecuente, ofrecer descuento" into el editor de respuesta (16ms)
+      ✓ Andrea clicks on el botón Add Note (129ms)
+  Entonces ella ve el aviso "Cliente frecuente, ofrecer descuento"
+    ✓ Andrea ensures that si la pantalla muestra "Cliente frecuente, ofrecer descuento" does eventually equal true (41ms)
+  Y el último mensaje de la conversación es "Cliente frecuente, ofrecer descuento" y es privado
+    ✓ Andrea ensures that el último mensaje de la conversación does eventually equal { content: "Cliente frecuente, ofrecer descuento", private: true } (156ms)
+
+✓ Execution successful (5s 952ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf04_etiquetas.feature:12
+
+[Luisa Espinal] RF-04 Gestión de etiquetas: [CP-04-01] Crear una etiqueta y aplicarla a una conversación
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 111ms)
+      ✓ Andrea enters su correo into el campo de correo (41ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (13ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (114ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (1s 38ms)
+  Dado que Andrea recibió una conversación con el mensaje "Tengo un problema con el soporte"
+    ✓ Andrea recibe una conversación con el mensaje "Tengo un problema con el soporte" (1s 67ms)
+  Cuando ella crea una etiqueta nueva que empieza por "qa-soporte"
+    ✓ Andrea anota la etiqueta qa-soporte-1794783178408 (1ms)
+    Andrea crea la etiqueta qa-soporte-1794783178408
+      ✓ Andrea abre la página /settings/labels/list (930ms)
+      ✓ Andrea clicks on el botón Add label (481ms)
+      ✓ Andrea enters "qa-soporte-1794783178408" into el nombre de la etiqueta (17ms)
+      ✓ Andrea clicks on el botón Create (199ms)
+  Entonces ella ve el aviso "Label added successfully"
+    ✓ Andrea ensures that si la pantalla muestra "Label added successfully" does eventually equal true (269ms)
+  Cuando ella abre la conversación
+    ✓ Andrea abre la conversación (2s 316ms)
+  Y ella aplica esa etiqueta a la conversación
+    Andrea aplica la etiqueta qa-soporte-1794783178408 a la conversación
+      ✓ Andrea abre las acciones de la conversación (42ms)
+      ✓ Andrea busca y elige la etiqueta qa-soporte-1794783178408 (190ms)
+  Entonces la conversación tiene esa etiqueta
+    ✓ Andrea ensures that las etiquetas de la conversación does eventually contain "qa-soporte-1794783178408" (459ms)
+
+✓ Execution successful (8s 750ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf04_etiquetas.feature:21
+
+[Luisa Espinal] RF-04 Gestión de etiquetas: [CP-04-03] Una etiqueta con símbolos se rechaza
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 73ms)
+      ✓ Andrea enters su correo into el campo de correo (46ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (11ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (101ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (535ms)
+  Cuando ella intenta crear la etiqueta "qa!"
+    Andrea crea la etiqueta qa!
+      ✓ Andrea abre la página /settings/labels/list (456ms)
+      ✓ Andrea clicks on el botón Add label (558ms)
+      ✓ Andrea enters "qa!" into el nombre de la etiqueta (65ms)
+      ✓ Andrea clicks on el botón Create (216ms)
+  Entonces ella ve el aviso "Title is invalid"
+    ✓ Andrea ensures that si la pantalla muestra "Title is invalid" does eventually equal true (81ms)
+  Y la etiqueta "qa!" no existe en la cuenta
+    ✓ Andrea ensures that las etiquetas de la cuenta does not contain "qa!" (123ms)
+
+✓ Execution successful (3s 654ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf05_busqueda.feature:12
+
+[Luisa Espinal] RF-05 Búsqueda global: [CP-05-01] Encontrar una conversación por el texto de un mensaje
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 176ms)
+      ✓ Andrea enters su correo into el campo de correo (50ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (13ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (106ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (534ms)
+  Dado que Andrea recibió una conversación con una palabra única en el mensaje
+    ✓ Andrea anota la palabra reembolso1794783189356 (2ms)
+    ✓ Andrea recibe una conversación con el mensaje "Quiero un reembolso1794783189356 de mi compra" (428ms)
+  Cuando ella busca esa palabra
+    Andrea busca "reembolso1794783189356"
+      ✓ Andrea abre la página /search (500ms)
+      ✓ Andrea enters "reembolso1794783189356" into el buscador global (283ms)
+      ✓ Andrea presses key Enter in el buscador global (40ms)
+  Entonces ella ve el aviso "Messages (1)"
+    ✓ Andrea ensures that si la pantalla muestra "Messages (1)" does eventually equal true (673ms)
+  Y ella ve el aviso "Cliente Búsqueda wrote:"
+    ✓ Andrea ensures that si la pantalla muestra "Cliente Búsqueda wrote:" does eventually equal true (33ms)
+
+✓ Execution successful (4s 305ms)
+--------------------------------------------------------------------------------
+C:/Users/Luisa/Documents/Proyectos Uni/Proyecto Final de Validación/chatwoot/qa/screenplay/features/luisa/rf05_busqueda.feature:19
+
+[Luisa Espinal] RF-05 Búsqueda global: [CP-05-03] Un término inexistente no devuelve resultados
+
+  Dado que Andrea inició sesión en Chatwoot
+    Andrea inicia sesión en Chatwoot
+      ✓ Andrea navigates to "/app/login" (1s 63ms)
+      ✓ Andrea enters su correo into el campo de correo (42ms)
+      ✓ Andrea enters su contraseña into el campo de contraseña (13ms)
+      ✓ Andrea clicks on el botón de iniciar sesión (110ms)
+      ✓ Andrea waits until "http://localhost:3000/app/accounts/3/dashboard" does include "/app/accounts/" (522ms)
+  Cuando ella busca "termino-que-no-existe-xyz"
+    Andrea busca "termino-que-no-existe-xyz"
+      ✓ Andrea abre la página /search (455ms)
+      ✓ Andrea enters "termino-que-no-existe-xyz" into el buscador global (354ms)
+      ✓ Andrea presses key Enter in el buscador global (95ms)
+  Entonces ella ve el aviso "No results found for query 'termino-que-no-existe-xyz'"
+    ✓ Andrea ensures that si la pantalla muestra "No results found for query 'termino-que-no-existe-xyz'" does eventually equal true (658ms)
+
+✓ Execution successful (3s 651ms)
+================================================================================
+Execution Summary
+
+[Daniel Ortiz] RF-06 Gesti...:  2 successful, 2 total (15s 999ms)
+[Daniel Ortiz] RF-07 Impor...:  2 successful, 2 total (1m 52s 299ms)
+[Daniel Ortiz] RF-08 Notas...:  2 successful, 2 total (12s 950ms)
+[Daniel Ortiz] RF-09 Atrib...:  2 successful, 2 total (6s 174ms)
+[Daniel Ortiz] RF-10 Filtr...:  2 successful, 2 total (7s 527ms)
+[Juan Pablo Berrío] RF-11 ...:  2 successful, 2 total (10s 352ms)
+[Juan Pablo Berrío] RF-12 ...:  2 successful, 2 total (11s 367ms)
+[Juan Pablo Berrío] RF-13 ...:  5 successful, 5 total (5s 832ms)
+[Juan Pablo Berrío] RF-14 ...:  2 successful, 2 total (4s 42ms)
+[Juan Pablo Berrío] RF-15 ...:  2 successful, 2 total (3s 778ms)
+[Luisa Espinal] RF-01 Camb...:  2 successful, 2 total (8s 769ms)
+[Luisa Espinal] RF-02 Asig...:  2 successful, 2 total (10s 715ms)
+[Luisa Espinal] RF-03 Enví...:  2 successful, 2 total (11s 997ms)
+[Luisa Espinal] RF-04 Gest...:  2 successful, 2 total (12s 404ms)
+[Luisa Espinal] RF-05 Búsq...:  2 successful, 2 total (7s 956ms)
+
+Total time: 4m 2s 161ms
+Real time: 4m 3s 980ms
+Scenarios:  33
+================================================================================

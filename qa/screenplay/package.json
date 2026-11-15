@@ -1,0 +1,31 @@
+{
+  "name": "chatwoot-e2e-screenplay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pruebas E2E de Chatwoot 4.19.1 con Gherkin, Cucumber y el patrón Screenplay (Serenity/JS + Playwright)",
+  "scripts": {
+    "clean": "node scripts/clean.js",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run clean && cucumber-js",
+    "test:luisa": "npm run clean && cucumber-js --tags \"@LuisaEspinal\"",
+    "test:daniel": "npm run clean && cucumber-js --tags \"@DanielOrtiz\"",
+    "test:juanpablo": "npm run clean && cucumber-js --tags \"@JuanPabloBerrio\"",
+    "test:gherkin": "cucumber-js --dry-run --format progress",
+    "test:report": "html-reporter serve --dir reports/serenity-js --port 8080 --open"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "13.3.0",
+    "@serenity-js/assertions": "3.48.0",
+    "@serenity-js/console-reporter": "3.48.0",
+    "@serenity-js/core": "3.48.0",
+    "@serenity-js/cucumber": "3.48.0",
+    "@serenity-js/html-reporter": "3.48.0",
+    "@serenity-js/playwright": "3.48.0",
+    "@serenity-js/rest": "3.48.0",
+    "@serenity-js/web": "3.48.0",
+    "@types/node": "22.20.5",
+    "playwright": "1.63.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3"
+  }
+}

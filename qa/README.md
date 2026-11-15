@@ -50,6 +50,20 @@ Cada archivo `cypress/e2e/<integrante>/rfXX_*.cy.js` tiene los casos CP-XX-01 (e
 
 El reporte HTML queda en `qa/reports/cypress/index.html`.
 
+## 3.1 Gherkin y Screenplay (Serenity/JS + Cucumber + Playwright)
+
+Usa el mismo entorno y el mismo `qa/cypress.env.json` que Cypress. Necesita Google Chrome instalado.
+
+```bash
+cd qa/screenplay
+npm install
+npm test               # los 33 escenarios
+npm run test:luisa     # RF-01 a RF-05 (también test:daniel y test:juanpablo)
+npm run test:report    # abre el reporte HTML de Serenity/JS
+```
+
+Los escenarios están en `qa/screenplay/features/<integrante>/rfXX_*.feature`; los actores, tareas, interacciones y preguntas, en `qa/screenplay/src/`. Ver `qa/docs/criterio8_gherkin_screenplay.md`.
+
 ## 4. RSpec (backend)
 
 ```bash
@@ -83,5 +97,8 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | Documento del criterio 6 | `qa/docs/criterio6_tdd_pruebas_unitarias.md` |
 | E2E y API (Cypress) | `qa/cypress/e2e/{luisa,daniel,juanpablo}` |
 | Documento del criterio 7 | `qa/docs/criterio7_cypress.md` |
+| Gherkin, BDD y Screenplay | `qa/screenplay/features/{luisa,daniel,juanpablo}` y `qa/screenplay/src` |
+| Evidencias de Screenplay (salida y reporte HTML) | `qa/evidencias/screenplay` |
+| Documento del criterio 8 | `qa/docs/criterio8_gherkin_screenplay.md` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).

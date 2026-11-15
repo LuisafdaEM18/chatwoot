@@ -1,0 +1,65 @@
+{
+  "$schema": "https://serenity-js.org/schemas/report-summary.json",
+  "generated": "2026-11-15T22:53:16.053Z",
+  "title": "chatwoot-e2e-screenplay",
+  "schemaVersion": 1,
+  "reportUrl": "./index.html",
+  "ci": {
+    "commit": "6117c81b8",
+    "branch": "proyecto-final"
+  },
+  "latestRun": {
+    "timestamp": "2026-11-15T22:49:12.940Z",
+    "label": "2026-11-15T22-53-15.632Z",
+    "totals": {
+      "passed": 30,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "compromised": 0,
+      "error": 0
+    },
+    "duration": 242308
+  },
+  "runs": 1,
+  "failureClusters": [],
+  "consistency": {
+    "flaky": [],
+    "inconsistent": [],
+    "degraded": [],
+    "recovered": []
+  },
+  "scores": {
+    "passRate": 100,
+    "completeness": 100,
+    "consistency": 100,
+    "confidence": 100
+  },
+  "slowest": [
+    {
+      "name": "[CP-07-01] Importar un CSV con tres contactos válidos",
+      "source": "daniel/rf07_importacion_csv.feature:12",
+      "duration": 108176
+    },
+    {
+      "name": "[CP-12-01] Ejecutar una macro que etiqueta, asigna un equipo y resuelve",
+      "source": "juanpablo/rf12_macros.feature:9",
+      "duration": 10993
+    },
+    {
+      "name": "[CP-04-01] Crear una etiqueta y aplicarla a una conversación",
+      "source": "luisa/rf04_etiquetas.feature:12",
+      "duration": 8750
+    },
+    {
+      "name": "[CP-06-01] Crear un contacto con correo y teléfono válidos",
+      "source": "daniel/rf06_contactos.feature:12",
+      "duration": 8222
+    },
+    {
+      "name": "[CP-06-03] Un correo repetido, aunque cambien las mayúsculas, no se acepta",
+      "source": "daniel/rf06_contactos.feature:17",
+      "duration": 7777
+    }
+  ]
+}
