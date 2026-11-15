@@ -195,6 +195,8 @@ pipeline {
       steps {
         sh '''
           set -e
+          # set +x: Jenkins muestra cada comando en la consola; así la clave no queda en el log.
+          set +x
           SECRET="$(head -c 64 /dev/urandom | od -An -tx1 | tr -d ' \\n')"
 
           # Variables comunes de rails y sidekiq (misma configuración que qa/docker-compose.e2e.yaml).
@@ -215,6 +217,7 @@ ENABLE_RACK_ATTACK=false
 MAX_USER_SESSIONS=500
 RAILS_LOG_TO_STDOUT=true
 EOF
+          set -x
 
           docker run --rm --network "$CI_NET" --env-file ci-chatwoot.env \
             --entrypoint docker/entrypoints/rails.sh \
@@ -261,7 +264,10 @@ EOF
         sh '''
           set -e
           # La base de E2E vive solo durante la ejecución, así que la contraseña de los usuarios
-          # de prueba se genera en cada build y no se guarda en el repositorio.
+          # de prueba se genera en cada build y no se guarda en el repositorio. set +x evita que
+          # la contraseña y los tokens aparezcan en la consola de Jenkins.
+          set +x
+          echo "Creando la cuenta y los usuarios de prueba"
           QA_PASSWORD="Qa!$(head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \\n')Z9"
 
           docker cp qa/scripts/create_qa_data.rb "$CI_RAILS:/tmp/create_qa_data.rb"
@@ -272,7 +278,11 @@ EOF
           QA_PASSWORD="$QA_PASSWORD" node -e '
             const fs = require("fs");
             const salida = fs.readFileSync("ci-qa-data.txt", "utf8");
-            const datos = JSON.parse(salida.slice(salida.indexOf("{"), salida.lastIndexOf("}") + 1));
+            // Antes del JSON, Rails y Sidekiq pueden imprimir líneas de log que también tienen
+            // llaves; el JSON de JSON.pretty_generate empieza en una línea que solo tiene "{".
+            const inicio = salida.search(/^\\{\\s*$/m);
+            if (inicio < 0) { console.error(salida); throw new Error("create_qa_data.rb no imprimió el JSON esperado"); }
+            const datos = JSON.parse(salida.slice(inicio, salida.lastIndexOf("}") + 1));
             const clave = process.env.QA_PASSWORD;
             Object.assign(datos, {
               adminEmail: "qa.admin@chatwoot.test", adminPassword: clave,
