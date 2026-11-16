@@ -1,0 +1,21 @@
+=== ReportPortal EN VIVO — Daniel (RF-06..10), criterio 14 ===
+Fecha: 2026-11-16 15:21
+
+## Servicios (docker compose -p reportportal)
+postgres  Up 10 minutes (healthy)
+analyzer  Up 10 minutes (healthy)
+api  Up 10 minutes (healthy)
+gateway  Up 10 minutes (healthy)
+index  Up 10 minutes (healthy)
+jobs  Up 10 minutes (healthy)
+opensearch  Up 10 minutes (healthy)
+rabbitmq  Up 10 minutes (healthy)
+uat  Up 10 minutes (healthy)
+ui  Up 10 minutes (healthy)
+
+## Launch importado (API /api/v1/daniel_contactos/launch)
+launch id 1 num 1 daniel_contactos (Cypress RF-06..10) -> PASSED {'total': 15, 'passed': 15}
+
+## Auto-Analysis (IA) disparado en vivo
+{"message":"autoAnalyzer analysis for launch with ID='1' started."}
+Nota: la suite de Daniel está en verde (15/15), por lo que el Auto-Analysis se ejecuta pero no tiene fallos que clasificar.

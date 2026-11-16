@@ -23,7 +23,7 @@ menos y juzga peor que GPT-4— se trata en la sección 7.
 | DeepEval (métricas) | **31 de 38** métricas aprobadas (Luisa 11/15, Daniel 5/8, Juan Pablo 15/15) |
 | Postbot/newman (Juan Pablo) | **7 de 7** aserciones |
 | Playwright MCP + Copilot (Luisa) | **2 de 2** pruebas |
-| ReportPortal (Daniel) | Configurado y documentado (no ejecutado en vivo por RAM) |
+| ReportPortal (Daniel) | **Ejecutado en vivo**: 11 servicios arriba, launch 15/15 ingerido y Auto-Analysis lanzado |
 
 Todo está en `qa/ia/` y las salidas en `qa/evidencias/ia/`. Cómo correrlo: `qa/ia/README.md`.
 
@@ -144,10 +144,16 @@ búsqueda): **2 de 2 en verde**. Evidencia: `qa/evidencias/ia/playwright_mcp_lui
 ### 6.2 Daniel — ReportPortal (Auto-Analysis)
 
 `qa/ia/herramientas/daniel_reportportal/`. ReportPortal recibe los resultados de las pruebas de
-contactos (Cypress RF-06..10 en JUnit) y su **Auto-Analysis** (modelo de ML sobre OpenSearch) propone
-la causa de cada fallo y marca los ya conocidos. Se entrega el `docker-compose` de la pila de datos, la
-configuración del agente de Cypress y el procedimiento. **No se ejecutó en vivo** porque su pila pide
-~4 GB y la memoria estaba ocupada por Ollama y Chatwoot (ver su `README.md`).
+contactos (Cypress RF-06..10) y su **Auto-Analysis** (modelo de ML sobre OpenSearch) propone la causa
+de cada fallo y marca los ya conocidos.
+
+**Se ejecutó en vivo** (`docker-compose.oficial.yml`): los **11 servicios** quedaron *healthy*
+(incluido `analyzer`, la IA). Con `push_junit.mjs` se creó el launch **daniel_contactos (Cypress
+RF-06..10)** por la API de RP a partir de los JUnit reales de Cypress (**15/15 pasaron**) y se disparó
+el **Auto-Analysis** (`autoAnalyzer analysis for launch ID='1' started`). Como la suite de Daniel está
+en verde, el analizador corre pero no tiene fallos que clasificar. Evidencia:
+`qa/evidencias/ia/reportportal_envivo.txt` y la captura `qa/evidencias/ia/reportportal_launches.jpg`.
+Pasos reproducibles en su `README.md`.
 
 ### 6.3 Juan Pablo — Postman Postbot / Agent Mode
 
@@ -171,5 +177,5 @@ limpieza). Evidencia: `qa/evidencias/ia/postbot_newman_juanpablo.txt`.
 - **Stagehand con modelos locales:** sin un proveedor soportado (OpenAI/Anthropic…), el *tool calling* no
   es fiable; se resolvió con el proveedor nativo de Ollama y salida estructurada, y se reservó la IA para
   `extract()` (el login y la navegación van con Playwright).
-- **ReportPortal:** no se ejecutó en vivo por RAM; queda configurado y documentado.
+- **ReportPortal:** se ejecutó en vivo (11 servicios, launch 15/15, Auto-Analysis lanzado); para liberar la RAM/disco que pedía, se detuvo Ollama antes de levantarlo.
 - **Hardware:** Ollama en CPU hace las corridas lentas (p. ej. la métrica de alucinación tarda minutos).
