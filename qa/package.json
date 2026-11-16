@@ -10,7 +10,8 @@
     "cy:daniel": "cypress run --spec cypress/e2e/daniel/**/*.cy.js",
     "cy:juanpablo": "cypress run --spec cypress/e2e/juanpablo/**/*.cy.js",
     "cy:regresion": "cypress run --spec cypress/e2e/regresion/**/*.cy.js",
-    "cy:accesibilidad": "cypress run --spec cypress/e2e/accesibilidad/**/*.cy.js"
+    "cy:accesibilidad": "cypress run --spec cypress/e2e/accesibilidad/**/*.cy.js",
+    "cy:seguridad": "cypress run --spec cypress/e2e/seguridad/**/*.cy.js"
   },
   "devDependencies": {
     "axe-core": "4.10.2",
