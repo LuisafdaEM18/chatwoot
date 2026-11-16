@@ -40,7 +40,9 @@ describe('RF-01 Cambio de estado de una conversación', () => {
     // Las opciones de posponer se muestran en la barra de comandos (ninja-keys, con shadow DOM).
     cy.contains('Until tomorrow', { includeShadowDom: true }).click();
 
-    cy.api('GET', `/conversations/${conversationId}`).should(({ body }) => {
+    // apiShould reintenta la consulta: la petición toggle_status puede no haber terminado aún
+    // (con el equipo cargado la consulta llegaba antes y leía "open"; ver criterio 10).
+    cy.apiShould(`/conversations/${conversationId}`, body => {
       expect(body.status).to.eq('snoozed');
       expect(new Date(body.snoozed_until)).to.be.greaterThan(new Date());
     });
