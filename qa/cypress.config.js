@@ -17,6 +17,13 @@ module.exports = defineConfig({
     video: false,
     setupNodeEvents(on) {
       require('cypress-mochawesome-reporter/plugin')(on);
+      // Muestra en la terminal el detalle de las violaciones de accesibilidad (criterio 11).
+      on('task', {
+        log(message) {
+          console.log(message);
+          return null;
+        },
+      });
     },
   },
 });

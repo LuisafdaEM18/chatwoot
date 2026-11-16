@@ -100,5 +100,8 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | Gherkin, BDD y Screenplay | `qa/screenplay/features/{luisa,daniel,juanpablo}` y `qa/screenplay/src` |
 | Evidencias de Screenplay (salida y reporte HTML) | `qa/evidencias/screenplay` |
 | Documento del criterio 8 | `qa/docs/criterio8_gherkin_screenplay.md` |
+| Regresión por integrante (RSpec, Vitest y Cypress) | `spec/qa/regresion`, `app/javascript/qa/regresion` y `qa/cypress/e2e/regresion` |
+| Accesibilidad con axe (Cypress) | `qa/cypress/e2e/accesibilidad/{luisa,daniel,juanpablo}.cy.js` y `qa/cypress/support/accesibilidad.js` |
+| Documento del criterio 11 | `qa/docs/criterio11_accesibilidad.md` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).
