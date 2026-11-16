@@ -16,9 +16,12 @@ describe('#getLabelTitleErrorMessage', () => {
   const createValidation = titleValidation => ({
     title: {
       $error: titleValidation.$error,
-      required: titleValidation.required,
-      minLength: titleValidation.minLength,
-      validLabelCharacters: titleValidation.validLabelCharacters,
+      // Vuelidate 2 exposes each rule as an object; $invalid is the inverse of the old boolean.
+      required: { $invalid: !titleValidation.required },
+      minLength: { $invalid: !titleValidation.minLength },
+      validLabelCharacters: {
+        $invalid: !titleValidation.validLabelCharacters,
+      },
     },
   });
 

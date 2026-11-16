@@ -1,0 +1,103 @@
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+ RUN  v3.0.5 C:/Users/DANIEL-PC/chatwoot
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ❯ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js (8 tests | 5 failed) 19ms
+   × getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre vacío muestra el error de obligatorio 11ms
+     → expected '' to be 'LABEL_MGMT.FORM.NAME.REQUIRED_ERROR' // Object.is equality
+   × getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre de un carácter muestra el error de longitud mínima 2ms
+     → expected '' to be 'LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_E…' // Object.is equality
+   × getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre con espacios muestra el error de caracteres válidos 1ms
+     → expected '' to be 'LABEL_MGMT.FORM.NAME.VALID_ERROR' // Object.is equality
+   ✓ getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre válido no muestra error
+   × keyErrorMessage de atributos con Vuelidate 2 [RF-09, D-10] > AddAttribute: una clave con espacios muestra "Invalid key" 2ms
+     → expected 'ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR' to be 'ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID' // Object.is equality
+   ✓ keyErrorMessage de atributos con Vuelidate 2 [RF-09, D-10] > AddAttribute: una clave vacía muestra "Key is required"
+   × keyErrorMessage de atributos con Vuelidate 2 [RF-09, D-10] > EditAttribute: una clave con espacios muestra "Invalid key" 1ms
+     → expected 'ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR' to be 'ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID' // Object.is equality
+   ✓ keyErrorMessage de atributos con Vuelidate 2 [RF-09, D-10] > EditAttribute: una clave vacía muestra "Key is required"
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js > getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre vacío muestra el error de obligatorio
+AssertionError: expected '' to be 'LABEL_MGMT.FORM.NAME.REQUIRED_ERROR' // Object.is equality
+
+- Expected
++ Received
+
+- LABEL_MGMT.FORM.NAME.REQUIRED_ERROR
+
+ ❯ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js:39:21
+     37|     const mensaje = validarEtiqueta('');
+     38|     // Assert
+     39|     expect(mensaje).toBe('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
+       |                     ^
+     40|   });
+     41| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js > getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre de un carácter muestra el error de longitud mínima
+AssertionError: expected '' to be 'LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_E…' // Object.is equality
+
+- Expected
++ Received
+
+- LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR
+
+ ❯ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js:43:34
+     41| 
+     42|   it('un nombre de un carácter muestra el error de longitud mínima', (…
+     43|     expect(validarEtiqueta('a')).toBe('LABEL_MGMT.FORM.NAME.MINIMUM_LE…
+       |                                  ^
+     44|   });
+     45| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js > getLabelTitleErrorMessage con Vuelidate 2 [RF-04, D-09] > un nombre con espacios muestra el error de caracteres válidos
+AssertionError: expected '' to be 'LABEL_MGMT.FORM.NAME.VALID_ERROR' // Object.is equality
+
+- Expected
++ Received
+
+- LABEL_MGMT.FORM.NAME.VALID_ERROR
+
+ ❯ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js:47:44
+     45| 
+     46|   it('un nombre con espacios muestra el error de caracteres válidos', …
+     47|     expect(validarEtiqueta('qa etiqueta')).toBe(
+       |                                            ^
+     48|       'LABEL_MGMT.FORM.NAME.VALID_ERROR'
+     49|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js > keyErrorMessage de atributos con Vuelidate 2 [RF-09, D-10] > AddAttribute: una clave con espacios muestra "Invalid key"
+ FAIL  app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js > keyErrorMessage de atributos con Vuelidate 2 [RF-09, D-10] > EditAttribute: una clave con espacios muestra "Invalid key"
+AssertionError: expected 'ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR' to be 'ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID' // Object.is equality
+
+Expected: "ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID"
+Received: "ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR"
+
+ ❯ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js:78:23
+     76|       const mensaje = componente.computed.keyErrorMessage.call(ctx);
+     77|       // Assert
+     78|       expect(mensaje).toBe('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+       |                       ^
+     79|     });
+     80| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 3 passed (8)
+   Start at  23:27:29
+   Duration  5.30s (transform 2.29s, setup 334ms, collect 2.94s, tests 19ms, environment 1.48s, prepare 168ms)
+

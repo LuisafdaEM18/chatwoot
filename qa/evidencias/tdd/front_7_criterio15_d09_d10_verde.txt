@@ -1,0 +1,17 @@
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+ RUN  v3.0.5 C:/Users/DANIEL-PC/chatwoot
+
+ ✓ app/javascript/dashboard/routes/dashboard/settings/labels/specs/validations.spec.js (5 tests) 3ms
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js (8 tests) 8ms
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  23:28:09
+   Duration  4.36s (transform 2.02s, setup 621ms, collect 2.42s, tests 11ms, environment 2.38s, prepare 271ms)
+
