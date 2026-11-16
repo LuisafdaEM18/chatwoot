@@ -119,11 +119,11 @@ La importación de CSV tarda: Chatwoot procesa el archivo un minuto después de 
 
 | ID | RF | Hallazgo | Estado |
 |---|---|---|---|
-| D-09 | RF-04 | En el formulario de etiquetas el campo se marca en rojo pero el mensaje de error nunca aparece. `getLabelTitleErrorMessage` (`settings/labels/validations.js`) pregunta `!validation.title.required`; con Vuelidate 2 eso es un objeto, nunca falso, así que devuelve un texto vacío. Además, el frontend solo valida espacios: "qa!" pasa y lo rechaza el servidor. | Nuevo |
-| D-10 | RF-09 | En el formulario de atributos, una clave con espacios muestra "Key is required" en lugar de "Invalid key". `keyErrorMessage` (`AddAttribute.vue`) compara `!this.v$.attributeKey.isKey`, que también es un objeto. | Nuevo |
+| D-09 | RF-04 | En el formulario de etiquetas el campo se marca en rojo pero el mensaje de error nunca aparece. `getLabelTitleErrorMessage` (`settings/labels/validations.js`) pregunta `!validation.title.required`; con Vuelidate 2 eso es un objeto, nunca falso, así que devuelve un texto vacío. Además, el frontend solo valida espacios: "qa!" pasa y lo rechaza el servidor. | Corregido en el criterio 15 |
+| D-10 | RF-09 | En el formulario de atributos, una clave con espacios muestra "Key is required" en lugar de "Invalid key". `keyErrorMessage` (`AddAttribute.vue`) compara `!this.v$.attributeKey.isKey`, que también es un objeto. | Corregido en el criterio 15 |
 | O-01 | RF-07 | La importación de CSV siempre tarda un minuto en procesarse, aunque el archivo esté en disco local (`DataImportJob.set(wait: 1.minute)`). No es un defecto, pero el usuario no recibe aviso en la interfaz cuando termina (solo por correo). | Observación |
 
-Las pruebas E2E comprueban lo que sí funciona en 4.19.1 (campo marcado en error y botón desactivado). Los mensajes correctos se podrán verificar cuando se corrijan D-09 y D-10 y se reconstruya la imagen (criterio 15).
+Las pruebas E2E comprueban lo que sí funciona en 4.19.1 (campo marcado en error y botón desactivado). Los mensajes correctos se podrán verificar cuando se corrijan D-09 y D-10 y se reconstruya la imagen (criterio 15). **Actualización:** D-09 y D-10 se corrigieron en el criterio 15 (TDD en `app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js`) y sus mensajes se verifican contra la imagen final en `qa/cypress/e2e/despliegue/frontend_corregido.cy.js` (ver `qa/docs/criterio15_refactorizacion_despliegue.md`).
 
 ## 6. Resultados
 
