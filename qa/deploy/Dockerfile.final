@@ -1,0 +1,43 @@
+# Versión final de Chatwoot 4.19.1 con las correcciones derivadas de las pruebas (criterio 15).
+#
+# Parte de la imagen publicada de la versión evaluada (chatwoot/chatwoot:v4.19.1), le aplica el
+# parche con las correcciones del equipo (D-01..D-10, M-01, H-01 y el ajuste de Captain en D-02) y
+# recompila los assets del frontend con Vite. Así el frontend corregido (D-05, D-07, M-01, D-09, D-10) queda
+# desplegado de verdad, no solo probado con Vitest como en qa/docker-compose.e2e.yaml.
+#
+# Construir (desde la raíz del repositorio):
+#   docker build -f qa/deploy/Dockerfile.final -t chatwoot-qa:final qa/deploy
+# Desplegar:
+#   docker compose -f docker-compose.production.yaml -f qa/deploy/docker-compose.final.yaml up -d
+
+FROM node:24.22.1-alpine AS node
+FROM chatwoot/chatwoot:v4.19.1 AS builder
+
+ARG PNPM_VERSION=10.2.0
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
+
+WORKDIR /app
+# La imagen publicada solo trae el binario de node; npm y pnpm se toman como en docker/Dockerfile.
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+  && npm install -g pnpm@${PNPM_VERSION}
+
+COPY correcciones_v4.19.1.patch /tmp/correcciones.patch
+RUN patch -p1 < /tmp/correcciones.patch
+
+RUN pnpm i --frozen-lockfile \
+  && rm -rf public/vite \
+  && SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile
+
+FROM chatwoot/chatwoot:v4.19.1
+
+LABEL org.opencontainers.image.title="chatwoot-qa" \
+      org.opencontainers.image.version="4.19.1-qa-final" \
+      org.opencontainers.image.description="Chatwoot 4.19.1 con las correcciones del equipo de pruebas"
+
+COPY --from=builder /app/app /app/app
+COPY --from=builder /app/config/locales/en.yml /app/config/locales/en.yml
+RUN rm -rf /app/public/vite
+COPY --from=builder /app/public/vite /app/public/vite
+RUN echo "v4.19.1-qa-final" > /app/.git_sha

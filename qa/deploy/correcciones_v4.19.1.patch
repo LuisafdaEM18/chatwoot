@@ -1,0 +1,361 @@
+diff --git a/app/controllers/api/v1/accounts/conversations/assignments_controller.rb b/app/controllers/api/v1/accounts/conversations/assignments_controller.rb
+index d8df44c70..9cae5e868 100644
+--- a/app/controllers/api/v1/accounts/conversations/assignments_controller.rb
++++ b/app/controllers/api/v1/accounts/conversations/assignments_controller.rb
+@@ -13,6 +13,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
+   private
+ 
+   def set_agent
++    return render_could_not_create_error(I18n.t('errors.conversations.invalid_assignee')) if invalid_assignee?
++
+     resource = Conversations::AssignmentService.new(
+       conversation: @conversation,
+       assignee_id: params[:assignee_id],
+@@ -42,6 +44,13 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
+     render json: @team
+   end
+ 
++  # Only user assignments are checked here; bots and Captain assistants (assignee_type) are resolved by the service.
++  def invalid_assignee?
++    return false if params[:assignee_type].present? || params[:assignee_id].blank?
++
++    Current.account.users.find_by(id: params[:assignee_id]).nil?
++  end
++
+   def agent_bot_assignment?
+     params[:assignee_type].to_s == 'AgentBot'
+   end
+diff --git a/app/controllers/api/v1/accounts/custom_filters_controller.rb b/app/controllers/api/v1/accounts/custom_filters_controller.rb
+index d7322b6f9..864d17ddb 100644
+--- a/app/controllers/api/v1/accounts/custom_filters_controller.rb
++++ b/app/controllers/api/v1/accounts/custom_filters_controller.rb
+@@ -13,7 +13,6 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
+     @custom_filter = Current.account.custom_filters.create!(
+       permitted_payload.merge(user: Current.user)
+     )
+-    render json: { error: @custom_filter.errors.messages }, status: :unprocessable_entity and return unless @custom_filter.valid?
+   end
+ 
+   def update
+diff --git a/app/controllers/api/v1/accounts/team_members_controller.rb b/app/controllers/api/v1/accounts/team_members_controller.rb
+index ffb115a34..18fc0509d 100644
+--- a/app/controllers/api/v1/accounts/team_members_controller.rb
++++ b/app/controllers/api/v1/accounts/team_members_controller.rb
+@@ -24,7 +24,7 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
+ 
+   def destroy
+     ActiveRecord::Base.transaction do
+-      @team.remove_members(params[:user_ids])
++      @team.remove_members(user_ids)
+     end
+     head :ok
+   end
+@@ -32,11 +32,15 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
+   private
+ 
+   def members_to_be_added_ids
+-    params[:user_ids] - current_members_ids
++    user_ids - current_members_ids
+   end
+ 
+   def members_to_be_removed_ids
+-    current_members_ids - params[:user_ids]
++    current_members_ids - user_ids
++  end
++
++  def user_ids
++    @user_ids ||= params.fetch(:user_ids)
+   end
+ 
+   def current_members_ids
+@@ -48,7 +52,7 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
+   end
+ 
+   def validate_member_id_params
+-    invalid_ids = params[:user_ids].map(&:to_i) - @team.account.user_ids
++    invalid_ids = user_ids.map(&:to_i) - @team.account.user_ids
+ 
+     render json: { error: 'Invalid User IDs' }, status: :unauthorized and return if invalid_ids.present?
+   end
+diff --git a/app/javascript/dashboard/components/ChatList.vue b/app/javascript/dashboard/components/ChatList.vue
+index a73d23007..d6e4194f6 100644
+--- a/app/javascript/dashboard/components/ChatList.vue
++++ b/app/javascript/dashboard/components/ChatList.vue
+@@ -763,9 +763,10 @@ function toggleConversationStatus(
+     payload.customAttributes = customAttributes;
+   }
+ 
+-  store.dispatch('toggleStatus', payload).then(() => {
+-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+-  });
++  store
++    .dispatch('toggleStatus', payload)
++    .then(() => useAlert(t('CONVERSATION.CHANGE_STATUS')))
++    .catch(() => useAlert(t('CONVERSATION.CHANGE_STATUS_FAILED')));
+ }
+ 
+ function handleResolveConversation(conversationId, status, snoozedUntil) {
+diff --git a/app/javascript/dashboard/components/buttons/ResolveAction.vue b/app/javascript/dashboard/components/buttons/ResolveAction.vue
+index 594b9d388..2b4dba616 100644
+--- a/app/javascript/dashboard/components/buttons/ResolveAction.vue
++++ b/app/javascript/dashboard/components/buttons/ResolveAction.vue
+@@ -95,10 +95,13 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
+     payload.customAttributes = customAttributes;
+   }
+ 
+-  store.dispatch('toggleStatus', payload).then(() => {
+-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+-    isLoading.value = false;
+-  });
++  store
++    .dispatch('toggleStatus', payload)
++    .then(() => useAlert(t('CONVERSATION.CHANGE_STATUS')))
++    .catch(() => useAlert(t('CONVERSATION.CHANGE_STATUS_FAILED')))
++    .finally(() => {
++      isLoading.value = false;
++    });
+ };
+ 
+ const handleResolveWithAttributes = ({ attributes, context }) => {
+diff --git a/app/javascript/dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue b/app/javascript/dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue
+index 3cb812a1e..58e312a88 100644
+--- a/app/javascript/dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue
++++ b/app/javascript/dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue
+@@ -19,13 +19,18 @@ const selectedChat = computed(() => getters.getSelectedChat.value);
+ const contextMenuChatId = computed(() => getters.getContextMenuChatId.value);
+ 
+ const toggleStatus = async (status, snoozedUntil) => {
+-  await store.dispatch('toggleStatus', {
+-    conversationId: selectedChat.value?.id || contextMenuChatId.value,
+-    status,
+-    snoozedUntil,
+-  });
+-  store.dispatch('setContextMenuChatId', null);
+-  useAlert(t('CONVERSATION.CHANGE_STATUS'));
++  try {
++    await store.dispatch('toggleStatus', {
++      conversationId: selectedChat.value?.id || contextMenuChatId.value,
++      status,
++      snoozedUntil,
++    });
++    useAlert(t('CONVERSATION.CHANGE_STATUS'));
++  } catch (error) {
++    useAlert(t('CONVERSATION.CHANGE_STATUS_FAILED'));
++  } finally {
++    store.dispatch('setContextMenuChatId', null);
++  }
+ };
+ 
+ const onCmdSnoozeConversation = snoozeType => {
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/attributes/AddAttribute.vue b/app/javascript/dashboard/routes/dashboard/settings/attributes/AddAttribute.vue
+index 00459bb8b..79271a0af 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/attributes/AddAttribute.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/attributes/AddAttribute.vue
+@@ -92,7 +92,7 @@ export default {
+       );
+     },
+     keyErrorMessage() {
+-      if (!this.v$.attributeKey.isKey) {
++      if (this.v$.attributeKey.isKey.$invalid) {
+         return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+       }
+       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/attributes/EditAttribute.vue b/app/javascript/dashboard/routes/dashboard/settings/attributes/EditAttribute.vue
+index 308ea35c7..6207c0b2c 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/attributes/EditAttribute.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/attributes/EditAttribute.vue
+@@ -87,7 +87,7 @@ export default {
+       )?.id;
+     },
+     keyErrorMessage() {
+-      if (!this.v$.attributeKey.isKey) {
++      if (this.v$.attributeKey.isKey.$invalid) {
+         return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+       }
+       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/labels/validations.js b/app/javascript/dashboard/routes/dashboard/settings/labels/validations.js
+index 32e3cfadb..59045d3c6 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/labels/validations.js
++++ b/app/javascript/dashboard/routes/dashboard/settings/labels/validations.js
+@@ -6,11 +6,11 @@ export const getLabelTitleErrorMessage = validation => {
+   let errorMessage = '';
+   if (!validation.title.$error) {
+     errorMessage = '';
+-  } else if (!validation.title.required) {
++  } else if (validation.title.required.$invalid) {
+     errorMessage = 'LABEL_MGMT.FORM.NAME.REQUIRED_ERROR';
+-  } else if (!validation.title.minLength) {
++  } else if (validation.title.minLength.$invalid) {
+     errorMessage = 'LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR';
+-  } else if (!validation.title.validLabelCharacters) {
++  } else if (validation.title.validLabelCharacters.$invalid) {
+     errorMessage = 'LABEL_MGMT.FORM.NAME.VALID_ERROR';
+   }
+   return errorMessage;
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/teams/Create/CreateTeam.vue b/app/javascript/dashboard/routes/dashboard/settings/teams/Create/CreateTeam.vue
+index f6db5829c..5c6005d5f 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/teams/Create/CreateTeam.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/teams/Create/CreateTeam.vue
+@@ -29,7 +29,9 @@ export default {
+           },
+         });
+       } catch (error) {
+-        useAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
++        useAlert(
++          error.message || this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE')
++        );
+       }
+     },
+   },
+diff --git a/app/javascript/dashboard/store/modules/contacts/actions.js b/app/javascript/dashboard/store/modules/contacts/actions.js
+index 48596c0be..da7197dd3 100644
+--- a/app/javascript/dashboard/store/modules/contacts/actions.js
++++ b/app/javascript/dashboard/store/modules/contacts/actions.js
+@@ -186,6 +186,7 @@ export const actions = {
+       if (error.response?.data?.message) {
+         throw new ExceptionWithMessage(error.response.data.message);
+       }
++      throw error;
+     }
+   },
+ 
+diff --git a/app/javascript/dashboard/store/modules/conversations/actions.js b/app/javascript/dashboard/store/modules/conversations/actions.js
+index fd3fde4bb..67d529b7a 100644
+--- a/app/javascript/dashboard/store/modules/conversations/actions.js
++++ b/app/javascript/dashboard/store/modules/conversations/actions.js
+@@ -358,39 +358,35 @@ const actions = {
+     { commit },
+     { conversationId, status, snoozedUntil = null, customAttributes = null }
+   ) => {
+-    try {
+-      // Update custom attributes first if provided
+-      if (customAttributes) {
+-        await ConversationApi.updateCustomAttributes({
+-          conversationId,
+-          customAttributes,
+-        });
+-        commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
+-          conversationId,
+-          customAttributes,
+-        });
+-      }
+-
+-      const {
+-        data: {
+-          payload: {
+-            current_status: updatedStatus,
+-            snoozed_until: updatedSnoozedUntil,
+-          } = {},
+-        } = {},
+-      } = await ConversationApi.toggleStatus({
++    // Update custom attributes first if provided
++    if (customAttributes) {
++      await ConversationApi.updateCustomAttributes({
+         conversationId,
+-        status,
+-        snoozedUntil,
++        customAttributes,
+       });
+-      commit(types.CHANGE_CONVERSATION_STATUS, {
++      commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
+         conversationId,
+-        status: updatedStatus,
+-        snoozedUntil: updatedSnoozedUntil,
++        customAttributes,
+       });
+-    } catch (error) {
+-      // Handle error
+     }
++
++    const {
++      data: {
++        payload: {
++          current_status: updatedStatus,
++          snoozed_until: updatedSnoozedUntil,
++        } = {},
++      } = {},
++    } = await ConversationApi.toggleStatus({
++      conversationId,
++      status,
++      snoozedUntil,
++    });
++    commit(types.CHANGE_CONVERSATION_STATUS, {
++      conversationId,
++      status: updatedStatus,
++      snoozedUntil: updatedSnoozedUntil,
++    });
+   },
+ 
+   createPendingMessageAndSend: async ({ dispatch }, data) => {
+diff --git a/app/javascript/dashboard/store/modules/teams/actions.js b/app/javascript/dashboard/store/modules/teams/actions.js
+index a8eab88b5..f38dca3d9 100644
+--- a/app/javascript/dashboard/store/modules/teams/actions.js
++++ b/app/javascript/dashboard/store/modules/teams/actions.js
+@@ -17,7 +17,7 @@ export const actions = {
+       commit(SET_TEAM_ITEM, team);
+       return team;
+     } catch (error) {
+-      throw new Error(error);
++      throw new Error(error?.response?.data?.message);
+     } finally {
+       commit(SET_TEAM_UI_FLAG, { isCreating: false });
+     }
+diff --git a/app/models/conversation.rb b/app/models/conversation.rb
+index 335191af8..4bfe05c1c 100644
+--- a/app/models/conversation.rb
++++ b/app/models/conversation.rb
+@@ -83,7 +83,7 @@ class Conversation < ApplicationRecord
+   validates :uuid, uniqueness: true
+   validate :validate_referer_url
+ 
+-  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
++  enum :status, { open: 0, resolved: 1, pending: 2, snoozed: 3 }, validate: true
+   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+ 
+   scope :unassigned, -> { where(assignee_id: nil, assignee_agent_bot_id: nil) }
+@@ -172,7 +172,6 @@ class Conversation < ApplicationRecord
+   def toggle_status
+     # FIXME: implement state machine with aasm
+     self.status = open? ? :resolved : :open
+-    self.status = :open if pending? || snoozed?
+     save
+   end
+ 
+diff --git a/app/models/custom_attribute_definition.rb b/app/models/custom_attribute_definition.rb
+index a6fd580fd..5d3e5bce0 100644
+--- a/app/models/custom_attribute_definition.rb
++++ b/app/models/custom_attribute_definition.rb
+@@ -46,7 +46,7 @@ class CustomAttributeDefinition < ApplicationRecord
+   validate :attribute_must_not_conflict, on: :create
+ 
+   enum attribute_model: { conversation_attribute: 0, contact_attribute: 1, company_attribute: 2 }
+-  enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
++  enum :attribute_display_type, { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }, validate: true
+ 
+   belongs_to :account
+   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
+diff --git a/app/models/custom_filter.rb b/app/models/custom_filter.rb
+index 6e2461a74..83ae8589e 100644
+--- a/app/models/custom_filter.rb
++++ b/app/models/custom_filter.rb
+@@ -21,7 +21,7 @@ class CustomFilter < ApplicationRecord
+   belongs_to :account
+ 
+   enum filter_type: { conversation: 0, contact: 1, report: 2 }
+-  validate :validate_number_of_filters
++  validate :validate_number_of_filters, on: :create
+   after_create_commit :invalidate_filtered_unread_count_create
+   after_update_commit :invalidate_filtered_unread_count_update
+   after_destroy_commit :invalidate_filtered_unread_count_destroy
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 4ab29939a..cb1bb1afc 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -148,6 +148,7 @@ en:
+     conversations:
+       anonymous_caller_reply: 'Messages cannot be sent because this caller’s phone number is unavailable.'
+       resolved: Conversation is resolved and does not accept new messages
++      invalid_assignee: The assignee must be an agent of this account
+       unread_counts:
+         feature_not_enabled: Conversation unread counts feature not enabled for this account
+     data_import:

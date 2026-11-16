@@ -1,0 +1,24 @@
+# Despliegue final (criterio 15): Chatwoot 4.19.1 con las correcciones del equipo horneadas en la
+# imagen chatwoot-qa:final (backend y frontend recompilado). No monta archivos del repositorio.
+#
+# Uso (desde la raíz del repositorio):
+#   docker build -f qa/deploy/Dockerfile.final -t chatwoot-qa:final qa/deploy
+#   docker compose -f docker-compose.production.yaml -f qa/deploy/docker-compose.final.yaml up -d
+#
+# Para comparar con la versión anterior basta con levantar la imagen original:
+#   QA_IMAGE=chatwoot/chatwoot:v4.19.1 docker compose -f docker-compose.production.yaml -f qa/deploy/docker-compose.final.yaml up -d
+#
+# Rack::Attack y MAX_USER_SESSIONS se ajustan igual que en qa/docker-compose.e2e.yaml para que la
+# suite de Cypress pueda iniciar sesión en cada archivo.
+
+services:
+  rails:
+    image: ${QA_IMAGE:-chatwoot-qa:final}
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - ENABLE_RACK_ATTACK=${QA_ENABLE_RACK_ATTACK:-false}
+      - MAX_USER_SESSIONS=500
+  sidekiq:
+    image: ${QA_IMAGE:-chatwoot-qa:final}

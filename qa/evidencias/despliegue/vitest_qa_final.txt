@@ -1,0 +1,25 @@
+
+ RUN  v3.0.5 C:/Users/DANIEL-PC/chatwoot
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ app/javascript/qa/regresion/daniel_regresion.spec.js (5 tests) 9ms
+ ✓ app/javascript/qa/caja_blanca/daniel_contactos_front.spec.js (21 tests) 15ms
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ app/javascript/qa/caja_blanca/juanpablo_productividad_front.spec.js (21 tests) 16ms
+ ✓ app/javascript/qa/regresion/juanpablo_regresion.spec.js (9 tests) 10ms
+ ✓ app/javascript/qa/tdd/criterio15_d09_d10_tdd_front.spec.js (8 tests) 12ms
+ ✓ app/javascript/qa/tdd/daniel_tdd_front.spec.js (3 tests) 9ms
+ ✓ app/javascript/qa/tdd/juanpablo_tdd_front.spec.js (4 tests) 43ms
+ ✓ app/javascript/qa/regresion/luisa_regresion.spec.js (7 tests) 12ms
+ ✓ app/javascript/qa/caja_blanca/luisa_conversaciones_front.spec.js (15 tests) 13ms
+ ✓ app/javascript/qa/tdd/luisa_tdd_front.spec.js (2 tests) 5ms
+
+ Test Files  10 passed (10)
+      Tests  95 passed (95)
+   Start at  23:28:16
+   Duration  9.20s (transform 3.83s, setup 6.55s, collect 16.52s, tests 143ms, environment 16.20s, prepare 2.45s)
+

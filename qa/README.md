@@ -6,8 +6,6 @@ Esta carpeta guarda todo lo que aporta el equipo de pruebas, separado de las pru
 |---|---|
 | `cypress/` | Pruebas E2E, de API y de accesibilidad con Cypress |
 | `scripts/create_qa_data.rb` | Crea la cuenta y los usuarios de prueba |
-| `scripts/create_usability_data.rb` | Prepara (y reinicia antes de cada sesión) la cuenta en español de las pruebas con usuarios |
-| `usabilidad/` | Archivo CSV para la tarea de importación de las pruebas con usuarios |
 | `docker-compose.qa.yaml` | Contenedor liviano de Ruby para correr RSpec |
 | `cypress.env.example.json` | Plantilla de las variables de Cypress |
 
@@ -34,6 +32,16 @@ MSYS_NO_PATHCONV=1 docker compose -f docker-compose.production.yaml exec -e QA_P
 El script imprime un JSON con los IDs (cuenta, bandeja, agentes, cuenta ajena) y los tokens de API de los usuarios de prueba. Copiar `cypress.env.example.json` como `cypress.env.json`, pegar esos valores y agregar los correos y la contraseña. `cypress.env.json` no se sube al repositorio.
 
 En Git Bash de Windows hace falta `MSYS_NO_PATHCONV=1` para que no convierta `/tmp/...` en una ruta de Windows.
+
+## 2.1 Versión final (criterio 15)
+
+Para desplegar la versión final con todas las correcciones (backend y frontend recompilado) en lugar de montar archivos:
+
+```bash
+docker build -f qa/deploy/Dockerfile.final -t chatwoot-qa:final qa/deploy
+docker compose -f docker-compose.production.yaml -f qa/deploy/docker-compose.final.yaml up -d
+bash qa/deploy/comparar_versiones.sh   # misma suite contra v4.19.1 y contra la final
+```
 
 ## 3. Cypress
 
@@ -102,7 +110,10 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | Gherkin, BDD y Screenplay | `qa/screenplay/features/{luisa,daniel,juanpablo}` y `qa/screenplay/src` |
 | Evidencias de Screenplay (salida y reporte HTML) | `qa/evidencias/screenplay` |
 | Documento del criterio 8 | `qa/docs/criterio8_gherkin_screenplay.md` |
+| Pipeline de Jenkins (RSpec, Vitest, Cypress, SonarQube y Quality Gate) | `Jenkinsfile` y `sonar-project.properties` (raíz del repositorio) |
+| Documento del criterio 9 | `qa/docs/criterio9_pipeline.md` |
 | Regresión por integrante (RSpec, Vitest y Cypress) | `spec/qa/regresion`, `app/javascript/qa/regresion` y `qa/cypress/e2e/regresion` |
+| Documento del criterio 10 | `qa/docs/criterio10_regresion.md` |
 | Accesibilidad con axe (Cypress) | `qa/cypress/e2e/accesibilidad/{luisa,daniel,juanpablo}.cy.js` y `qa/cypress/support/accesibilidad.js` |
 | Documento del criterio 11 | `qa/docs/criterio11_accesibilidad.md` |
 | Seguridad OWASP por integrante (Cypress) | `qa/cypress/e2e/seguridad/{luisa,daniel,juanpablo}.cy.js` y `fuerza_bruta.cy.js` (`npm run cy:seguridad:rack`, con Rack::Attack activo) |
@@ -111,5 +122,10 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | IA aplicada a testing (Stagehand, DeepEval y 3.ª herramienta por integrante) | `qa/ia/` (ver `qa/ia/README.md`) |
 | Evidencias de IA (Stagehand, DeepEval, Postbot, Playwright MCP) | `qa/evidencias/ia/` |
 | Documento del criterio 14 | `qa/docs/criterio14_ia.md` |
+| Documento del criterio 4 (ejecución del plan: entorno, datos, resultados, defectos, cobertura y métricas) | `qa/docs/criterio4_ejecucion_plan.md` |
+| Despliegue final: imagen con las correcciones, compose y comparación antes/después | `qa/deploy/` (`Dockerfile.final`, `docker-compose.final.yaml`, `comparar_versiones.sh`) |
+| Prueba del frontend corregido en el navegador (Cypress) | `qa/cypress/e2e/despliegue/frontend_corregido.cy.js` (`npm run cy:despliegue`) |
+| Evidencias del despliegue (construcción, Cypress antes/después, Vitest) | `qa/evidencias/despliegue/` |
+| Documento del criterio 15 | `qa/docs/criterio15_refactorizacion_despliegue.md` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).

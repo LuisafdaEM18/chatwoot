@@ -12,6 +12,7 @@
     "cy:regresion": "cypress run --spec cypress/e2e/regresion/**/*.cy.js",
     "cy:accesibilidad": "cypress run --spec cypress/e2e/accesibilidad/**/*.cy.js",
     "cy:seguridad": "cypress run --spec cypress/e2e/seguridad/**/*.cy.js",
+    "cy:despliegue": "cypress run --spec cypress/e2e/despliegue/**/*.cy.js",
     "cy:seguridad:rack": "cypress run --spec cypress/e2e/seguridad/fuerza_bruta.cy.js --env rackAttack=true"
   },
   "devDependencies": {
