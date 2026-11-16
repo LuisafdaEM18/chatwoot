@@ -108,5 +108,8 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | Seguridad OWASP por integrante (Cypress) | `qa/cypress/e2e/seguridad/{luisa,daniel,juanpablo}.cy.js` y `fuerza_bruta.cy.js` (`npm run cy:seguridad:rack`, con Rack::Attack activo) |
 | Evidencias de seguridad (Brakeman, bundle-audit, pnpm audit, SonarQube, Cypress) | `qa/evidencias/seguridad/` |
 | Documento del criterio 13 | `qa/docs/criterio13_seguridad.md` |
+| IA aplicada a testing (Stagehand, DeepEval y 3.ª herramienta por integrante) | `qa/ia/` (ver `qa/ia/README.md`) |
+| Evidencias de IA (Stagehand, DeepEval, Postbot, Playwright MCP) | `qa/evidencias/ia/` |
+| Documento del criterio 14 | `qa/docs/criterio14_ia.md` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).

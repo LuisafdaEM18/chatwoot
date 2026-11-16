@@ -1,0 +1,8 @@
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="10.121694">
+<testsuite name="luisa.spec.ts" timestamp="2026-11-16T19:47:14.783Z" hostname="" tests="2" failures="0" skipped="0" time="7.911" errors="0">
+<testcase name="RF-01: la bandeja de conversaciones muestra las pestañas de estado" classname="luisa.spec.ts" time="5.133">
+</testcase>
+<testcase name="RF-05: la búsqueda global ofrece su campo de búsqueda" classname="luisa.spec.ts" time="2.778">
+</testcase>
+</testsuite>
+</testsuites>

@@ -4,3 +4,8 @@ reports/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+ia/**/.env
+__pycache__/
+.deepeval
+ia/**/test-results/
+ia/**/playwright-report/

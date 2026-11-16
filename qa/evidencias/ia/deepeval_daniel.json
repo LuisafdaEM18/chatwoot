@@ -1,0 +1,66 @@
+[
+  {
+    "caso": "Carlos Pérez",
+    "metrica": "Fidelidad a las notas",
+    "score": 0.6,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "El resumen no indica que no hay información, pero tampoco inventa ni contradice datos de las notas. Sin embargo, no está en consonancia con el contexto proporcionado, ya que no menciona que el cliente prefiere ser contactado en la tarde."
+  },
+  {
+    "caso": "Carlos Pérez",
+    "metrica": "No alucinación (score bajo=mejor)",
+    "score": 0.667,
+    "umbral": 0.5,
+    "exito": false,
+    "detalle": "The score is 0.67 because the actual output aligns with 2 out of 3 contexts, but contradicts 1 context regarding used parts."
+  },
+  {
+    "caso": "María López",
+    "metrica": "Fidelidad a las notas",
+    "score": 0.4,
+    "umbral": 0.5,
+    "exito": false,
+    "detalle": "El resumen no está en consonancia con el contexto proporcionado, ya que no menciona la reclamación abierta por el envío perdido."
+  },
+  {
+    "caso": "María López",
+    "metrica": "No alucinación (score bajo=mejor)",
+    "score": 0.5,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "The score is 0.50 because the actual output partially aligns with the context, but also contains a contradiction regarding the lost shipment."
+  },
+  {
+    "caso": "Julián Restrepo",
+    "metrica": "Fidelidad a las notas",
+    "score": 0.6,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "El resumen no indica que no hay información, pero parece estar en consonancia con el contexto proporcionado."
+  },
+  {
+    "caso": "Julián Restrepo",
+    "metrica": "No alucinación (score bajo=mejor)",
+    "score": 0.5,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "The score is 0.50 because the actual output partially aligns with the context, but there is a contradiction regarding the payment method."
+  },
+  {
+    "caso": "Sofía Martínez (sin notas)",
+    "metrica": "Fidelidad a las notas",
+    "score": 0.6,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "El resumen está en consonancia con el contexto proporcionado, ya que indica que no hay información disponible sobre el cliente. Sin embargo, no se verifica si el resumen utiliza solo información presente en las notas del contacto."
+  },
+  {
+    "caso": "Sofía Martínez (sin notas)",
+    "metrica": "No alucinación (score bajo=mejor)",
+    "score": 1.0,
+    "umbral": 0.5,
+    "exito": false,
+    "detalle": "The score is 1.00 because the actual output aligns perfectly with the context, which states there are no notes registered for the contact."
+  }
+]

@@ -1,0 +1,42 @@
+newman
+
+Chatwoot QA — Juan Pablo (RF-11 Respuestas predefinidas)
+
+→ Crea una respuesta predefinida
+  POST http://localhost:3000/api/v1/accounts/1/canned_responses [200 OK, 673B, 49ms]
+  √  responde 200
+  √  devuelve un id
+  √  guarda el short_code enviado
+
+→ Lista y encuentra la creada
+  GET http://localhost:3000/api/v1/accounts/1/canned_responses [200 OK, 2.7kB, 19ms]
+  √  responde 200
+  √  la respuesta creada aparece en la lista
+
+→ Rechaza una respuesta sin contenido (422)
+  POST http://localhost:3000/api/v1/accounts/1/canned_responses [422 Unprocessable Content, 466B, 22ms]
+  √  responde 422 por validación
+
+→ Limpieza: elimina la respuesta creada
+  DELETE http://localhost:3000/api/v1/accounts/1/canned_responses/13 [200 OK, 370B, 24ms]
+  √  elimina (200)
+
+┌─────────────────────────┬───────────────────┬──────────────────┐
+│                         │          executed │           failed │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              iterations │                 1 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│                requests │                 4 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│            test-scripts │                 4 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│      prerequest-scripts │                 1 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              assertions │                 7 │                0 │
+├─────────────────────────┴───────────────────┴──────────────────┤
+│ total run duration: 405ms                                      │
+├────────────────────────────────────────────────────────────────┤
+│ total data received: 2.51kB (approx)                           │
+├────────────────────────────────────────────────────────────────┤
+│ average response time: 28ms [min: 19ms, max: 49ms, s.d.: 11ms] │
+└────────────────────────────────────────────────────────────────┘

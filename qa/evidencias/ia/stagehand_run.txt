@@ -1,0 +1,19 @@
+=== Stagehand — criterio 14 (modelo local qwen2.5:7b vía Ollama) ===
+
+### Luisa (RF-01..05, conversaciones)
+  Pestañas extraídas: [ 'Mine', 'Unassigned', 'All' ]
+  [PASA] La lista de conversaciones expone pestañas de estado · Mine, Unassigned, All
+Todas las validaciones pasaron.
+
+### Daniel (RF-06..10, contactos)
+  Contactos mostrados: 15 | total: 180
+  [PASA] La lista de contactos informa un total de contactos · total=180
+  [PASA] Los contactos mostrados en la página no superan el total · mostrados=15 total=180
+Todas las validaciones pasaron.
+
+### Juan Pablo (RF-11..15, productividad)
+    [35minstruction[39m: "Estás en el panel de informes (overview). Devuelve los nombres de las tarjetas de métricas visibles (por ejemplo Open/Abiertas, Unattended/Sin atender, Online) como lista de textos."
+    [35minstruction[39m: "Estás en el panel de informes (overview). Devuelve los nombres de las tarjetas de métricas visibles (por ejemplo Open/Abiertas, Unattended/Sin atender, Online) como lista de textos."
+  Métricas: [ 'Conversaciones por agentes', 'Conversaciones por equipos' ]
+  [PASA] El panel de informes muestra tarjetas de métricas · Conversaciones por agentes, Conversaciones por equipos
+Todas las validaciones pasaron.

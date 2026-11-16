@@ -1,0 +1,9 @@
+{
+  "name": "chatwoot-qa-playwright-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas E2E de Luisa (RF-01..05) con Playwright, generadas con asistencia de Playwright MCP + GitHub Copilot — criterio 14.",
+  "scripts": { "test": "playwright test" },
+  "devDependencies": { "@playwright/test": "1.49.1" }
+}

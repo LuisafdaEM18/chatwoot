@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "Chatwoot QA — Juan Pablo (RF-11 Respuestas predefinidas)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Pruebas de API de la respuesta predefinida (canned response). Las aserciones (pm.test) se generaron con asistencia de Postbot (el asistente de IA de Postman) y luego se revisaron. Criterio 14, tercera herramienta de Juan Pablo. Se ejecuta con newman."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "accountId", "value": "1" },
+    { "key": "token", "value": "" },
+    { "key": "shortCode", "value": "saludo_qa" },
+    { "key": "cannedId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Crea una respuesta predefinida",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": { "exec": ["pm.collectionVariables.set('shortCode', 'saludo_qa_' + Date.now());"] }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Aserciones sugeridas por Postbot a partir de la respuesta del endpoint.",
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "const b = pm.response.json();",
+              "pm.test('devuelve un id', () => pm.expect(b.id).to.be.a('number'));",
+              "pm.test('guarda el short_code enviado', () => pm.expect(b.short_code).to.eql(pm.collectionVariables.get('shortCode')));",
+              "pm.collectionVariables.set('cannedId', b.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "api_access_token", "value": "{{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"short_code\": \"{{shortCode}}\",\n  \"content\": \"Hola, gracias por escribirnos. ¿En qué te podemos ayudar?\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/canned_responses", "host": ["{{baseUrl}}"], "path": ["api", "v1", "accounts", "{{accountId}}", "canned_responses"] }
+      }
+    },
+    {
+      "name": "Lista y encuentra la creada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "const lista = pm.response.json();",
+              "pm.test('la respuesta creada aparece en la lista', () => {",
+              "  const codigos = lista.map(r => r.short_code);",
+              "  pm.expect(codigos).to.include(pm.collectionVariables.get('shortCode'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "api_access_token", "value": "{{token}}" }],
+        "url": { "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/canned_responses", "host": ["{{baseUrl}}"], "path": ["api", "v1", "accounts", "{{accountId}}", "canned_responses"] }
+      }
+    },
+    {
+      "name": "Rechaza una respuesta sin contenido (422)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responde 422 por validación', () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "api_access_token", "value": "{{token}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"short_code\": \"sin_contenido_qa\"\n}" },
+        "url": { "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/canned_responses", "host": ["{{baseUrl}}"], "path": ["api", "v1", "accounts", "{{accountId}}", "canned_responses"] }
+      }
+    },
+    {
+      "name": "Limpieza: elimina la respuesta creada",
+      "event": [
+        { "listen": "test", "script": { "exec": ["pm.test('elimina (200)', () => pm.response.to.have.status(200));"] } }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "api_access_token", "value": "{{token}}" }],
+        "url": { "raw": "{{baseUrl}}/api/v1/accounts/{{accountId}}/canned_responses/{{cannedId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "accounts", "{{accountId}}", "canned_responses", "{{cannedId}}"] }
+      }
+    }
+  ]
+}

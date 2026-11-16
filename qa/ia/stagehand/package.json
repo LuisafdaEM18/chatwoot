@@ -1,0 +1,21 @@
+{
+  "name": "chatwoot-qa-stagehand",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pruebas con Stagehand (IA que maneja el navegador) sobre Chatwoot — criterio 14",
+  "type": "module",
+  "scripts": {
+    "sh:luisa": "tsx luisa.ts",
+    "sh:daniel": "tsx daniel.ts",
+    "sh:juanpablo": "tsx juanpablo.ts",
+    "sh:todos": "tsx luisa.ts && tsx daniel.ts && tsx juanpablo.ts"
+  },
+  "dependencies": {
+    "@browserbasehq/stagehand": "2.5.9",
+    "ollama-ai-provider": "^1.2.0",
+    "zod": "3.25.67"
+  },
+  "devDependencies": {
+    "tsx": "4.20.6"
+  }
+}

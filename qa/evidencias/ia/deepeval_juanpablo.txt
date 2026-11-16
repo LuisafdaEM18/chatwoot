@@ -1,0 +1,34 @@
+DeepEval — juanpablo
+Juez: Ollama (llama3.1:8b)
+Resultado: 15/15 métricas aprobadas
+
+[PASA] saludo inicial de bienvenida al chat · Relevancia: 1.0 (umbral 0.5)
+    El actual output proporciona información útil sobre el tema del input, ya que responde a las necesidades del cliente en relación con el saludo inicial de bienvenida al chat. El output es relevante y útil para el cliente en el contexto del input.
+[PASA] saludo inicial de bienvenida al chat · Tono de soporte: 1.0 (umbral 0.5)
+    El tono es cordial y profesional, evitando lenguaje técnico innecesario. No hay groserías o lenguaje inapropiado. El 'actual output' cumple con los estándares de atención al cliente.
+[PASA] saludo inicial de bienvenida al chat · Concisión y formato: 0.8 (umbral 0.5)
+    The Actual Output contains 4 phrases, which meets the requirement of having between 2 and 4 phrases. However, it does not contain any incomplete placeholders, but it does not meet the requirement of having exactly 2, 3 or 4 phrases as specified in the evaluation steps.
+[PASA] avisar que el pedido va en camino y llega en 2 o 3 días · Relevancia: 0.8 (umbral 0.5)
+    El actual output proporciona información útil sobre el tema del input, ya que informa al cliente sobre el estado de su pedido y el tiempo estimado de entrega. Sin embargo, no se evalúa si el actual output responde a las necesidades del cliente en relación con el input, ya que no se proporcionan deta
+[PASA] avisar que el pedido va en camino y llega en 2 o 3 días · Tono de soporte: 1.0 (umbral 0.5)
+    El 'actual output' está escrito en español y tiene un tono cordial y profesional. No se detectaron groserías ni lenguaje inapropiado. El contenido cumple con los estándares de atención al cliente.
+[PASA] avisar que el pedido va en camino y llega en 2 o 3 días · Concisión y formato: 0.8 (umbral 0.5)
+    The Actual Output contains 6 phrases, which is within the expected range of 2 to 4 phrases. However, it does not contain any incomplete placeholders.
+[PASA] disculpa por una demora en la respuesta · Relevancia: 1.0 (umbral 0.5)
+    El actual output proporciona información útil sobre el tema del input, ya que explica la causa de la demora y ofrece ayuda al cliente. También responde a las necesidades del cliente en relación con el input, ya que ofrece solución a su problema. Por lo tanto, el actual output sería útil para el clie
+[PASA] disculpa por una demora en la respuesta · Tono de soporte: 1.0 (umbral 0.5)
+    El tono es cordial y profesional, evitando lenguaje técnico innecesario. No hay groserías o lenguaje inapropiado. El 'actual output' cumple con los estándares de atención al cliente.
+[PASA] disculpa por una demora en la respuesta · Concisión y formato: 0.8 (umbral 0.5)
+    The Actual Output contains 3 phrases, which is within the specified range of 2 to 4 phrases. However, it does not contain any incomplete placeholders.
+[PASA] pedir el número de pedido para poder ayudar · Relevancia: 0.9 (umbral 0.5)
+    El actual output proporciona información útil sobre el tema del input, ya que responde a la necesidad del cliente de obtener ayuda relacionada con su pedido. Además, el output es conciso y proporciona una solución clara y útil.
+[PASA] pedir el número de pedido para poder ayudar · Tono de soporte: 1.0 (umbral 0.5)
+    El tono es cordial y profesional, evitando lenguaje técnico innecesario. No hay groserías o lenguaje inapropiado. El 'actual output' cumple con los estándares de atención al cliente.
+[PASA] pedir el número de pedido para poder ayudar · Concisión y formato: 0.8 (umbral 0.5)
+    The Actual Output contains 4 phrases, which meets the requirement of having between 2 and 4 phrases. However, it does not contain any incomplete placeholders, but it does not meet the requirement of not containing any incomplete placeholders because it does not contain any placeholders at all.
+[PASA] despedida agradeciendo el contacto · Relevancia: 0.8 (umbral 0.5)
+    El actual output proporciona información útil sobre el tema del input, ya que responde a la necesidad del cliente de una despedida agradeciendo el contacto. Sin embargo, no se evalúa si el actual output sería útil para el cliente en el contexto del input.
+[PASA] despedida agradeciendo el contacto · Tono de soporte: 1.0 (umbral 0.5)
+    El tono es cordial y profesional, evitando lenguaje técnico innecesario. No hay groserías o lenguaje inapropiado. El 'actual output' cumple con los estándares de atención al cliente.
+[PASA] despedida agradeciendo el contacto · Concisión y formato: 0.8 (umbral 0.5)
+    The Actual Output contains 4 phrases, which meets the requirement of having between 2 and 4 phrases. However, it does not contain any incomplete placeholders, but it does not meet the requirement of having exactly 2, 3 or 4 phrases as specified in the evaluation steps.

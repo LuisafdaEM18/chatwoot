@@ -1,0 +1,34 @@
+DeepEval — luisa
+Juez: Ollama (llama3.1:8b)
+Resultado: 11/15 métricas aprobadas
+
+[PASA] Pago caído con pérdida de ventas · Prioridad exacta: 1.0 (umbral 1.0)
+    esperada=urgent obtenida=urgent
+[PASA] Pago caído con pérdida de ventas · F1 de etiquetas: 0.5 (umbral 0.5)
+    esperadas=['facturación'] obtenidas=['facturación', 'soporte técnico', 'ventas']
+[FALLA] Pago caído con pérdida de ventas · Calidad de la razón: 0.4 (umbral 0.5)
+    La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', pero no se explica de forma clara y sin inventar. La razón de clasificación en el 'actual output' no justifica la prioridad de la conversación en el 'input'.
+[PASA] Consulta general de horario · Prioridad exacta: 1.0 (umbral 1.0)
+    esperada=low obtenida=low
+[PASA] Consulta general de horario · F1 de etiquetas: 1.0 (umbral 0.5)
+    esperadas=['consulta general'] obtenidas=['consulta general']
+[FALLA] Consulta general de horario · Calidad de la razón: 0.4 (umbral 0.5)
+    La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', pero no se explica de forma clara y sin inventar. La razón de clasificación no justifica la prioridad de la conversación en el 'input'.
+[PASA] Error que afecta el trabajo · Prioridad exacta: 1.0 (umbral 1.0)
+    esperada=high obtenida=high
+[PASA] Error que afecta el trabajo · F1 de etiquetas: 1.0 (umbral 0.5)
+    esperadas=['soporte técnico'] obtenidas=['soporte técnico']
+[PASA] Error que afecta el trabajo · Calidad de la razón: 0.8 (umbral 0.5)
+    La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', es coherente con la conversación y se explica de forma clara. Sin embargo, no se justifica explícitamente la prioridad de la conversación.
+[PASA] Reclamo por cobro doble · Prioridad exacta: 1.0 (umbral 1.0)
+    esperada=high obtenida=high
+[PASA] Reclamo por cobro doble · F1 de etiquetas: 1.0 (umbral 0.5)
+    esperadas=['facturación', 'reclamo'] obtenidas=['facturación', 'reclamo']
+[PASA] Reclamo por cobro doble · Calidad de la razón: 0.8 (umbral 0.5)
+    La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', ya que el cliente se siente engañado por el cobro repetido. La razón es coherente con la conversación en el 'input' y se explica de forma clara. Sin embargo, no se justifica explícitamente la prior
+[FALLA] Pregunta de precios · Prioridad exacta: 0.0 (umbral 1.0)
+    esperada=low obtenida=medium
+[FALLA] Pregunta de precios · F1 de etiquetas: 0.0 (umbral 0.5)
+    esperadas=['ventas'] obtenidas=['consulta general']
+[PASA] Pregunta de precios · Calidad de la razón: 0.7 (umbral 0.5)
+    La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', pero no se explica de forma clara y sin inventar. La razón de clasificación es coherente con la conversación en el 'input' y justifica la prioridad de la conversación.

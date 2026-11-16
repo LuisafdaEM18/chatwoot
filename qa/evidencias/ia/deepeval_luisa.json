@@ -1,0 +1,122 @@
+[
+  {
+    "caso": "Pago caído con pérdida de ventas",
+    "metrica": "Prioridad exacta",
+    "score": 1.0,
+    "umbral": 1.0,
+    "exito": true,
+    "detalle": "esperada=urgent obtenida=urgent"
+  },
+  {
+    "caso": "Pago caído con pérdida de ventas",
+    "metrica": "F1 de etiquetas",
+    "score": 0.5,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "esperadas=['facturación'] obtenidas=['facturación', 'soporte técnico', 'ventas']"
+  },
+  {
+    "caso": "Pago caído con pérdida de ventas",
+    "metrica": "Calidad de la razón",
+    "score": 0.4,
+    "umbral": 0.5,
+    "exito": false,
+    "detalle": "La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', pero no se explica de forma clara y sin inventar. La razón de clasificación en el 'actual output' no justifica la prioridad de la conversación en el 'input'."
+  },
+  {
+    "caso": "Consulta general de horario",
+    "metrica": "Prioridad exacta",
+    "score": 1.0,
+    "umbral": 1.0,
+    "exito": true,
+    "detalle": "esperada=low obtenida=low"
+  },
+  {
+    "caso": "Consulta general de horario",
+    "metrica": "F1 de etiquetas",
+    "score": 1.0,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "esperadas=['consulta general'] obtenidas=['consulta general']"
+  },
+  {
+    "caso": "Consulta general de horario",
+    "metrica": "Calidad de la razón",
+    "score": 0.4,
+    "umbral": 0.5,
+    "exito": false,
+    "detalle": "La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', pero no se explica de forma clara y sin inventar. La razón de clasificación no justifica la prioridad de la conversación en el 'input'."
+  },
+  {
+    "caso": "Error que afecta el trabajo",
+    "metrica": "Prioridad exacta",
+    "score": 1.0,
+    "umbral": 1.0,
+    "exito": true,
+    "detalle": "esperada=high obtenida=high"
+  },
+  {
+    "caso": "Error que afecta el trabajo",
+    "metrica": "F1 de etiquetas",
+    "score": 1.0,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "esperadas=['soporte técnico'] obtenidas=['soporte técnico']"
+  },
+  {
+    "caso": "Error que afecta el trabajo",
+    "metrica": "Calidad de la razón",
+    "score": 0.8,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', es coherente con la conversación y se explica de forma clara. Sin embargo, no se justifica explícitamente la prioridad de la conversación."
+  },
+  {
+    "caso": "Reclamo por cobro doble",
+    "metrica": "Prioridad exacta",
+    "score": 1.0,
+    "umbral": 1.0,
+    "exito": true,
+    "detalle": "esperada=high obtenida=high"
+  },
+  {
+    "caso": "Reclamo por cobro doble",
+    "metrica": "F1 de etiquetas",
+    "score": 1.0,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "esperadas=['facturación', 'reclamo'] obtenidas=['facturación', 'reclamo']"
+  },
+  {
+    "caso": "Reclamo por cobro doble",
+    "metrica": "Calidad de la razón",
+    "score": 0.8,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', ya que el cliente se siente engañado por el cobro repetido. La razón es coherente con la conversación en el 'input' y se explica de forma clara. Sin embargo, no se justifica explícitamente la prior"
+  },
+  {
+    "caso": "Pregunta de precios",
+    "metrica": "Prioridad exacta",
+    "score": 0.0,
+    "umbral": 1.0,
+    "exito": false,
+    "detalle": "esperada=low obtenida=medium"
+  },
+  {
+    "caso": "Pregunta de precios",
+    "metrica": "F1 de etiquetas",
+    "score": 0.0,
+    "umbral": 0.5,
+    "exito": false,
+    "detalle": "esperadas=['ventas'] obtenidas=['consulta general']"
+  },
+  {
+    "caso": "Pregunta de precios",
+    "metrica": "Calidad de la razón",
+    "score": 0.7,
+    "umbral": 0.5,
+    "exito": true,
+    "detalle": "La razón de clasificación en el 'actual output' se basa en la información proporcionada en el 'input', pero no se explica de forma clara y sin inventar. La razón de clasificación es coherente con la conversación en el 'input' y justifica la prioridad de la conversación."
+  }
+]
