@@ -1,0 +1,21 @@
+I, [2026-11-16T17:38:31.652615 #1]  INFO -- : [3f5ee564-1bc2-4cc1-94ac-4c15935c698a] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.677107 #1]  INFO -- : [3f5ee564-1bc2-4cc1-94ac-4c15935c698a] Completed 401 Unauthorized in 17ms (Views: 0.2ms | ActiveRecord: 3.9ms (5 queries, 2 cached) | GC: 0.0ms)
+I, [2026-11-16T17:38:31.699664 #1]  INFO -- : [0ebaa535-3ad6-4cff-a133-b9f0c670c6c5] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.709515 #1]  INFO -- : [0ebaa535-3ad6-4cff-a133-b9f0c670c6c5] Completed 401 Unauthorized in 5ms (Views: 0.2ms | ActiveRecord: 1.3ms (5 queries, 2 cached) | GC: 0.0ms)
+I, [2026-11-16T17:38:31.720754 #1]  INFO -- : [92b3ec2c-7cff-43ae-beea-afcb6475f515] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.729975 #1]  INFO -- : [92b3ec2c-7cff-43ae-beea-afcb6475f515] Completed 401 Unauthorized in 4ms (Views: 0.2ms | ActiveRecord: 1.0ms (5 queries, 2 cached) | GC: 0.0ms)
+I, [2026-11-16T17:38:31.741777 #1]  INFO -- : [255dd577-27f2-4594-a021-6961ecead05f] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.750559 #1]  INFO -- : [255dd577-27f2-4594-a021-6961ecead05f] Completed 401 Unauthorized in 4ms (Views: 0.1ms | ActiveRecord: 1.0ms (5 queries, 2 cached) | GC: 0.0ms)
+I, [2026-11-16T17:38:31.760642 #1]  INFO -- : [7c9c9c1f-6ed8-4beb-bb08-3cd8e500ba9a] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.769694 #1]  INFO -- : [7c9c9c1f-6ed8-4beb-bb08-3cd8e500ba9a] Completed 401 Unauthorized in 4ms (Views: 0.2ms | ActiveRecord: 1.0ms (5 queries, 2 cached) | GC: 0.0ms)
+I, [2026-11-16T17:38:31.781222 #1]  INFO -- : [09d3ec1b-d388-4d32-8e79-92614c13fb2a] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+W, [2026-11-16T17:38:31.784419 #1]  WARN -- : [09d3ec1b-d388-4d32-8e79-92614c13fb2a] [Rack::Attack][Blocked] remote_ip: "172.19.0.1", path: "/auth/sign_in", matched_rule: "login/ip", user_identifier: "unknown_user", account_id: "unknown_account", method: "POST", user_agent: Cypress
+I, [2026-11-16T17:38:31.849993 #1]  INFO -- : [8c0a203d-a00b-4d77-ace1-b2784590b69a] Started POST "/auth/sign_in" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+W, [2026-11-16T17:38:31.854028 #1]  WARN -- : [8c0a203d-a00b-4d77-ace1-b2784590b69a] [Rack::Attack][Blocked] remote_ip: "172.19.0.1", path: "/auth/sign_in", matched_rule: "login/ip", user_identifier: "unknown_user", account_id: "unknown_account", method: "POST", user_agent: Cypress
+I, [2026-11-16T17:38:31.895703 #1]  INFO -- : [06ebdfb2-3b03-415f-8c51-98d28c11c80c] Started POST "/auth/password" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.918985 #1]  INFO -- : [6fbc5309-569d-4278-aca1-0f2c91dfd869] Started POST "/auth/password" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.936707 #1]  INFO -- : [26cc1d50-9f84-43e5-99ad-cd423fa098a6] Started POST "/auth/password" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.955355 #1]  INFO -- : [13930567-87fe-4d5d-9ce8-c3b99fbcc7bc] Started POST "/auth/password" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.977192 #1]  INFO -- : [c75c2fb7-5a56-4281-a17b-b5fcb8af1882] Started POST "/auth/password" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+I, [2026-11-16T17:38:31.996822 #1]  INFO -- : [02923a3c-cc31-4043-81ef-244553dd3495] Started POST "/auth/password" for 172.19.0.1 at 2026-11-16 17:38:31 +0000
+W, [2026-11-16T17:38:32.001093 #1]  WARN -- : [02923a3c-cc31-4043-81ef-244553dd3495] [Rack::Attack][Blocked] remote_ip: "172.19.0.1", path: "/auth/password", matched_rule: "reset_password/ip", user_identifier: "unknown_user", account_id: "unknown_account", method: "POST", user_agent: Cypress

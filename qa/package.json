@@ -11,7 +11,8 @@
     "cy:juanpablo": "cypress run --spec cypress/e2e/juanpablo/**/*.cy.js",
     "cy:regresion": "cypress run --spec cypress/e2e/regresion/**/*.cy.js",
     "cy:accesibilidad": "cypress run --spec cypress/e2e/accesibilidad/**/*.cy.js",
-    "cy:seguridad": "cypress run --spec cypress/e2e/seguridad/**/*.cy.js"
+    "cy:seguridad": "cypress run --spec cypress/e2e/seguridad/**/*.cy.js",
+    "cy:seguridad:rack": "cypress run --spec cypress/e2e/seguridad/fuerza_bruta.cy.js --env rackAttack=true"
   },
   "devDependencies": {
     "axe-core": "4.10.2",

@@ -1,0 +1,347 @@
+
+== Brakeman Report ==
+
+Application Path: /app
+Rails Version: 7.2.3.1
+Brakeman Version: 8.0.5
+Scan Date: 2026-11-16 17:30:20 +0000
+Duration: 117.671283342 seconds
+Checks Run: BasicAuth, BasicAuthTimingAttack, CSRFTokenForgeryCVE, ContentTag, CookieSerialization, CreateWith, CrossSiteScripting, DefaultRoutes, Deserialize, DetailedExceptions, DigestDoS, DynamicFinders, EOLRails, EOLRuby, EscapeFunction, Evaluation, Execute, FileAccess, FileDisclosure, FilterSkipping, ForgerySetting, HeaderDoS, I18nXSS, JRubyXML, JSONEncoding, JSONEntityEscape, JSONParsing, LinkTo, LinkToHref, MailTo, MassAssignment, MimeTypeDoS, ModelAttrAccessible, ModelAttributes, ModelSerialize, NestedAttributes, NestedAttributesBypass, NumberToCurrency, PageCachingCVE, Pathname, PermitAttributes, QuoteTableName, Ransack, Redirect, RegexDoS, Render, RenderDoS, RenderInline, RenderRCE, ResponseSplitting, RouteDoS, SQL, SQLCVEs, SSLVerify, SafeBufferManipulation, SanitizeConfigCve, SanitizeMethods, SelectTag, SelectVulnerability, Send, SendFile, SessionManipulation, SessionSettings, SimpleFormat, SingleQuotes, SkipBeforeFilter, SprocketsPathTraversal, StripTags, SymbolDoSCVE, TemplateInjection, TranslateBug, UnsafeReflection, UnsafeReflectionMethods, ValidationRegex, VerbConfusion, WeakRSAKey, WithoutProtection, XMLDoS, YAMLParsing
+
+== Overview ==
+
+Controllers: 224
+Models: 111
+Templates: 195
+Errors: 0
+Security Warnings: 40
+
+== Warning Types ==
+
+Cross-Site Scripting: 2
+Dangerous Send: 2
+Mass Assignment: 18
+SQL Injection: 17
+Unmaintained Dependency: 1
+
+== Warnings ==
+
+Confidence: High
+Category: Dangerous Send
+Check: Send
+Message: User controlled method execution
+Code: send(params[:metric])
+File: app/builders/v2/report_builder.rb
+Line: 19
+
+Confidence: High
+Category: Dangerous Send
+Check: Send
+Message: User controlled method execution
+Code: send("build_by_#{params[:group_by]}")
+File: app/builders/v2/reports/outgoing_messages_count_builder.rb
+Line: 11
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.require(:profile).permit(:account_id, :availability)
+File: app/controllers/api/v1/profiles_controller.rb
+Line: 67
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.require(:profile).permit(:account_id, :auto_offline)
+File: app/controllers/api/v1/profiles_controller.rb
+Line: 71
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.require(:profile).permit(:account_id, :accepts_conversations, :accepts_calls)
+File: app/controllers/api/v1/profiles_controller.rb
+Line: 75
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.require(:profile).permit(:email, :name, :display_name, :avatar, :message_signature, :account_id, :ui_settings => ({}))
+File: app/controllers/api/v1/profiles_controller.rb
+Line: 85
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.permit(:name, :description, :account_id, :outgoing_url, :avatar, :avatar_url)
+File: app/controllers/platform/api/v1/agent_bots_controller.rb
+Line: 40
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.permit(:id, :assistant_id, :page, :document_id, :account_id, :search)
+File: enterprise/app/controllers/api/v1/accounts/captain/assistant_responses_controller.rb
+Line: 99
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.permit(:assistant_id, :page, :id, :account_id, :filter, :source, :sort, :search_key)
+File: enterprise/app/controllers/api/v1/accounts/captain/documents_controller.rb
+Line: 90
+
+Confidence: High
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.permit(:assistant_id, :id, :account_id, :inbox_id)
+File: enterprise/app/controllers/api/v1/accounts/captain/inboxes_controller.rb
+Line: 32
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses["approved"]})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 45
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses["approved"]} AND documentable_type IS DISTINCT FROM 'Captain::Document')")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 47
+
+Confidence: High
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: AppliedSla.connection.exec_update("UPDATE #{AppliedSla.connection.quote_table_name(AppliedSla.table_name)} AS applied_slas\nSET completed_at = backfill.completed_at\nFROM (VALUES #{resolution_times.map do  "(#{AppliedSla.connection.quote(id)}, #{AppliedSla.connection.quote(completed_at)}::timestamp)"  end.join(", ")}) AS backfill(id, completed_at)\nWHERE applied_slas.id = backfill.id\n  AND applied_slas.completed_at IS NULL\n".squish, "Backfill applied SLA completed_at")
+File: enterprise/app/services/sla/backfill_applied_sla_completed_at_service.rb
+Line: 97
+
+Confidence: High
+Category: Unmaintained Dependency
+Check: EOLRails
+Message: Support for Rails 7.2.3.1 ended on 2026-08-09
+File: Gemfile.lock
+Line: 717
+
+Confidence: Medium
+Category: Cross-Site Scripting
+Check: CrossSiteScripting
+Message: Unescaped model attribute
+Code: Portal.find_by(:custom_domain => request.host).channel_web_widget.web_widget_script
+File: app/views/layouts/_portal_scripts.html.erb
+Line: 101
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params[:additional_attributes].permit!
+File: app/builders/conversation_builder.rb
+Line: 21
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params[:custom_attributes].permit!
+File: app/builders/conversation_builder.rb
+Line: 22
+
+Confidence: Medium
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+File: app/controllers/api/v1/accounts/agents_controller.rb
+Line: 71
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params.permit!
+File: app/controllers/api/v1/accounts/companies/conversations_controller.rb
+Line: 14
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params.permit!
+File: app/controllers/api/v1/accounts/contacts_controller.rb
+Line: 47
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params.permit!
+File: app/controllers/api/v1/accounts/contacts_controller.rb
+Line: 63
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params.permit!
+File: app/controllers/api/v1/accounts/conversations_controller.rb
+Line: 53
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params.permit!
+File: app/controllers/api/v1/integrations/webhooks_controller.rb
+Line: 25
+
+Confidence: Medium
+Category: Mass Assignment
+Check: PermitAttributes
+Message: Potentially dangerous key allowed for mass assignment
+Code: params.permit(:user_id, :role)
+File: app/controllers/platform/api/v1/account_users_controller.rb
+Line: 27
+
+Confidence: Medium
+Category: Mass Assignment
+Check: MassAssignment
+Message: Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys
+Code: params[:assistant][:config][:audience].permit!
+File: enterprise/app/controllers/api/v1/accounts/captain/assistants_controller.rb
+Line: 163
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: ActiveRecord::Base.connection.select_value("SELECT pg_advisory_xact_lock(#{@inbox.id}, #{Digest::SHA256.digest(sanitize_mailbox_value(@processed_mail.message_id)).unpack1("l>")})")
+File: app/mailboxes/imap/imap_mailbox.rb
+Line: 52
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("(#{open_suggestion_count_sql})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 49
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{window_clause(current_range)})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 111
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{window_clause(previous_range)})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 112
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(*) FILTER (WHERE #{window_clause(current_range)} AND #{"message_type = #{Message.message_types[:outgoing]} AND private = false"})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 113
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(*) FILTER (WHERE #{window_clause(previous_range)} AND #{"message_type = #{Message.message_types[:outgoing]} AND private = false"})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 114
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{window_clause(current_range)} AND #{"message_type = #{Message.message_types[:outgoing]} AND private = false"})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 115
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{window_clause(previous_range)} AND #{"message_type = #{Message.message_types[:outgoing]} AND private = false"})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 116
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{resolved_clause(range)})")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 134
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE name IN (#{quoted(HANDOFF_EVENT_NAMES)}))")
+File: enterprise/app/builders/captain/assistant_stats_builder.rb
+Line: 135
+
+Confidence: Medium
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: ApplicationRecord.connection.select_all("SELECT width_bucket(EXTRACT(EPOCH FROM matching.created_at)::double precision,\n                    ARRAY[#{ConversationMonitors::Buckets.new(params, :default_timezone => ((ActiveSupport::TimeZone[monitor.account.reporting_timezone].tzinfo.name or "UTC"))).ranges.map do  range.begin.to_i  end.join(",")}]::double precision[]) - 1 AS position,\n       COUNT(*) AS count\nFROM (#{scope.to_sql}) AS matching\nGROUP BY position\n".squish)
+File: enterprise/app/services/conversation_monitors/report.rb
+Line: 74
+
+Confidence: Weak
+Category: Cross-Site Scripting
+Check: CrossSiteScripting
+Message: Unescaped model attribute
+Code: SuperAdmin::FeaturesHelper.plan_details
+File: app/views/super_admin/settings/show.html.erb
+Line: 33
+
+Confidence: Weak
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: base_relation.where(("" + " #{build_condition_query(model_filters, query_hash, current_index).strip}"), { "value_#{current_index}" => filter_values(query_hash) }.with_indifferent_access)
+File: app/services/filter_service.rb
+Line: 189
+
+Confidence: Weak
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: query.where("#{column_name} >= ?", cap_since_time(params[:since]))
+File: app/services/search_service.rb
+Line: 189
+
+Confidence: Weak
+Category: SQL Injection
+Check: SQL
+Message: Possible SQL injection
+Code: query.where("#{column_name} >= ?", cap_since_time(params[:since])).where("#{column_name} <= ?", cap_until_time(params[:until]))
+File: app/services/search_service.rb
+Line: 190
+

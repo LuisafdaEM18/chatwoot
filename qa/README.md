@@ -105,7 +105,8 @@ Las pruebas de caja blanca del frontend están en `app/javascript/qa/caja_blanca
 | Regresión por integrante (RSpec, Vitest y Cypress) | `spec/qa/regresion`, `app/javascript/qa/regresion` y `qa/cypress/e2e/regresion` |
 | Accesibilidad con axe (Cypress) | `qa/cypress/e2e/accesibilidad/{luisa,daniel,juanpablo}.cy.js` y `qa/cypress/support/accesibilidad.js` |
 | Documento del criterio 11 | `qa/docs/criterio11_accesibilidad.md` |
-| Seguridad OWASP por integrante (Cypress) | `qa/cypress/e2e/seguridad/{luisa,daniel,juanpablo}.cy.js` |
+| Seguridad OWASP por integrante (Cypress) | `qa/cypress/e2e/seguridad/{luisa,daniel,juanpablo}.cy.js` y `fuerza_bruta.cy.js` (`npm run cy:seguridad:rack`, con Rack::Attack activo) |
+| Evidencias de seguridad (Brakeman, bundle-audit, pnpm audit, SonarQube, Cypress) | `qa/evidencias/seguridad/` |
 | Documento del criterio 13 | `qa/docs/criterio13_seguridad.md` |
 
 Los diagramas de flujo y los grafos están en Drive (carpeta CHATWOOT, `Chatwoot_Caja_Blanca_Diagramas.drawio`).

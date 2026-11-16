@@ -8,13 +8,13 @@ Las pruebas de seguridad se organizaron **por integrante y por requisito**, como
 
 | Tipo de prueba | Herramienta | Resultado |
 |---|---|---|
-| **Dinámica** (ataques contra la aplicación en ejecución) | Cypress 13.17, un archivo por integrante en `qa/cypress/e2e/seguridad/` | **25 de 25 pruebas aprobadas**: los ataques de control de acceso, inyección SQL, XSS, autenticación y asignación masiva fallan |
-| Estática (código) | Brakeman 8.0.5, el analizador de seguridad de Rails que trae Chatwoot | 40 advertencias; las 6 que tocan los RF se validaron y resultaron **falsos positivos** |
+| **Dinámica** (ataques contra la aplicación en ejecución) | Cypress 13.17, un archivo por integrante en `qa/cypress/e2e/seguridad/` más la prueba de fuerza bruta del equipo | **28 de 28 pruebas aprobadas**: los ataques de control de acceso, inyección SQL, XSS, autenticación, fuerza bruta y asignación masiva fallan |
+| Estática (código) | **Brakeman 8.0.5** (analizador de Rails) y **SonarQube 26.9** | Brakeman: 40 advertencias; las 6 que tocan los RF son **falsos positivos**. SonarQube: **0 vulnerabilidades** en el código de los 15 RF (Quality Gate OK); 3 críticas en el widget, fuera del alcance (hallazgo S-06) |
 | Dependencias | `bundle-audit` (gemas de Ruby) y `pnpm audit` (paquetes de JavaScript) | 49 avisos únicos en gemas (1 crítico, 5 altos) y 53 en paquetes de producción (1 crítico, 27 altos) |
 
-Se confirmaron **5 hallazgos** (S-01 a S-05): dos de severidad alta por dependencias desactualizadas, uno medio por falta de Content-Security-Policy y dos bajos. Ninguno se pudo explotar contra los 15 requisitos, porque Chatwoot tiene controles que los mitigan.
+Se confirmaron **6 hallazgos** (S-01 a S-06): dos de severidad alta por dependencias desactualizadas, dos medios (falta de Content-Security-Policy y el `postMessage` del widget sin validar origen) y dos bajos. Ninguno se pudo explotar contra los 15 requisitos, porque Chatwoot tiene controles que los mitigan.
 
-SonarQube lo ejecuta el pipeline de Jenkins del criterio 9. Este criterio no usó SonarQube.
+SonarQube (el mismo del pipeline de Jenkins del criterio 9) se usó también aquí como segundo analizador estático; la sección 4.2 tiene el detalle.
 
 ## 2. Dónde está cada cosa
 
@@ -23,7 +23,9 @@ SonarQube lo ejecuta el pipeline de Jenkins del criterio 9. Este criterio no us�
 | Pruebas de Luisa (RF-01 a RF-05) | `qa/cypress/e2e/seguridad/luisa.cy.js` |
 | Pruebas de Daniel (RF-06 a RF-10) | `qa/cypress/e2e/seguridad/daniel.cy.js` |
 | Pruebas de Juan Pablo (RF-11 a RF-15) | `qa/cypress/e2e/seguridad/juanpablo.cy.js` |
-| Comando | `cd qa && npm run cy:seguridad` |
+| Fuerza bruta (equipo, A07) | `qa/cypress/e2e/seguridad/fuerza_bruta.cy.js` |
+| Comandos | `cd qa && npm run cy:seguridad`; con Rack::Attack activo, `npm run cy:seguridad:rack` (sección 3.4) |
+| Evidencias | `qa/evidencias/seguridad/`: salidas de Cypress, log de Rails del bloqueo, cabeceras HTTP, Brakeman (`.txt` y `.json`), `bundle_audit.txt`, `pnpm_audit_prod.txt` y los resultados de SonarQube (`sonarqube_*.json`) |
 | Usuarios atacantes | `agent` (agente de la cuenta), `agent2` (agente sin acceso a la bandeja) y `other` (administrador de **otra** cuenta), creados con `qa/scripts/create_qa_data.rb` |
 
 ## 3. Pruebas dinámicas por integrante
@@ -75,16 +77,47 @@ En las de XSS se guarda por la API el texto `<img src=x onerror="window.__xss=1"
 | A03 | RF-15 | Métrica maliciosa en reportes (`metric=destroy`, `metric=instance_eval`, `group_by=destroy`) | 200 con `{}` y 422: no se ejecuta ningún método (valida un falso positivo de Brakeman, sección 4) |
 | A10 SSRF | RF-13 | Regla con un webhook a `http://169.254.169.254/latest/meta-data/` (metadatos de la nube) | Se **acepta** al guardar: es el hallazgo S-04. La prueba documenta el comportamiento actual |
 
-### 3.4 Resultado de la ejecución
+### 3.4 Equipo — Fuerza bruta con Rack::Attack activo (3 pruebas)
+
+El entorno E2E desactiva Rack::Attack para que Cypress pueda iniciar sesión muchas veces. Para evaluar A07 sin esa excepción, `qa/cypress/e2e/seguridad/fuerza_bruta.cy.js` corre aparte, con Rails reiniciado con `QA_ENABLE_RACK_ATTACK=true`. Sin `--env rackAttack=true` las pruebas quedan omitidas, así `npm run cy:seguridad` no falla.
+
+| OWASP | Ataque | Resultado esperado y obtenido |
+|---|---|---|
+| A07 | Seis inicios de sesión seguidos con contraseña incorrecta desde la misma IP | Intentos 1 a 5: **401**; intento 6: **429**. El log de Rails registra `[Rack::Attack][Blocked] ... matched_rule: "login/ip"` |
+| A07 | Durante el bloqueo, iniciar sesión con la contraseña **correcta** del administrador | **429**: el bloqueo es por IP y no deja adivinar si la contraseña era buena |
+| A07 | Seis solicitudes seguidas de restablecer contraseña | Bloqueo **429** en la sexta, regla `reset_password/ip` |
 
 ```
-  │ ✔  daniel.cy.js         7 de 7
-  │ ✔  juanpablo.cy.js      9 de 9
-  │ ✔  luisa.cy.js          9 de 9
-    ✔  All specs passed!   25 de 25
+QA_ENABLE_RACK_ATTACK=true docker compose -f docker-compose.production.yaml -f qa/docker-compose.e2e.yaml up -d rails
+cd qa && npm run cy:seguridad:rack
+docker compose -f docker-compose.production.yaml -f qa/docker-compose.e2e.yaml up -d rails   # vuelve a desactivarlo
 ```
 
-## 4. Análisis estático con Brakeman
+### 3.5 Resultado de la ejecución (16 de noviembre de 2026)
+
+Con Rack::Attack desactivado (`npm run cy:seguridad`, salida completa en `qa/evidencias/seguridad/cypress_seguridad.txt`):
+
+```
+  │ ✔  daniel.cy.js         00:10    7 de 7
+  │ ✔  fuerza_bruta.cy.js   66ms     3 omitidas (necesita Rack::Attack)
+  │ ✔  juanpablo.cy.js      00:07    9 de 9
+  │ ✔  luisa.cy.js          00:14    9 de 9
+    ✔  All specs passed!   00:33   25 aprobadas, 3 omitidas
+```
+
+Con Rack::Attack activo (`npm run cy:seguridad:rack`, salida en `qa/evidencias/seguridad/cypress_fuerza_bruta.txt` y log de Rails en `rails_log_fuerza_bruta.txt`):
+
+```
+  │ ✔  fuerza_bruta.cy.js   418ms    3 de 3
+```
+
+En total: **28 de 28 pruebas dinámicas aprobadas**.
+
+## 4. Análisis estático del código
+
+Se usaron dos analizadores estáticos: **Brakeman** (específico de Rails, lo trae Chatwoot) y **SonarQube** (el mismo del pipeline del criterio 9).
+
+### 4.1 Brakeman
 
 Brakeman 8.0.5 revisó 224 controladores, 111 modelos y 195 plantillas con 79 tipos de chequeo. Encontró **40 advertencias**: 14 de confianza alta, 22 media y 4 débil. La mayoría está en el módulo `enterprise/` (Captain, SLA) o en controladores fuera del alcance. Las seis que tocan los 15 requisitos se validaron una por una:
 
@@ -98,6 +131,21 @@ Brakeman 8.0.5 revisó 224 controladores, 111 modelos y 195 plantillas con 79 ti
 | Mass Assignment (media): `params.permit!` | `app/controllers/api/v1/accounts/conversations_controller.rb:53` | RF-01 | Solo alimenta el filtro de conversaciones, que valida las llaves igual que el de contactos | Falso positivo |
 
 Brakeman también reportó **Unmaintained Dependency (alta)**: Rails 7.2.3.1 dejó de recibir soporte el 9 de agosto de 2026. Esa advertencia sí se confirma y es parte de S-01.
+
+### 4.2 SonarQube
+
+SonarQube 26.9 (Community) analizó el código con el mismo `sonar-project.properties` del criterio 9. Se corrió de dos maneras:
+
+1. **Sobre el código de los 15 requisitos** (proyecto `Chatwoot-Seguridad`, 6 339 líneas): **0 vulnerabilidades, 0 security hotspots**, calificación de seguridad **A** y Quality Gate **OK**. Evidencia en `qa/evidencias/seguridad/sonarqube_medidas.json` y `sonarqube_quality_gate.json`. Esto confirma, con una herramienta distinta de Brakeman, que el código que el equipo probó y corrigió no tiene vulnerabilidades marcadas.
+2. **Sobre todo `app/` y `lib/` del lado del navegador** (proyecto `Chatwoot-Seguridad-Amplio`, 57 324 líneas), para no dejar puntos ciegos fuera del alcance. Aquí SonarQube marcó **3 vulnerabilidades críticas** del tipo `javascript:S2819` (comunicación insegura entre ventanas), todas en el **widget de chat embebible**, no en los 15 requisitos:
+
+| Archivo y línea | Regla | Mensaje | Validación |
+|---|---|---|---|
+| `app/javascript/sdk/IFrameHelper.js:95` | javascript:S2819 | `postMessage` a `'*'` (no fija el origen de destino) | Confirmado por revisión: `sendMessage` envía a `'*'` |
+| `app/javascript/sdk/IFrameHelper.js:101` | javascript:S2819 | `window.onmessage` no verifica `e.origin` | Confirmado: el `onmessage` solo revisa el prefijo `chatwoot-widget:`, nunca `e.origin` |
+| `app/javascript/widget/helpers/utils.js:9` | javascript:S2819 | `window.parent.postMessage` a `'*'` | Confirmado por revisión |
+
+Estas tres advertencias son el **hallazgo S-06** (sección 6). El widget corre en el sitio web del cliente, fuera de los 15 requisitos, pero se reporta porque lo detectó el análisis estático pedido por el criterio. Evidencia en `qa/evidencias/seguridad/sonarqube_amplio_vulnerabilidades.json`.
 
 ## 5. Revisión de dependencias
 
@@ -136,6 +184,7 @@ En las dependencias de producción hay 53 avisos: **1 crítico, 27 altos**, 17 m
 | S-03 | A05 Configuración de seguridad incorrecta | No se envía la cabecera **Content-Security-Policy** | `curl` y la prueba de cabeceras: están `X-Frame-Options`, `nosniff` y `Referrer-Policy`, pero no CSP | Media | Definir una CSP (`script-src 'self'`), para que un XSS futuro no pueda ejecutar código aunque falle el escape |
 | S-04 | A10 SSRF | Una regla de automatización acepta un webhook a una dirección interna (`169.254.169.254`) sin validarla al guardar | Prueba dinámica (200 al guardar). Al disparar la regla, Sidekiq registró "Hostname '169.254.169.254' has no public ip addresses": `SafeFetch` (`lib/safe_fetch`) bloquea la petición al ejecutarla | Baja | Validar la URL al guardar con el mismo `SafeFetch`, para avisar al administrador de inmediato |
 | S-05 | A03 Inyección | La API guarda el HTML tal cual en nombres de contacto, notas, respuestas predefinidas, macros y etiquetas; la protección depende de que cada pantalla lo escape | Se guardó `<img onerror>` en los cinco campos (200). Las 6 pantallas probadas lo escapan correctamente | Baja | Mantener el escape en el frontend y sumar la CSP (S-03); sanear o escapar también en correos, exportaciones y el widget |
+| S-06 | A08 Fallas de integridad de software y datos | El SDK del widget (`IFrameHelper.js`) escucha `window.onmessage` sin verificar `e.origin` y envía mensajes con `postMessage(..., '*')`. Un iframe de otro origen dentro del sitio del cliente podría enviarle eventos (`loaded`, `popoutChatWindow`) | SonarQube (3 vulnerabilidades críticas `javascript:S2819`) y revisión del código. Fuera de los 15 requisitos; no se desarrolló un exploit | Media | Verificar `event.origin` contra el `baseUrl` esperado en el `onmessage` y enviar `postMessage` con el origen de destino en lugar de `'*'` |
 
 ### 6.1 Controles que funcionan bien
 
@@ -143,11 +192,12 @@ En las dependencias de producción hay 53 avisos: **1 crítico, 27 altos**, 17 m
 - **Roles:** los agentes no pueden crear etiquetas, atributos, reglas, equipos ni ver reportes, y una macro global de un agente se guarda como personal.
 - **Inyección SQL:** las columnas de los filtros se validan contra una lista permitida y los valores van como parámetros.
 - **XSS:** las 6 pantallas probadas muestran el HTML como texto.
-- **Autenticación:** mismo mensaje para un correo existente y uno inexistente, y tokens inválidos rechazados.
+- **Autenticación:** mismo mensaje para un correo existente y uno inexistente, tokens inválidos rechazados y bloqueo 429 tras 5 intentos fallidos de inicio de sesión o de restablecimiento de contraseña por IP (Rack::Attack).
 - **SSRF:** los webhooks salen por `SafeFetch`, que bloquea redes privadas.
 
 ### 6.2 Límites
 
-- El entorno E2E desactiva Rack::Attack (`qa/docker-compose.e2e.yaml`) para que Cypress no sea bloqueado. Por eso no se evaluó la limitación de intentos de inicio de sesión (A07).
+- El entorno E2E desactiva Rack::Attack (`qa/docker-compose.e2e.yaml`) para que Cypress no sea bloqueado; la limitación de intentos (A07) se evaluó aparte, reactivándolo (sección 3.4). En producción conviene revisar que Rack::Attack quede activo (es el valor por defecto) y que el proxy pase la IP real del cliente, porque la regla `login/ip` cuenta por IP.
 - Los avisos de dependencias se validaron por versión, no explotándolos.
-- SonarQube no se usó en este criterio; lo ejecuta el pipeline de Jenkins (criterio 9).
+- SonarQube Community no trae análisis DAST ni IAST; su aporte aquí es estático (SAST). Los ataques en ejecución se cubrieron con Cypress.
+- El hallazgo S-06 (widget) se confirmó con análisis estático y revisión de código, no con un exploit funcional, porque el widget queda fuera de los 15 requisitos del alcance.
