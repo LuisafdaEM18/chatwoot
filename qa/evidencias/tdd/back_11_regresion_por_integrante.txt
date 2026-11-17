@@ -1,0 +1,200 @@
+Comando: bundle exec rspec spec/qa/regresion (código final de la rama, contenedor ruby:3.4.4 de qa/docker-compose.qa.yaml)
+Fecha: 2026-11-17T00:07:17Z
+
+time="2026-11-16T19:07:18-05:00" level=warning msg="C:\\Users\\DANIEL-PC\\chatwoot\\docker-compose.production.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container chatwoot-redis-1 Running 
+ Container chatwoot-postgres-1 Running 
+ Container chatwoot-rspec-run-2015567c6d17 Creating 
+ Container chatwoot-rspec-run-2015567c6d17 Created 
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :notification_type, {conversation_creation: 1, conversation_assignment: 2, assigned_conversation_new_message: 3, conversation_mention: 4, participating_conversation_new_message: 5, sla_missed_first_response: 6, sla_missed_next_response: 7, sla_missed_resolution: 8, voice_call_missed: 9}
+ (called from <class:Notification> at /app/app/models/notification.rb:50)
+
+[Regresión] Daniel: contactos
+  RF-06 Gestión de contactos
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sender_name_type, {friendly: 0, professional: 1}
+ (called from <class:Inbox> at /app/app/models/inbox.rb:81)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :role, {agent: 0, administrator: 1}
+ (called from <class:AccountUser> at /app/app/models/account_user.rb:36)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :availability, {online: 0, offline: 1, busy: 2}
+ (called from <class:AccountUser> at /app/app/models/account_user.rb:37)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :contact_type, {visitor: 0, lead: 1, customer: 2}
+ (called from <class:Contact> at /app/app/models/contact.rb:72)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :priority, {low: 0, medium: 1, high: 2, urgent: 3}
+ (called from <class:Conversation> at /app/app/models/conversation.rb:87)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :message_type, {incoming: 0, outgoing: 1, activity: 2, template: 3}
+ (called from <class:Message> at /app/app/models/message.rb:88)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :content_type, {text: 0, input_text: 1, input_textarea: 2, input_email: 3, input_select: 4, cards: 5, form: 6, article: 7, incoming_email: 8, input_csat: 9, integrations: 10, sticker: 11, voice_call: 12}
+ (called from <class:Message> at /app/app/models/message.rb:89)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {sent: 0, delivered: 1, read: 2, failed: 3}
+ (called from <class:Message> at /app/app/models/message.rb:104)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {queued: 0, skipped: 1, sent: 2, delivered: 3, read: 4, failed: 5}
+ (called from <class:CampaignRecipient> at /app/enterprise/app/models/campaign_recipient.rb:8)
+    sigue creando, editando y eliminando un contacto
+  RF-07 Importación CSV
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7}
+ (called from <class:DataImport> at /app/app/models/data_import.rb:57)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :file_type, {image: 0, audio: 1, video: 2, file: 3, location: 4, fallback: 5, share: 6, story_mention: 7, contact: 8, ig_reel: 9, ig_post: 10, ig_story: 11, embed: 12}
+ (called from <class:Attachment> at /app/app/models/attachment.rb:47)
+    sigue aceptando un archivo y registrando la importación
+  RF-08 Notas de contacto
+    sigue creando y eliminando notas
+  RF-09 Atributos personalizados
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :attribute_model, {conversation_attribute: 0, contact_attribute: 1, company_attribute: 2}
+ (called from <class:CustomAttributeDefinition> at /app/app/models/custom_attribute_definition.rb:48)
+    sigue aceptando el tipo text
+    sigue aceptando el tipo number
+    sigue aceptando el tipo currency
+    sigue aceptando el tipo percent
+    sigue aceptando el tipo link
+    sigue aceptando el tipo date
+    sigue aceptando el tipo list
+    sigue aceptando el tipo checkbox
+    sigue permitiendo cambiar el nombre visible de un atributo
+  RF-10 Filtros guardados
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :filter_type, {conversation: 0, contact: 1, report: 2}
+ (called from <class:CustomFilter> at /app/app/models/custom_filter.rb:23)
+    sigue creando, editando y eliminando un filtro lejos del límite
+/usr/local/bundle/gems/rspec-rails-7.0.1/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    sigue rechazando filtros cuando ya hay 1000
+
+[Regresión] Juan Pablo: productividad
+  RF-11 Respuestas predefinidas
+    sigue creando, editando y buscando respuestas
+  RF-12 Macros
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :reply_time, {in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2}
+ (called from <class:WebWidget> at /app/app/models/channel/web_widget.rb:58)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :campaign_type, {ongoing: 0, one_off: 1}
+ (called from <class:Campaign> at /app/app/models/campaign.rb:50)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :campaign_status, {active: 0, completed: 1, processing: 2}
+ (called from <class:Campaign> at /app/app/models/campaign.rb:52)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {active: 0, inactive: 1}
+ (called from <class:AgentBotInbox> at /app/app/models/agent_bot_inbox.rb:23)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :bot_type, {webhook: 0}
+ (called from <class:AgentBot> at /app/app/models/agent_bot.rb:42)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {disabled: 0, enabled: 1}
+ (called from <class:Hook> at /app/app/models/integrations/hook.rb:46)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :hook_type, {account: 0, inbox: 1}
+ (called from <class:Hook> at /app/app/models/integrations/hook.rb:52)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :visibility, {personal: 0, global: 1}
+ (called from <class:Macro> at /app/app/models/macro.rb:29)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :webhook_type, {account_type: 0, inbox_type: 1}
+ (called from <class:Webhook> at /app/app/models/webhook.rb:30)
+    sigue ejecutando una macro sobre una conversación
+  RF-13 Reglas de automatización
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :status, {pending: 0, processing: 1, executed: 2, skipped: 3, executing: 4}
+ (called from <class:AutomationRulePendingExecution> at /app/app/models/automation_rule_pending_execution.rb:42)
+    sigue creando una regla sin retraso y permite desactivarla
+  RF-14 Equipos y miembros
+    sigue creando el equipo en minúsculas
+    sigue agregando, reemplazando y quitando miembros
+  RF-15 Reportes
+    el administrador sigue consultando el resumen del periodo
+
+[Regresión] Luisa: conversaciones
+  RF-01 Cambio de estado
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :sla_status, {active: 0, hit: 1, missed: 2, active_with_misses: 3}
+ (called from <class:AppliedSla> at /app/enterprise/app/models/applied_sla.rb:31)
+    sin estado sigue alternando de abierta a resuelta y de vuelta a abierta
+    sigue aceptando el estado pendiente
+    sigue posponiendo con fecha de reactivación
+    un agente con acceso a la bandeja sigue pudiendo resolver
+  RF-02 Asignación
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :conversation_priority, {earliest_created: 0, longest_waiting: 1}
+ (called from <class:AssignmentPolicy> at /app/app/models/assignment_policy.rb:36)
+DEPRECATION WARNING: Defining enums with keyword arguments is deprecated and will be removed
+in Rails 8.0. Positional arguments should be used instead:
+
+enum :assignment_order, {round_robin: 0, balanced: 1}
+ (called from block in <module:AssignmentPolicy> at /app/enterprise/app/models/enterprise/concerns/assignment_policy.rb:5)
+    sigue asignando un agente de la cuenta
+    sigue quitando el agente con assignee_id nulo
+    sigue asignando un bot de la cuenta
+    sigue asignando y quitando un equipo
+  RF-03 Mensajes y notas
+    sigue guardando mensajes públicos y notas privadas
+  RF-04 Etiquetas
+    sigue creando etiquetas y reemplazando las de una conversación
+  RF-05 Búsqueda
+    sigue encontrando un contacto por su correo
+
+Finished in 13 minutes 51 seconds (files took 2 minutes 41.3 seconds to load)
+31 examples, 0 failures
+

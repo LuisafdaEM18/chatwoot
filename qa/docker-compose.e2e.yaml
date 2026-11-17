@@ -15,6 +15,10 @@
 # usuario (25 por defecto) para que varias corridas seguidas no choquen con el selector de sesiones.
 
 services:
+  # base es solo el ancla de docker-compose.production.yaml; se fija a la misma imagen para no
+  # descargar chatwoot/chatwoot:latest.
+  base:
+    image: chatwoot/chatwoot:v4.19.1
   rails:
     image: chatwoot/chatwoot:v4.19.1
     environment:

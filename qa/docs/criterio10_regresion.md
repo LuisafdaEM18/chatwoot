@@ -15,8 +15,8 @@ Ambas partes corren juntas en el pipeline del criterio 9 (`spec/qa` incluye `spe
 
 Hechos que conviene tener presentes antes de leer los resultados:
 
-- Las ejecuciones guardadas en `qa/evidencias/tdd/` son de la regresión **acotada y completa con los specs originales** y de las suites TDD. Las tres suites `regresion/` nuevas (commit `9ae953589`) no tienen una salida de ejecución guardada (sección 6).
-- No hay una corrida de las suites del equipo sobre el código original sin correcciones. La comparación antes/después (sección 5) se apoya en las suites TDD, los specs originales y las pruebas de tiempo.
+- Las ejecuciones de qa/evidencias/tdd/ (back_1 a back_10) son de la regresión acotada y completa con los specs originales y de las suites TDD. Las tres suites regresion/ del equipo se ejecutaron en el criterio 15 sobre el código final: RSpec 31/31, Vitest (dentro de 95/95) y Cypress 30/30 (sección 5.6).
+- La suite regresion/ de Cypress se corrió también contra la imagen original v4.19.1 (28/30) y contra la final (30/30). Las de RSpec y Vitest no tienen corrida sobre el código original; para ellas, la comparación antes/después (sección 5) se apoya en las suites TDD, los specs originales y las pruebas de tiempo.
 
 ## 2. Criterios de selección
 
@@ -168,7 +168,7 @@ Solo se comparan fases que tienen salida guardada. Donde no hay corrida del cód
 | Regresión del frontend | Sin corrida guardada | 405 pruebas, 0 fallos | `front_3_regresion.txt`, `front_4_refactor_regresion.txt` |
 | Regresión completa del backend | Sin corrida guardada (solo las 4 pruebas de tiempo, ver 5.3) | 255 ejemplos, 4 fallos (los de tiempo) | `back_6_regresion_completa.txt` |
 | Pruebas originales de tiempo de `conversation_spec.rb` | 4 de 4 fallan | 4 de 4 fallan | `back_8_...codigo_original.txt` / `back_7_...con_correcciones.txt` |
-| Suites `regresion/` del equipo (RSpec, Vitest y Cypress) | Sin corrida guardada | Sin corrida guardada | Ver sección 6 |
+| Suites regresion/ del equipo (RSpec, Vitest y Cypress) | Cypress 28/30 (las 2 fallas son D-01 y D-02); RSpec y Vitest sin corrida | RSpec 31/31, Vitest dentro de 95/95, Cypress 30/30 | Sección 5.6 |
 
 Los 10 fallos del TDD backend en rojo, por defecto: D-03 (2), D-04 y D-06 (1 cada uno), D-08 (3: POST, PATCH y DELETE sin `user_ids`), D-01 (2) y D-02 (1). El criterio 6 (sección 5.3) además indica que las 4 pruebas de caja negra que fallaban por D-01 a D-04 pasan con las correcciones; la salida de esa corrida de caja negra no está guardada.
 
@@ -205,16 +205,16 @@ En el criterio 15 se corrió la misma selección de Cypress contra la imagen ori
 | `qa/cypress/e2e/regresion/juanpablo.cy.js` | 10/10 | 10/10 | — |
 | Cypress RF-01..15 + regresión + frontend corregido | 69/81 | 81/81 | 11 por los defectos corregidos y 1 inestable (rf03, que pasa en el reintento) |
 | Vitest `app/javascript/qa` (incluye `regresion/`) | — | 95/95 | Corrida sobre el código final |
+| RSpec `spec/qa/regresion` (3 archivos, uno por integrante) | — | 31/31 | Corrida sobre el código final: 13 min 51 s (más 2 min 41 s de carga) en el contenedor `ruby:3.4.4` de `qa/docker-compose.qa.yaml` |
 
-Evidencias: `qa/evidencias/despliegue/cypress_antes_v4.19.1.txt`, `cypress_despues_final.txt`, `cypress_antes_rf03_reintento.txt` y `vitest_qa_final.txt`. El análisis está en `qa/docs/criterio15_refactorizacion_despliegue.md`, sección 4.
+Evidencias: `qa/evidencias/despliegue/cypress_antes_v4.19.1.txt`, `cypress_despues_final.txt`, `cypress_antes_rf03_reintento.txt`, `vitest_qa_final.txt` y `qa/evidencias/tdd/back_11_regresion_por_integrante.txt` (RSpec). El análisis está en `qa/docs/criterio15_refactorizacion_despliegue.md`, sección 4.
 
 ## 6. Pendientes (sin evidencia en el repositorio)
 
 | Pendiente | Detalle |
 |---|---|
-| Salida de la suite RSpec `spec/qa/regresion` | Las suites de Cypress y Vitest ya tienen salida guardada (sección 5.6). Falta guardar la consola de `spec/qa/regresion` |
 | Comparativa de RSpec `regresion/` sobre el código original | La de Cypress está hecha (sección 5.6: 28/30 en el original y 30/30 en el final). La de RSpec sigue sin una corrida guardada sobre el código original |
 | Regresión de caja negra antes de las correcciones | El criterio 6 indica que 4 pruebas de caja negra fallaban por D-01 a D-04, pero no hay archivo de esa corrida |
 | Cypress de regresión en Jenkins | No hay consola de un build del pipeline (ver `qa/docs/criterio9_pipeline.md`, sección 8); no se sabe cuántas de las 30 pruebas pasaron allí |
 | Pruebas de tiempo en Linux | La afirmación de que pasan en Jenkins no tiene ejecución guardada |
-| Regresión sobre el refactor completo | El refactor H-01 está cubierto por las 4 pruebas de transición y la regresión acotada (169/0); no hay corrida del conjunto `spec/qa/regresion` tras él |
+| Regresión sobre el refactor completo | Resuelto: spec/qa/regresion se corrió sobre el código final (31/31, back_11_regresion_por_integrante.txt) |

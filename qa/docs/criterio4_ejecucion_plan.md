@@ -235,7 +235,6 @@ Calculadas con las cifras de las secciones 5, 6 y 7.
 
 | Pendiente | Situación |
 |---|---|
-| Resultado de la regresión RSpec por integrante (`spec/qa/regresion`) | La regresión de Cypress (28/30 en la versión original y 30/30 en la final) y la de Vitest (incluida en 95/95) ya tienen evidencia en `qa/evidencias/despliegue/` (criterios 10 y 15). Falta guardar la salida de `spec/qa/regresion` |
 | Ejecución del pipeline de Jenkins y su Quality Gate | Existen `Jenkinsfile` y `sonar-project.properties`, pero no hay salida del pipeline en el repositorio. Solo hay evidencia de SonarQube dentro del criterio 13 |
 | Reporte HTML de Cypress (`qa/reports/cypress/index.html`) | No está en `qa/reports/` (se genera y no se sube); solo queda la salida de consola y los JUnit de Daniel en `qa/reports/junit/` |
 | Resultados por caso en la matriz de trazabilidad de Drive | No se puede verificar desde el repositorio que la matriz ya refleje estas ejecuciones |

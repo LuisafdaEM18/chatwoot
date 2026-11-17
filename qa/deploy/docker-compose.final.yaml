@@ -12,6 +12,10 @@
 # suite de Cypress pueda iniciar sesión en cada archivo.
 
 services:
+  # base es solo el ancla de docker-compose.production.yaml; se fija a la misma imagen para no
+  # descargar chatwoot/chatwoot:latest.
+  base:
+    image: ${QA_IMAGE:-chatwoot-qa:final}
   rails:
     image: ${QA_IMAGE:-chatwoot-qa:final}
     environment:
