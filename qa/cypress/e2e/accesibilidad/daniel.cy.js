@@ -10,6 +10,8 @@ describe(`[${INTEGRANTE}] Accesibilidad automática con axe`, () => {
   });
 
   it('RF-06: la lista de contactos no agrega barreras a las conocidas', () => {
+    // La prueba crea su propio contacto: con la lista vacía no aparece el pie "Showing…".
+    cy.api('POST', '/contacts', { name: 'Contacto Lista Accesible', email: `lista.${Date.now()}@chatwoot.test` });
     cy.visitAccount('/contacts?page=1');
     cy.contains('Showing').should('be.visible');
     comprobarAccesibilidad('lista de contactos', LISTA);

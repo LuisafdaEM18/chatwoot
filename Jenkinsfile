@@ -16,7 +16,7 @@ pipeline {
     )
     booleanParam(name: 'EJECUTAR_RSPEC', defaultValue: true, description: 'Pruebas del backend con RSpec y SimpleCov.')
     booleanParam(name: 'EJECUTAR_VITEST', defaultValue: true, description: 'Pruebas del frontend con Vitest y cobertura V8.')
-    booleanParam(name: 'EJECUTAR_CYPRESS', defaultValue: true, description: 'Pruebas E2E y de API con Cypress sobre Chatwoot 4.19.1.')
+    booleanParam(name: 'EJECUTAR_CYPRESS', defaultValue: true, description: 'Pruebas E2E y de API con Cypress sobre la imagen final de Chatwoot 4.19.1 con las correcciones del equipo.')
   }
 
   tools {
@@ -37,7 +37,6 @@ pipeline {
     IMG_REDIS = 'redis:7-alpine'
     IMG_RUBY = 'ruby:3.4.4'
     IMG_NODE = 'node:24'
-    IMG_CHATWOOT = 'chatwoot/chatwoot:v4.19.1'
     IMG_CYPRESS = 'cypress/included:13.17.0'
     IMG_CURL = 'curlimages/curl:8.11.1'
     PNPM = 'pnpm@10.2.0'
@@ -170,11 +169,34 @@ pipeline {
       }
     }
 
-    stage('Levantar Chatwoot 4.19.1 para E2E') {
+    stage('Construir imagen final (criterio 15)') {
+      when { expression { params.EJECUTAR_CYPRESS } }
+      steps {
+        // La imagen final del equipo (qa/deploy/Dockerfile.final) aplica el parche de correcciones
+        // sobre chatwoot/chatwoot:v4.19.1 y recompila el frontend con Vite, así que incluye las
+        // correcciones del backend y del frontend (D-05, D-07, M-01, D-09, D-10) que verifica
+        // cypress/e2e/despliegue. Compilar el frontend tarda; por eso la etiqueta sale del hash del
+        // Dockerfile y del parche, y solo se vuelve a construir cuando alguno de los dos cambia.
+        sh '''
+          set -e
+          ETIQUETA="chatwoot-qa:$(cat qa/deploy/Dockerfile.final qa/deploy/correcciones_v4.19.1.patch | sha256sum | cut -c1-12)"
+          if docker image inspect "$ETIQUETA" > /dev/null 2>&1; then
+            echo "La imagen $ETIQUETA ya existe: no se reconstruye"
+          else
+            docker build -f qa/deploy/Dockerfile.final -t "$ETIQUETA" -t chatwoot-qa:final qa/deploy
+          fi
+          echo "$ETIQUETA" > ci-imagen-e2e.txt
+        '''
+      }
+    }
+
+    stage('Levantar Chatwoot final para E2E') {
       when { expression { params.EJECUTAR_CYPRESS } }
       steps {
         sh '''
           set -e
+          IMG_E2E="$(cat ci-imagen-e2e.txt)"
+          echo "Imagen del despliegue: $IMG_E2E"
           # set +x: Jenkins muestra cada comando en la consola; así la clave no queda en el log.
           set +x
           SECRET="$(head -c 64 /dev/urandom | od -An -tx1 | tr -d ' \\n')"
@@ -201,7 +223,7 @@ EOF
 
           docker run --rm --network "$CI_NET" --env-file ci-chatwoot.env \
             --entrypoint docker/entrypoints/rails.sh \
-            "$IMG_CHATWOOT" bundle exec rails db:chatwoot_prepare
+            "$IMG_E2E" bundle exec rails db:chatwoot_prepare
 
           # rails y sidekiq comparten /app/storage (como storage_data en docker-compose): los archivos
           # que sube la app, por ejemplo el CSV de RF-07, los procesa sidekiq en segundo plano.
@@ -209,25 +231,10 @@ EOF
           docker create --name "$CI_RAILS" --network "$CI_NET" --env-file ci-chatwoot.env \
             -v "$CI_STORAGE":/app/storage \
             --entrypoint docker/entrypoints/rails.sh \
-            "$IMG_CHATWOOT" bundle exec rails s -p 3000 -b 0.0.0.0
+            "$IMG_E2E" bundle exec rails s -p 3000 -b 0.0.0.0
           docker create --name "$CI_SIDEKIQ" --network "$CI_NET" --env-file ci-chatwoot.env \
             -v "$CI_STORAGE":/app/storage \
-            "$IMG_CHATWOOT" bundle exec sidekiq -C config/sidekiq.yml
-
-          # Correcciones del backend hechas por el equipo (D-01 a D-04, D-06 y D-08): se copian
-          # sobre la imagen publicada de 4.19.1, igual que los volúmenes de qa/docker-compose.e2e.yaml.
-          for contenedor in "$CI_RAILS" "$CI_SIDEKIQ"; do
-            for archivo in \
-              app/models/conversation.rb \
-              app/models/custom_attribute_definition.rb \
-              app/models/custom_filter.rb \
-              app/controllers/api/v1/accounts/conversations/assignments_controller.rb \
-              app/controllers/api/v1/accounts/custom_filters_controller.rb \
-              app/controllers/api/v1/accounts/team_members_controller.rb \
-              config/locales/en.yml; do
-              docker cp "$archivo" "$contenedor:/app/$archivo"
-            done
-          done
+            "$IMG_E2E" bundle exec sidekiq -C config/sidekiq.yml
 
           docker start "$CI_RAILS" "$CI_SIDEKIQ"
 
@@ -368,7 +375,7 @@ EOF
         docker rm -f "$CI_RAILS" "$CI_SIDEKIQ" "$CI_PG" "$CI_REDIS" > /dev/null 2>&1 || true
         docker network rm "$CI_NET" > /dev/null 2>&1 || true
         docker volume rm "$CI_STORAGE" > /dev/null 2>&1 || true
-        rm -f ci-chatwoot.env ci-qa-data.txt qa/cypress.env.json
+        rm -f ci-chatwoot.env ci-qa-data.txt ci-imagen-e2e.txt qa/cypress.env.json
       '''
       archiveArtifacts artifacts: 'qa-rails.log', allowEmptyArchive: true
     }
