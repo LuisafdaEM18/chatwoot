@@ -35,7 +35,9 @@ const atacar = (path, body, intento = 1, codigos = []) =>
   });
 
   it('mientras dura el bloqueo, ni siquiera la contraseña correcta permite entrar desde esa IP', () => {
-    intentar('/auth/sign_in', { email: Cypress.env('adminEmail'), password: Cypress.env('adminPassword') }).should('eq', 429);
+    intentar('/auth/sign_in', { email: Cypress.env('adminEmail'), password: Cypress.env('adminPassword') }).then(status => {
+      expect(status, 'la IP sigue bloqueada aunque la contraseña sea correcta').to.eq(429);
+    });
   });
 
   it('bloquea con 429 las solicitudes repetidas de restablecer contraseña', () => {

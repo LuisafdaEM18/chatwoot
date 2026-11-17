@@ -1,26 +1,3 @@
-// Pipeline de pruebas de Chatwoot 4.19.1, proyecto final de Validación y verificación de software.
-//
-// Alcance: los 15 requisitos del plan de pruebas.
-//   RF-01 a RF-05  Conversaciones (Luisa Fernanda Espinal Montoya)
-//   RF-06 a RF-10  Contactos (Daniel Ortiz Ortiz)
-//   RF-11 a RF-15  Productividad (Juan Pablo Berrío Díaz)
-//
-// Etapas: verifica la rama proyecto-final, prepara con Docker una red con PostgreSQL y Redis,
-// corre RSpec (caja blanca, caja negra, TDD, unitarias y regresión) con SimpleCov, corre Vitest
-// con cobertura V8, levanta Chatwoot 4.19.1 con las correcciones del equipo, corre Cypress sobre
-// los 15 requisitos, analiza con SonarQube y espera el Quality Gate.
-//
-// Requisitos en Jenkins:
-//   - Jenkins en Docker con el socket de Docker del equipo montado y el volumen jenkins_home.
-//   - Servidor SonarQube configurado con el nombre "SonarQube" y la herramienta "SonarScanner".
-//   - Herramienta NodeJS llamada "NodeJS 22" (el analizador de JavaScript de SonarQube la necesita).
-//   - Credencial "sonar-token-chatwoot" (Secret text) con el token del proyecto Chatwoot.
-//   - En SonarQube, un webhook a http://host.docker.internal:8080/sonarqube-webhook/
-//
-// Los contenedores de pruebas montan el volumen jenkins_home en la misma ruta que usa Jenkins,
-// así ven el workspace con la misma ruta y los reportes de cobertura quedan con rutas que el
-// scanner de SonarQube reconoce.
-
 pipeline {
   agent any
 

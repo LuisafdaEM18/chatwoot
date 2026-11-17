@@ -15,6 +15,8 @@ describe(`[${INTEGRANTE}] Accesibilidad automática con axe`, () => {
     cy.createConversation({ message: 'Revisión de accesibilidad' }).then(({ conversation }) => {
       cy.openConversation(conversation.id);
     });
+    // La conversación debe estar en pantalla antes de revisarla con axe.
+    cy.contains('Revisión de accesibilidad').should('be.visible');
     comprobarAccesibilidad('conversación', [...BARRERAS_PANEL, 'link-name', 'list', 'listitem', 'scrollable-region-focusable']);
   });
 
