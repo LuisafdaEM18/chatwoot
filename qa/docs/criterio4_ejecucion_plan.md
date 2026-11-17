@@ -127,18 +127,18 @@ Notas sobre las cifras:
 | D-02 | Luisa | RF-02 | Asignar un agente de otra cuenta respondía 200 y dejaba la conversación sin asignado | Alta | Rompe el aislamiento entre cuentas y deja la conversación sin responsable sin avisar | Caja negra backend; TDD `luisa_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-02-03; ajuste para asistentes Captain con regresión de 18 ejemplos) |
 | D-03 | Daniel | RF-09 | Un tipo de atributo inexistente respondía 500 | Media | Error de servidor por entrada inválida, sin pérdida de datos | Caja negra backend (`daniel_contactos_spec.rb`); TDD `daniel_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-09-03) |
 | D-04 | Daniel | RF-10 | El filtro número 1000 se guardaba pero la API respondía 422 | Media | El usuario ve un error aunque el registro se creó; puede reintentar y confundirse | Caja negra backend; TDD `daniel_tdd_spec.rb` | Corregido y verificado (TDD, regresión) |
-| D-05 | Daniel | RF-07 | Una importación fallida por error de red mostraba "importación exitosa" | Alta | Información falsa: el usuario cree que importó contactos que no existen | Caja blanca frontend (`daniel_contactos_front.spec.js`); TDD `daniel_tdd_front.spec.js` | Corregido y verificado con Vitest (no con E2E, ver sección 9) |
+| D-05 | Daniel | RF-07 | Una importación fallida por error de red mostraba "importación exitosa" | Alta | Información falsa: el usuario cree que importó contactos que no existen | Caja blanca frontend (`daniel_contactos_front.spec.js`); TDD `daniel_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
 | D-06 | Daniel | RF-10 | Con 1000 filtros no se podía editar ninguno | Media | Bloquea una función (editar) solo al llegar al límite; el caso es poco frecuente | TDD de D-04 (al escribir `daniel_tdd_spec.rb`) | Corregido y verificado (TDD) |
-| D-07 | Luisa | RF-01 | Si fallaba el cambio de estado, la interfaz decía "Estado de la conversación cambiado" | Alta | Información falsa sobre el estado de una conversación que sigue sin cambiar | Caja blanca frontend (`luisa_conversaciones_front.spec.js`); TDD `luisa_tdd_front.spec.js` | Corregido y verificado con Vitest (no con E2E) |
+| D-07 | Luisa | RF-01 | Si fallaba el cambio de estado, la interfaz decía "Estado de la conversación cambiado" | Alta | Información falsa sobre el estado de una conversación que sigue sin cambiar | Caja blanca frontend (`luisa_conversaciones_front.spec.js`); TDD `luisa_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
 | D-08 | Juan Pablo | RF-14 | `team_members` sin `user_ids` respondía 500 | Media | Error de servidor por parámetro faltante en POST, PATCH y DELETE | Caja negra backend (`juanpablo_productividad_spec.rb`); TDD `juanpablo_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-14-03) |
-| M-01 | Juan Pablo | RF-14 | El error al crear un equipo no mostraba el mensaje del servidor (`[object Object]`) | Baja | Mejora de usabilidad; el error se ve, pero sin la causa | Caja blanca frontend (`juanpablo_productividad_front.spec.js`); TDD `juanpablo_tdd_front.spec.js` | Corregido y verificado con Vitest |
+| M-01 | Juan Pablo | RF-14 | El error al crear un equipo no mostraba el mensaje del servidor (`[object Object]`) | Baja | Mejora de usabilidad; el error se ve, pero sin la causa | Caja blanca frontend (`juanpablo_productividad_front.spec.js`); TDD `juanpablo_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
 | H-01 | Luisa | RF-01 | Código muerto en `Conversation#toggle_status` (rama que nunca se ejecuta) | Baja | No cambia el comportamiento; solo complejidad (V(G) de 4 a 2) | Caja blanca (`rf01_toggle_status_spec.rb`, cobertura de ramas de SimpleCov) | Corregido (refactor) y verificado con las 4 pruebas de transición |
 
 Severidad: **alta** (el usuario recibe información falsa o se rompe el aislamiento entre cuentas), **media** (error del servidor o función bloqueada en un caso límite), **baja** (mejora o código muerto). Es una estimación del equipo; el plan no fija una escala (ver sección 9).
 
 Detalle de cada defecto, con su rojo y su verde: criterio 6, sección 3.
 
-### 6.1 Hallazgos que no están corregidos
+### 6.1 Otros hallazgos
 
 | ID | Origen | Hallazgo | Estado |
 |---|---|---|---|
@@ -218,7 +218,7 @@ Calculadas con las cifras de las secciones 5, 6 y 7.
 | Alcance | 15 RF con casos exitoso, alternativo y de error | Se ejecutaron los 15 RF. RF-01 tiene un caso de error adicional (D-01), así que son 46 casos de matriz en Cypress |
 | Componente de IA | Evaluar Captain con DeepEval | Captain no se pudo ejercitar: exige una clave de OpenAI de pago (`CAPTAIN_OPEN_AI_API_KEY`, sin configurar) y la Responses API, que Ollama no implementa. Se evaluó un componente incorporado (`qa/ia/componente/asistente_soporte.py`) que reproduce tres tareas de Captain |
 | Modelos de IA | Modelos comerciales | Modelos locales (`llama3.1:8b`, `qwen2.5:7b`) para no usar claves de pago; juzgan peor que GPT-4, y varias de las 7 métricas fallidas de DeepEval reflejan al juez, no el componente |
-| Correcciones del frontend | Verificar con E2E | D-05, D-07 y M-01 necesitan recompilar los assets de Chatwoot y la imagen `v4.19.1` no se reconstruyó. Se probaron con Vitest (rojo, verde y refactor). Cypress corre sobre el frontend original: los casos comprueban lo que sí funciona en 4.19.1 |
+| Correcciones del frontend | Verificar con E2E | Durante la ejecución del plan, D-05, D-07 y M-01 se probaron solo con Vitest, porque había que recompilar los assets de Chatwoot. En el criterio 15 se construyó la imagen `chatwoot-qa:final` con el frontend recompilado, y `qa/cypress/e2e/despliegue/frontend_corregido.cy.js` los verifica en el navegador (5/5 en la versión final, 0/5 en la original, incluidos D-09 y D-10) |
 | Correcciones del backend | Imagen propia | Se montan seis archivos como volúmenes sobre la imagen oficial (`qa/docker-compose.e2e.yaml`), lo que mantiene idéntico el resto del código; comentando esas líneas se prueba la versión original |
 | Rack::Attack | Entorno como producción | Desactivado en el E2E: limita el inicio de sesión a 5 por IP cada 5 minutos y Cypress inicia sesión por archivo. La fuerza bruta se probó aparte (3 pruebas, `npm run cy:seguridad:rack`) con Rails reiniciado y la limitación activa |
 | Accesibilidad | Cero violaciones | Chatwoot es de terceros y ya trae barreras, así que cada prueba declara las barreras conocidas y falla solo ante una nueva. Pasan 14 de 14 con 19 barreras documentadas; es una prueba de regresión de accesibilidad, no de cumplimiento |
@@ -235,12 +235,12 @@ Calculadas con las cifras de las secciones 5, 6 y 7.
 
 | Pendiente | Situación |
 |---|---|
-| Resultado de las pruebas de regresión por integrante (RSpec 24 bloques `it`, Vitest 17, Cypress 30 en `qa/cypress/e2e/regresion`) | Los archivos existen (commit `9ae953589`) y el criterio 10 que los documenta no está en `qa/docs/`; no hay salida de su ejecución en `qa/evidencias/`. Las cifras de la regresión de la sección 5 son las del ciclo TDD (169, 255 y 405) |
+| Resultado de la regresión RSpec por integrante (`spec/qa/regresion`) | La regresión de Cypress (28/30 en la versión original y 30/30 en la final) y la de Vitest (incluida en 95/95) ya tienen evidencia en `qa/evidencias/despliegue/` (criterios 10 y 15). Falta guardar la salida de `spec/qa/regresion` |
 | Ejecución del pipeline de Jenkins y su Quality Gate | Existen `Jenkinsfile` y `sonar-project.properties`, pero no hay salida del pipeline en el repositorio. Solo hay evidencia de SonarQube dentro del criterio 13 |
 | Reporte HTML de Cypress (`qa/reports/cypress/index.html`) | No está en `qa/reports/` (se genera y no se sube); solo queda la salida de consola y los JUnit de Daniel en `qa/reports/junit/` |
 | Resultados por caso en la matriz de trazabilidad de Drive | No se puede verificar desde el repositorio que la matriz ya refleje estas ejecuciones |
 | Corrección de D-09 y D-10 y despliegue del frontend corregido | Resuelto en el criterio 15 (`qa/docs/criterio15_refactorizacion_despliegue.md`): imagen `chatwoot-qa:final` y Cypress 81/81 contra ella |
-| Verificación E2E de D-05, D-07 y M-01 | Solo hay pruebas con Vitest; falta la prueba en el navegador con la imagen reconstruida |
+| Verificación E2E de D-05, D-07 y M-01 | Hecha en el criterio 15: `qa/cypress/e2e/despliegue/frontend_corregido.cy.js` pasa 5/5 contra la imagen final y 0/5 contra la original |
 | Corrección de las 19 barreras de accesibilidad y los 6 hallazgos de seguridad | Solo documentados |
 | Captain evaluado en vivo | Requiere clave de pago; solo se probó el componente incorporado |
 | Prueba de las 4 pruebas de tiempo en Linux | No se corrió fuera de Windows/Docker; la afirmación de que pasan es una expectativa |
