@@ -121,20 +121,20 @@ Notas sobre las cifras:
 
 ## 6. Defectos
 
-| ID | Integrante | RF | Defecto | Severidad estimada | Justificación | Detectado por | Estado |
+| ID | Integrante | RF | Defecto | Severidad (matriz) | Justificación | Detectado por | Estado |
 |---|---|---|---|---|---|---|---|
 | D-01 | Luisa | RF-01 | Un estado inexistente en `toggle_status` respondía 500 | Media | Error de servidor por entrada inválida; no pierde datos y la conversación sigue abierta | Caja negra backend (`luisa_conversaciones_spec.rb`); TDD `luisa_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-01-03 D-01) |
-| D-02 | Luisa | RF-02 | Asignar un agente de otra cuenta respondía 200 y dejaba la conversación sin asignado | Alta | Rompe el aislamiento entre cuentas y deja la conversación sin responsable sin avisar | Caja negra backend; TDD `luisa_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-02-03; ajuste para asistentes Captain con regresión de 18 ejemplos) |
+| D-02 | Luisa | RF-02 | Asignar un agente de otra cuenta respondía 200 y dejaba la conversación sin asignado | Media | Rompe el aislamiento entre cuentas y deja la conversación sin responsable sin avisar | Caja negra backend; TDD `luisa_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-02-03; ajuste para asistentes Captain con regresión de 18 ejemplos) |
 | D-03 | Daniel | RF-09 | Un tipo de atributo inexistente respondía 500 | Media | Error de servidor por entrada inválida, sin pérdida de datos | Caja negra backend (`daniel_contactos_spec.rb`); TDD `daniel_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-09-03) |
-| D-04 | Daniel | RF-10 | El filtro número 1000 se guardaba pero la API respondía 422 | Media | El usuario ve un error aunque el registro se creó; puede reintentar y confundirse | Caja negra backend; TDD `daniel_tdd_spec.rb` | Corregido y verificado (TDD, regresión) |
-| D-05 | Daniel | RF-07 | Una importación fallida por error de red mostraba "importación exitosa" | Alta | Información falsa: el usuario cree que importó contactos que no existen | Caja blanca frontend (`daniel_contactos_front.spec.js`); TDD `daniel_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
+| D-04 | Daniel | RF-10 | El filtro número 1000 se guardaba pero la API respondía 422 | Baja | El usuario ve un error aunque el registro se creó; puede reintentar y confundirse | Caja negra backend; TDD `daniel_tdd_spec.rb` | Corregido y verificado (TDD, regresión) |
+| D-05 | Daniel | RF-07 | Una importación fallida por error de red mostraba "importación exitosa" | Media | Información falsa: el usuario cree que importó contactos que no existen | Caja blanca frontend (`daniel_contactos_front.spec.js`); TDD `daniel_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
 | D-06 | Daniel | RF-10 | Con 1000 filtros no se podía editar ninguno | Media | Bloquea una función (editar) solo al llegar al límite; el caso es poco frecuente | TDD de D-04 (al escribir `daniel_tdd_spec.rb`) | Corregido y verificado (TDD) |
-| D-07 | Luisa | RF-01 | Si fallaba el cambio de estado, la interfaz decía "Estado de la conversación cambiado" | Alta | Información falsa sobre el estado de una conversación que sigue sin cambiar | Caja blanca frontend (`luisa_conversaciones_front.spec.js`); TDD `luisa_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
+| D-07 | Luisa | RF-01 | Si fallaba el cambio de estado, la interfaz decía "Estado de la conversación cambiado" | Media | Información falsa sobre el estado de una conversación que sigue sin cambiar | Caja blanca frontend (`luisa_conversaciones_front.spec.js`); TDD `luisa_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
 | D-08 | Juan Pablo | RF-14 | `team_members` sin `user_ids` respondía 500 | Media | Error de servidor por parámetro faltante en POST, PATCH y DELETE | Caja negra backend (`juanpablo_productividad_spec.rb`); TDD `juanpablo_tdd_spec.rb` | Corregido y verificado (TDD, Cypress CP-14-03) |
 | M-01 | Juan Pablo | RF-14 | El error al crear un equipo no mostraba el mensaje del servidor (`[object Object]`) | Baja | Mejora de usabilidad; el error se ve, pero sin la causa | Caja blanca frontend (`juanpablo_productividad_front.spec.js`); TDD `juanpablo_tdd_front.spec.js` | Corregido y verificado con Vitest y con Cypress contra la imagen final (criterio 15) |
 | H-01 | Luisa | RF-01 | Código muerto en `Conversation#toggle_status` (rama que nunca se ejecuta) | Baja | No cambia el comportamiento; solo complejidad (V(G) de 4 a 2) | Caja blanca (`rf01_toggle_status_spec.rb`, cobertura de ramas de SimpleCov) | Corregido (refactor) y verificado con las 4 pruebas de transición |
 
-Severidad: **alta** (el usuario recibe información falsa o se rompe el aislamiento entre cuentas), **media** (error del servidor o función bloqueada en un caso límite), **baja** (mejora o código muerto). Es una estimación del equipo; el plan no fija una escala (ver sección 9).
+Severidad: la registrada en la pestaña Defectos de la matriz de trazabilidad (Drive). Ningún defecto es crítico ni alto: **media** cuando hay un error del servidor, información falsa en la interfaz o una regla de negocio violable; **baja** cuando el impacto es menor (caso límite, mejora o código muerto). La columna "Justificación" explica el impacto de cada uno.
 
 Detalle de cada defecto, con su rojo y su verde: criterio 6, sección 3.
 
@@ -205,7 +205,7 @@ Calculadas con las cifras de las secciones 5, 6 y 7.
 | Densidad de defectos por RF | 8 defectos / 15 RF (10 con M-01 y H-01: 0,67) | 0,53 |
 | Densidad por integrante | Luisa 3 (D-01, D-02, D-07) / 5 RF = 0,6; Daniel 4 (D-03 a D-06) / 5 = 0,8; Juan Pablo 1 (D-08) / 5 = 0,2 | 0,6 / 0,8 / 0,2 |
 | Defectos por capa | Backend: D-01, D-02, D-03, D-04, D-06, D-08 (6); frontend: D-05, D-07 (2) | 75 % / 25 % |
-| Defectos por severidad estimada | Alta: D-02, D-05, D-07 (3); media: D-01, D-03, D-04, D-06, D-08 (5); baja: M-01, H-01 (2) | 30 % / 50 % / 20 % |
+| Defectos por severidad (matriz) | Media: D-01, D-02, D-03, D-05, D-06, D-07, D-08 (7); baja: D-04, M-01, H-01 (3) | 0 % alta / 70 % media / 30 % baja |
 | Fase roja del TDD | Backend 10 de 17 ejemplos fallaron; frontend 4 de 8 | 59 % / 50 % |
 | Defectos abiertos tras la ejecución | 19 barreras de accesibilidad y 6 hallazgos de seguridad (D-09 y D-10 se corrigieron en el criterio 15) | 19 + 6 |
 | Pruebas por requisito (E2E) | 46 casos de matriz / 15 RF | 3,1 |
@@ -228,7 +228,7 @@ Calculadas con las cifras de las secciones 5, 6 y 7.
 | Importación CSV (RF-07) | Prueba rápida | Chatwoot procesa el archivo un minuto después de subirlo, así que esas pruebas consultan la API hasta 100 segundos y duran 3 min 29 s, casi dos tercios de la corrida de Cypress |
 | ReportPortal | Analizar fallos | Se ejecutó en vivo, pero la suite de Daniel está en verde (15/15), así que el Auto-Analysis corrió sin fallos que clasificar |
 | Pruebas de tiempo | Pasan | 4 pruebas originales de `conversation_spec.rb` (líneas 1163, 1191, 1243 y 1266) fallan en este entorno con y sin las correcciones; en Linux deberían pasar |
-| Severidad | Escala del plan | No se pudo comprobar en el plan (está en Drive); la de la sección 6 es una estimación del equipo |
+| Severidad | Escala del plan | Se usa la severidad registrada en la matriz de trazabilidad (pestaña Defectos), que es la que se mantuvo durante el proyecto |
 | Máquina de ejecución | Una sola | Las corridas vienen de equipos distintos (la salida de Screenplay muestra una ruta de la máquina de Luisa), así que los tiempos no son comparables entre sí |
 
 ## 10. Pendientes sin evidencia
